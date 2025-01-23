@@ -1,0 +1,66 @@
+* {
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    overflow-x: hidden;
+
+}
+
+body {
+    font-family: "Doto", sans-serif;
+    text-align: center;
+    font-size: 22px;
+    max-width: 1200px;
+
+    position: relative;
+    margin: 0 auto;
+
+    perspective: 400px;
+}
+#panel {
+    width: 100%;
+    height: 100vh;
+    background-color: blue;
+    position: absolute;
+    z-index: 10;
+    top:0px;
+    left:0px;
+    align-content: center;
+    color: aliceblue;
+    font-weight: bold;
+    transition: all 1.7s cubic-bezier(0.075, 0.82, 0.165, 1);
+    /* 3d stuff */
+    transform-style: preserve-3d;
+}
+.slide-up{
+    transform: translateY(-70vh) rotateX(70deg);
+}
+.slide-up{
+    transform: translateY(-90%) /*rotateX(70deg)*/;
+}
+h2, h3 {
+    margin-bottom: 30px;
+}
+.screenshots{
+    width: 80%;
+}
+#btn {
+
+    background-color: #00ff54;
+    padding: 10px 70px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 12px 12px 20px #0000006c;
+    margin-bottom: 200px;
+    rotate: 12deg;
+    font-size: 2em;
+    cursor: pointer;
+
+}
+#btn:hover {
+    background-color:red;
+    box-shadow: 12px 12px 20px #00ff54
+}

@@ -1,0 +1,10 @@
+Vs code 
+cmd + / =comment/uncomment code
+cmd + S =Save doc
+cmd+ shift +r =
+shfit+ opt/alt+ bottom arrow= duplicating lines 
+
+broswer 
+cmd + shift + r= reload ( full with sset files )
+
+* cmd= ctrl on windows 

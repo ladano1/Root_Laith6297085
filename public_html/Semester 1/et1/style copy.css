@@ -1,0 +1,67 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+background-color: green;
+color: #ffff
+}
+
+#gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+a:link {
+  color: white;
+}
+
+main article{
+    display: grid;
+    gap: 4rem;
+    grid-template-columns: repeat(4, 4fr);
+}
+
+ img{
+    width: 25%;
+}
+
+#container{
+  padding: 10px;
+  display: grid;
+  /* grid-template colomuns*/
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  /*limit width on tvs*/
+ max-width: 2000px;
+ /* ALIGN IN MIDDLE*/
+ position: relative;
+ margin: 0 auto;}
+
+.polaroid{
+  box-shadow: 3px 12px 20px;
+  border: 20px solid ; 
+  border-bottom: 90px
+}
+.grid-item img{
+  width: 100%;
+  
+
+}
+/*Tablet*/
+@media screen and (max-width:1024px){
+  #container {
+grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/*phone*/
+@media screen and (max-width: 768px) {}
+    #container {
+    grid-template-columns: repeat();
+}
+
+      

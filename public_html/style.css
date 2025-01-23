@@ -1,0 +1,53 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: black;
+    color:#00ff54
+}
+
+
+element.style {
+ text-shadow: #00ff54;
+ font-family: 'Times New Roman', Times, serif sans-serif;
+ letter-spacing: 2px;
+ text-shadow: 2px 4px #00ff54;
+}
+
+a:link {
+    color: white;
+    font-size: 4em;
+  }
+  
+  a:focus {
+    color: beige;
+  }
+  
+  a:visited {
+    color: white;
+  }
+
+.container {
+  display: grid;
+  column-gap: 50px;
+}
+
+h1 {
+  display: block;
+  font-size: 2em;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+  unicode-bidi: isolate;
+}
+
+h2{
+    font-size: 30px;
+    box-sizing: initial;
+    box-shadow: 10px;
+}

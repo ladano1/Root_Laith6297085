@@ -1,0 +1,39 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background-color: hwb(230 0% 0%);
+    color: white;
+}
+
+#gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+a:link {
+  color: white;
+}
+
+a:focus {
+  color: beige;
+}
+
+a:visited {
+  color: white;
+}
+
+#gallery img {
+  width: 100%;
+}
+
+h2 {
+  font-size: 72px;
+}
+
+h1 {
+  font-size: 84px;
+}

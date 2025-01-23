@@ -1,0 +1,97 @@
+/* Basic Reseting */
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+    
+html{
+scroll-behavior: smooth;
+width: 100%;
+overflow-x: hidden;
+}
+
+body{
+font-size: 22px;
+font-family: Arial, Helvetica, sans-serif;
+color: white;
+line-height: 28px;
+
+background-color: black;
+}
+
+header{
+width: 100%;    
+height: 115px;
+background-color: white;
+padding: 20px;
+/*position: fixed;*/
+}
+
+nav{
+    position: absolute;
+    right: 0px;
+    top: 30px;
+}
+
+header div{
+width: 200px;
+}
+main {
+   /* padding: 20px;
+padding-top: 160px; 
+for 4 positions: top right bottom left: */
+/*padding: 160px 20px 20px 20px;*/
+
+/* combined left and right = 3positions */
+padding: 160px 20px 20px;
+}
+
+
+main article p{
+    max-width: 65ch;
+
+}
+
+nav ul li{
+    display: inline-block;
+    margin-right: 30px;
+}
+
+
+footer{
+    padding: 20px;
+}
+
+logo{
+width: 100%;
+}
+
+.fancy-button {
+    background-color: #00ff54;
+    padding: 20px 15px;
+    border-radius: 10px;
+    border: 20px #00ff54;
+    box-shadow: 2px 4px 10px  #00ff54;
+    font-weight: bold;
+    color: #ffff;
+}
+
+.fancy-button:hover {
+    background-color: #00ff54;
+    color: black;
+}
+
+
+input [type=text]
+input[ type=password]
+input [type=submit]
+textarea {
+    display: block;
+    margin-bottom: 20px;
+    width: 280px;
+    padding: 2px;
+    border-radius: 10px;
+    border: 1px;
+}
+
