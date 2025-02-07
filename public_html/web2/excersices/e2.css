@@ -1,0 +1,37 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.title {
+    padding: 1px;
+    background: black;
+    margin: 0;
+    text-align: left;
+}
+.orbitron-uniquifier {
+    font-family: "Orbitron", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+  }
+h1 {
+    color: #00ff54;
+    font-family: "Orbitron", serif;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px #00e654;
+    font-size: 50px;
+}
+img {
+    width: 10rem
+}
+
+/* transforms.css */
+
+img {
+    transition: transform 0.5s;
+}
+
+img:hover {
+    transform: translateX(100px) translateY(400px) scale(3);
+}
