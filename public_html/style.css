@@ -19,6 +19,10 @@ element.style {
 a:link {
     color: white;
     font-size: 4em;
+    gap: 50px;
+    letter-spacing: 10px;
+    transition: 1s;
+    
   }
   
   a:focus {
@@ -43,10 +47,14 @@ h1 {
   margin-inline-end: 0px;
   font-weight: bold;
   unicode-bidi: isolate;
+  gap: 50px;
+  transition: opacity 500ms;
 }
 
 h2{
     font-size: 30px;
     box-sizing: initial;
     box-shadow: 10px;
+    gap: 50px;
+    transition: opacity 500ms;
 }
