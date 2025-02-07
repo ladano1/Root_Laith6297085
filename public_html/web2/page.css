@@ -4,34 +4,59 @@
     box-sizing: border-box;
 }
 
-.title {
+nav {
     padding: 9px;
     background: #259866;
-    margin: 0;
-    text-align: left;
+    width: 100%;
+    text-align: right;
 }
+
+.title {
+    left: 0px;
+}
+
 #logo{
     display: inline-block;
     position: absolute;
 }
 
+body {
+    background-color: #0064FB;
+}
+
 :any-link{
     color: #ffff;
 }
+
+#intro {
+    text-align: center;
+}
+nav h1{
+    text-align: left;
+    flex: auto;
+}
+
+nav {
+    display: flex;
+    gap: 1rem;
+}
+
+nav p {
+    font-size: 1.44rem;
+}
+
 h1{
     color: #ffff;
     letter-spacing: 7px; 
-    text-align: left;
+
     font-size: 30px;
     font-family: "Orbitron", serif;
     font-style: bold;
 }
 p{
-    text-align: center;
     font-size: 35px;
 }
-h2{
-    text-align: center;
+#intro h2{
     font-family: "Orbitron", serif;
     font-optical-sizing: auto;
     font-weight: 300;
