@@ -26,11 +26,14 @@ body {
 
 :any-link{
     color: #ffff;
+    font-family: "Orbitron", serif;
+    text-decoration: underline;
 }
 
 #intro {
     text-align: center;
 }
+
 nav h1{
     text-align: left;
     flex: auto;
@@ -48,7 +51,6 @@ nav p {
 h1{
     color: #ffff;
     letter-spacing: 7px; 
-
     font-size: 30px;
     font-family: "Orbitron", serif;
     font-style: bold;
@@ -64,7 +66,6 @@ p{
     font-size: 50px;
     color: #00ff54
 }
-
 h3{
     text-align: center;
     font-family: "Orbitron", serif;
@@ -94,3 +95,20 @@ a:hover{
     font-style: normal;
   }
   
+  @media screen and (max-width: 1100px) {
+    nav p{
+        font-size: 1rem;
+    }
+    nav h1{
+        font-size: 1.44rem;
+    }
+    
+  }
+  @media screen and (max-width: 660px) {
+    nav p {
+        font-size: 0.833rem;
+    }
+    nav h1 {
+        font-size: 1rem;
+    }
+  }

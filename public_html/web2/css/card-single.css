@@ -1,11 +1,13 @@
-* CSS for cards we can add this anywhere we would like to use cards */
-  #cards {
+/* CSS for cards we can add this anywhere we would like to use cards */
+ 
+/* #cards {
     display: grid;
     /* grid-template-columns: repeat(auto-fill, minmax(200px, 400px)); */
     /* this is easier, but not as nice as using @media queries for breakpoints */
-    grid-template-columns: 1fr;
+   
+   /* grid-template-columns: 1fr;
     gap: 1.44rem;
-    padding: 1.44rem 0.833rem; /* remember top right bottom left */
+    padding: 1.44rem 0.833rem; /* remember top right bottom left 
   }
   #cards figure{
     position: relative;
@@ -39,7 +41,7 @@ body{
 
   #cards h3 {
     font-size: clamp(0.833rem, 1.6vw + 0.579rem, 1.728rem);
-    /* opacity transition*/
+    /* opacity transition*
     
 
   }
@@ -47,14 +49,14 @@ body{
 
   #cards .over{
     position: relative;
-    /* move card down top = 1.728rem opacity transition*/
+    /* move card down top = 1.728rem opacity transition*
 
   }
 
   /* better to put these styles with related styles, but gathering all animation styles here to make it easier to find */
 
 
-  /* responsive styles for cards*/
+  /* responsive styles for cards*
   @media screen and (min-width:525px) {
     #cards {
       grid-template-columns: 1fr 1fr;
@@ -66,4 +68,4 @@ body{
     #cards {
       grid-template-columns: 1fr 1fr 1fr;
     }
-  }
+  }/*

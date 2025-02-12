@@ -1,0 +1,51 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.title {
+    padding: 10px;
+    background: red;
+    margin: 0;
+    text-align: center;
+}
+h1 {
+    color: #00ff54;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    letter-spacing: 1px;
+    font-size: 70px;
+}
+body {
+    background-color: black;
+}
+
+#playstation{
+    animation-name: crazytaxi;
+    animation-duration: 9000ms;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+}
+
+
+@keyframes crazytaxi{
+    0% {
+        transform: translateX(0px)
+    }
+
+    48% {
+        transform: translateX(600px);
+    }
+
+    50% {
+        transform: rotateY(380deg) translateX(-800px);
+    }
+
+    98% {
+        transform: translateX(0px) rotateY(900deg);
+    }
+
+    100% {
+        transform: translateX(400px);
+    }
+}

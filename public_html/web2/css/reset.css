@@ -1,145 +1,112 @@
-/* simple reset*/
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* CSS for cards we can add this anywhere we would like to use cards */
+#cards {
+    display: grid;
+    /* grid-template-columns: repeat(auto-fill, minmax(200px, 400px)); */
+    /* this is easier, but not as nice as using @media queries for breakpoints */
+    grid-template-columns: 1fr;
+    gap: 1.44rem;
+    padding: 1.44rem 0.833rem; /* remember top right bottom left */
   }
-  
-  html {
-    font-size: 24px;
-    line-height: 1.44;
-    height: 100%;
-  }
-  h1 {
-    margin-top: 0;
-    font-size: 4.3rem;
-  }
-  
-  /* 1.2 type scale minor third 
-    4.3rem
-    3.583rem
-    2.986rem
-    2.074rem
-    1.728rem
-    1.44rem
-    1.2rem
-    1rem
-    0.833rem
-    0.694rem
-    0.579rem
-    0.482rem
-  */
-  
-  h2 {font-size: 2.074rem;}
-  
-  h3 {font-size: 1.728rem;}
-  
-  h4 {font-size: 1.44rem;}
-  
-  h5 {font-size: 1.2rem;}
-  
-  small, .text_small {font-size: 0.833rem;}
-  pre,
-  code {
-    font-size: 1.2rem;
-    font-family: "Inter", sans-serif;
-    color: rgba(255, 255, 255, 0.75);
-    white-space: pre-wrap;
-  }
-  small {
-    font-size: 0.777rem;
-  }
-  
-  strong {
-    color: #00ff54;
-  }
-  
-  ul {
-    margin: 0 1.44em;
-  }
-  
-  /* end of reset */
-  
-  /* basic styling */
-  
-  body {
-    min-height: 110vh;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    color: #000;
-    background-color: #0064FB;
-  }
-  
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  
+  #cards figure{
+    position: relative;
   }
 
-  figcaption {
-    width: 100%;
-    text-align: center;
-    font-size: 0.833rem;
-    color: rgb(224 224 224 /1);
-  }
-  
-  /* anchor tag pseudo elements */
-  a{
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  }
-  
-  a:link,
-  a:visited {
-    color: rgba(151, 193, 234, 0.85);
-    /*transition: color 0.5s;*/
-  }
-  
-  a:hover,
-  a:focus {
-    color: #00ff54;
+  #cards a{
+    border: solid 1px #00ff54;
+    border-radius: 0.5rem;
+    overflow: hidden;
     text-decoration: none;
-    /*background-color: rgba(240, 240, 240, 0.15);*/
   }
-  
-  a:active {
-    color: rgba(151, 193, 234, 0.85);
-  }
-  
-  img, video {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  .video_container{
+
+  #cards img {
     width: 100%;
+    aspect-ratio: 16/6;
+    object-fit: cover;
+    object-position: center center;
+    position: absolute;
+    top: 0;
   }
-  .video_container iframe{
+
+  #cards iframe {
     width: 100%;
-    aspect-ratio: 16/9;
+    aspect-ratio: 16/6;
+    object-fit: cover;
+    object-position: center center;
+    position: absolute;
+    top: 0;
+    overflow: hidden;
   }
-  .video_container.anamorphic iframe{
-  
-    aspect-ratio: 2.85/1;
+
+  #cards section{
+    padding: 0.833rem;
+  }
+
+  #cards h3 {
+    font-size: clamp(0.833rem, 1.6vw + 0.579rem, 1.728rem);
+    opacity: 0.5;
+    transition: opacity 0.5s;
+  }
+
+  #cards p{
+    opacity: 0;
+    transition: 1.0s;
+  }
+
+  #cards .over{
+    position: relative;
+    top: 1.44rem;
+    opacity: 0;
+    transition: 0.25s;
+  }
+
+  /* better to put these styles with related styles, but gathering all animation styles here to make it easier to find */
+
+  #cards a:hover {
+    /* transform: scale(1.1); */
+    transition: color 1s; /* adjust this to 2.5s to make more obvious */
+  }
+
+  /* hover is still on the link, 'a' but style applies to h3 & p inside link element */
+  #cards a:hover h3, #cards a:hover p{
+    opacity: 1;
+  }
+
+  #cards section{
+    transform: translateY(1.728rem);
+    transition: transform 0.25s;
+  }
+
+  #cards a:hover section{
+    transform: translateY(0);
+  }
+
+  #cards a:hover .over{
+    top:0;
+    opacity: 1;
+  }
+
+  .orbitron-uniquifier {
+    font-family: "Orbitron", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
   }
   
-  
-  /* end of basic styling */
-  
-  
-  #cal svg {
-    width: 24px;
+  .share-tech-mono-regular {
+    font-family: "Share Tech Mono", serif;
+    font-weight: 300;
+    font-style: normal;
   }
-  
-  hr {
-    margin: 3.583rem 0;
-  } 
-  
-  @media screen and (min-width:1200px) {
-    .columns-2{
-      display: grid;
+
+  /* responsive styles for cards*/
+  @media screen and (min-width:525px) {
+    #cards {
       grid-template-columns: 1fr 1fr;
-      gap: 1.44rem;
     }
   }
-  
+
+
+  @media screen and (min-width:925px) {
+    #cards {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
