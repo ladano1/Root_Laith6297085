@@ -49,7 +49,7 @@
 
   #cards p{
     opacity: 0;
-    transition: 1.0s;
+    transition: 0.40s;
   }
 
   #cards .over{
