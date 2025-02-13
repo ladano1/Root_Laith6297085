@@ -41,18 +41,18 @@ main{
   
   .square{
     position: absolute;
-    width: 4em;
+    width: 6em;
     height: 6em;
     /* transform-style */
     transform-style: preserve-3d;
     /* top & left -1em */
     top: -2em;
-    left: -1em;
+    left: -2em;
   
     /* transform: translate(-50%, -50%); */
   
     /* animation: rotate 5s linear infinite; */
-    animation: rotate 6s linear infinite;
+    animation: rotate 9s linear infinite;
     
   
   }
@@ -92,8 +92,8 @@ main{
   
   .square{
     position: absolute;
-    width: 1em;
-    height: 1em;
+    width: 4em;
+    height: 4em;
     border-radius: 50%;
     left: -.5em;
     bottom: 1em;
