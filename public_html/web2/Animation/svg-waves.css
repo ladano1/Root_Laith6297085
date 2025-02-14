@@ -59,7 +59,7 @@ header{
   
   @keyframes wavemaker {  
     0% {
-      transform: translateX(-4vw);
+      transform: translateX(-10vw);
     }
     100% {
       transform: translateX(-90vw);
