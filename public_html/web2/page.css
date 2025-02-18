@@ -96,7 +96,7 @@ a:hover{
     font-style: normal;
   }
   
-  @media screen and (max-width: 1100px) {
+  @media screen and (max-width: 1900px) {
     nav p{
         font-size: 1rem;
     }
@@ -105,7 +105,7 @@ a:hover{
     }
     
   }
-  @media screen and (max-width: 660px) {
+  @media screen and (max-width: 760px) {
     nav p {
         font-size: 0.833rem;
     }
