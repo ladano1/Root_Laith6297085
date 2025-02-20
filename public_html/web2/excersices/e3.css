@@ -38,14 +38,14 @@ body {
     }
 
     50% {
-        transform: rotateY(380deg) translateX(-800px);
+        transform:rotateY(180deg) translateX(-600px)
     }
 
     98% {
-        transform: translateX(0px) rotateY(900deg);
+        transform: translateX(0px) rotateY(180deg);
     }
 
     100% {
-        transform: translateX(400px);
+        transform: translateX(0px);
     }
 }
