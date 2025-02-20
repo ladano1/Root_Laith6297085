@@ -22,8 +22,13 @@ h1 {
     text-shadow: 2px 2px #00e654;
     font-size: 50px;
 }
-img {
-    width: 10rem
+
+h4{
+    color: white;
+    font-family: "Orbitron", serif;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px #00e654;
+    font-size: 50px;
 }
 
 /* transforms.css */
@@ -34,4 +39,16 @@ img {
 
 img:hover {
     transform: translateX(100px) translateY(400px) scale(3);
+}
+
+#wave:hover{
+    transform: translateX(900px);
+}
+
+#rotation:hover{
+    transform: rotate(45deg);
+}
+
+#scaling:hover{
+    transform: scale(2);
 }
