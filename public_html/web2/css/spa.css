@@ -1,0 +1,192 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+/*header stuff*/
+
+header{
+    background-color: rgb(30, 30, 30);
+}
+
+body{
+    background-color: black;
+}
+
+#logo-image{
+    display: left;
+    margin-left: auto;
+    margin-right: auto;
+    width: 6%;
+}
+
+nav ul{
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+
+}
+
+a.link{
+    text-decoration: none;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: rgb(255, 255, 255);
+    padding-left: 40px;
+    padding-right: 40px;
+    padding: 10px;
+}
+
+a.link:hover{
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 10px;
+    transition: all .2s;
+    color: black;
+    border-radius: 10px;
+}
+
+    @media screen and (max-width:1024px) {
+        a.link{
+            font-size: 16px;
+        }
+    }
+
+/*Dropdown Button*/
+
+/* The dropdown container */
+.dropdown {
+    overflow: hidden;
+    padding: 10px;
+}
+/* Dropdown content */
+.dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+}
+
+/* Links inside the dropdown */
+    .dropdown-content a {
+        float: none;
+        color: black;
+        padding: 12px 16px;
+        text-decoration:none ;
+        display: block;
+        text-align: right;
+}
+    a.Teams {
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: 16px;
+}
+    a.Teams:hover {
+        background-color: #0000;
+        transition: all .2s ease-in;
+}
+
+/* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+        display: grid;
+        grid-template-columns: repeat(6, 5fr);
+        margin: 10px;
+}
+
+/*Dropwdown Logos*/
+aside.logo{
+width: 100px;
+display: block;
+margin-left: auto;
+margin-right: auto;
+
+}
+
+/*banner*/
+
+    img#banner{
+        overflow: hidden;
+        position: relative;
+        width: 30%;
+        animation: wavemaker 20s infinite alternate;
+        padding: 20px;
+}
+
+     nav#blue{
+        background-color: rgba(253, 253, 253, 0);
+        box-shadow: 1px -1px 5px rgb(0, 255, 55);
+}
+
+        @keyframes wavemaker {
+        0% {
+        transform: translateX(0vw);
+        }
+
+        100% {
+        transform: translateX(71vw);
+        }
+
+}
+
+/*h1 & Section stuff*/
+
+    section.sqy{
+        background-color: rgb(97, 63, 0);
+        margin-bottom: 20px;
+        padding: 10px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+}
+
+    h1.title{
+        text-align: center;
+        font-size: 40px;
+        font-family: "Orbitron", serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+        color: rgb(40, 40, 40);
+        padding: 40px;
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 50px;
+}
+
+/*Sub Categories Stuff*/
+
+    h2{
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-bottom: 5px;
+        padding-top: 10px;
+}
+
+    p{
+margin-left: 20px;
+margin-right: 20px;
+}
+
+    img#right{
+        float: right;
+        width: 25%;
+        height: auto;
+        padding-top: 20px;
+        padding-right: 50px;
+}
+
+        @media screen and (max-width:1024px) {
+        img#right {
+            width: 60%;
+            padding-left: 10px;
+            }
+}
+        @media screen and (max-width:1805px) {
+        img#right {
+        width: 40%;
+        padding-left: 10px;
+            }
+}
+ 
