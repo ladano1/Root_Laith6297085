@@ -7,19 +7,22 @@
 
 /*header stuff*/
 
-header{
-    background-color: rgb(30, 30, 30);
-}
+html{
+    min-height: 100%;
+    overflow: hidden;
+  }
 
+header{
+    background-color: rgb(11, 63, 221);
+    height: 190px;
+}
 body{
     background-color: black;
 }
 
-#logo-image{
-    display: left;
-    margin-left: auto;
-    margin-right: auto;
-    width: 6%;
+#logo{
+    display: block;
+    width: 100px;
 }
 
 nav ul{
@@ -34,10 +37,10 @@ nav ul{
 
 a.link{
     text-decoration: none;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color: rgb(255, 255, 255);
-    padding-left: 40px;
-    padding-right: 40px;
+    font-family: "Orbitron";
+    color: white;
+    padding-left: 10px;
+    padding-right: 10px;
     padding: 10px;
 }
 
@@ -49,6 +52,11 @@ a.link:hover{
     border-radius: 10px;
 }
 
+    @media screen and (max-width:460px) {
+        a.link{
+            font-size: 8px;
+        }
+    }
     @media screen and (max-width:1024px) {
         a.link{
             font-size: 16px;
@@ -66,35 +74,48 @@ a.link:hover{
 .dropdown-content {
         display: none;
         position: absolute;
-        background-color: #f9f9f9;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        background-color: #200fda;
+        min-width: 60px;
+        box-shadow: 0px 8px 16px 0px rgba(4, 255, 25, 0.2);
         z-index: 1;
 }
 
 /* Links inside the dropdown */
     .dropdown-content a {
         float: none;
-        color: black;
+        color: #00ff1a;
         padding: 12px 16px;
-        text-decoration:none ;
+        text-decoration: none;
         display: block;
-        text-align: right;
-}
-    a.Teams {
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        font-size: 16px;
-}
-    a.Teams:hover {
-        background-color: #0000;
-        transition: all .2s ease-in;
+        text-align: center;
+        font-weight: bold;
 }
 
-/* Show the dropdown menu on hover */
     .dropdown:hover .dropdown-content {
         display: grid;
         grid-template-columns: repeat(6, 5fr);
         margin: 10px;
+}
+
+@media screen and (max-width:1024px) {      
+    a.link {
+    font-size: 16px;}
+    a.Teams {
+        font-size: 10px;
+    }
+    aside.logo{
+        width: 25px;
+    }
+}
+@media screen and (max-width:1024px) {      
+    nav.dropdown {
+    font-size: 8px;}
+    a.Teams {
+        font-size: 8px;
+    }
+    aside.logo{
+        width: 25px;
+    }
 }
 
 /*Dropwdown Logos*/
@@ -116,11 +137,23 @@ margin-right: auto;
         padding: 20px;
 }
 
-     nav#blue{
-        background-color: rgba(253, 253, 253, 0);
-        box-shadow: 1px -1px 5px rgb(0, 255, 55);
+@media screen and (max-width:1024px) {
+img#banner{
+    width: 70%;
+    overflow: hidden;
+}
+}
+@media screen and (max-width:800px) {
+img#banner{
+    width: 50%;
+    overflow: hidden;
+}
 }
 
+    nav#black{
+        background-color: rgb(8, 6, 6);
+        box-shadow: 1px -1px 5px rgb(89, 255, 0);
+}
         @keyframes wavemaker {
         0% {
         transform: translateX(0vw);
@@ -135,20 +168,26 @@ margin-right: auto;
 /*h1 & Section stuff*/
 
     section.sqy{
-        background-color: rgb(97, 63, 0);
+        background-color: rgba(0, 0, 0, 0);
         margin-bottom: 20px;
         padding: 10px;
         padding-top: 20px;
         padding-bottom: 20px;
 }
 
+  nav.insideblack{
+        background-color: rgb(0, 0, 0);
+        border-radius: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
+        padding: 30px;
+}
+
     h1.title{
         text-align: center;
         font-size: 40px;
-        font-family: "Orbitron", serif;
-        font-optical-sizing: auto;
-        font-style: normal;
-        color: rgb(40, 40, 40);
+        font-family: "Orbitron";
+        color: white;
         padding: 40px;
         margin-left: 20px;
         margin-right: 20px;
@@ -158,25 +197,60 @@ margin-right: auto;
 /*Sub Categories Stuff*/
 
     h2{
+        font-family: "Orbitron";
         margin-left: 20px;
         margin-right: 20px;
         padding-bottom: 5px;
         padding-top: 10px;
-}
-
-    p{
-margin-left: 20px;
-margin-right: 20px;
+        color: #00ff15;
 }
 
     img#right{
         float: right;
-        width: 25%;
+        width: 35%;
         height: auto;
         padding-top: 20px;
         padding-right: 50px;
 }
 
+/*Offense & Defense Playbook*/
+    ul.sidenav {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        width: 25%;
+        background-color: rgb(58, 58, 58);
+        position: relative;
+        height: 100%;
+        overflow: auto;
+    }
+
+    a.pick {
+        display: block;
+        color: white;
+        padding: 8px 16px;
+        text-decoration: none;
+        font-family: "Orbitron";
+        font-weight: bold;
+    }
+
+        a.active {
+        background-color: #04AA6D;
+        color: black;
+            }
+
+    a.pick:hover:not(.active) {
+        background-color: rgba(169, 169, 169, 0.511);
+        color: black;
+        transition: all .2s ease-in;
+    }
+
+        @media screen and (max-width:844px) {
+        img#right {
+            width: 100%;
+            padding-left: 10px;
+            }
+}
         @media screen and (max-width:1024px) {
         img#right {
             width: 60%;
@@ -189,4 +263,95 @@ margin-right: 20px;
         padding-left: 10px;
             }
 }
- 
+
+section#Players{
+    position: relative;
+}
+
+nav#move {
+    text-align: center;
+    display: grid;
+    overflow: hidden;
+    white-space: nowrap;
+    grid-template-columns: repeat(18, 1fr);
+    gap: 20px;
+    padding: 10px;
+}
+
+figure{
+    box-shadow: 5px 5px 10px;
+    border-radius: 10px;
+    background-color: rgb(25, 161, 215);
+}
+
+figure img{
+    width: 200px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+figcaption{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    color: white;
+    text-shadow: 2px 2px 5px black;
+    padding-bottom: 5px;
+}
+
+            #prev,
+            #next {
+                cursor: pointer;
+                position: absolute;
+                top: 50%;
+                width: auto;
+                display: flex;
+                justify-content: center;
+                margin-top: -22px;
+                padding: 16px;
+                padding-top: 30px;
+                padding-bottom: 30px;
+                color: rgb(0, 0, 0);
+                text-shadow: 1px 1px 5px white;
+                font-weight: bold;
+                font-size: 24px;
+                transition: 0.6s ease;
+                z-index: 8;
+            }
+
+    #prev{
+        left: 0;
+        border-radius: 3px 3px;
+    }
+    #next {
+        right: 0;
+        border-radius: 3px 3px;
+    }
+    #prev:hover, #next:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;}
+
+/* footer */
+footer{
+    background-color: rgb(30, 30, 30);
+    padding: 20px;
+    text-align: center;
+}
+footer a{
+    text-decoration: none;
+    color: white;
+    font-family: "Orbitron", serif
+}
+
+
+.anim-typewriter{
+    animation: typewriter 4s steps(44) 1s 1 normal both,
+               blinkTextCursor 500ms steps(44) infinite normal;
+  }
+  @keyframes typewriter{
+    from{width: 0;}
+    to{width: 24em;}
+  }
+  @keyframes blinkTextCursor{
+    from{border-right-color: rgba(255,255,255,.75);}
+    to{border-right-color: transparent;}
+  }
