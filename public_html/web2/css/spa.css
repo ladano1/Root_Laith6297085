@@ -15,9 +15,16 @@ html{
 header{
     background-color: rgb(11, 63, 221);
     height: 190px;
+    width: 1838px;
+    flex-shrink: 30;
 }
 body{
     background-color: black;
+}
+
+#grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 #logo{
@@ -25,6 +32,16 @@ body{
     width: 100px;
 }
 
+p{
+    color: white;
+    font-family: "Orbitron";
+}
+h3{
+    color: white;
+    text-align: center;
+    font-family: "Orbitron";
+    font-size: 70px;
+}
 nav ul{
     text-align: center;
     font-size: 28px;
@@ -127,6 +144,9 @@ margin-right: auto;
 
 }
 
+#img{
+    position: center;
+}
 /*banner*/
 
     img#banner{
@@ -152,7 +172,7 @@ img#banner{
 
     nav#black{
         background-color: rgb(8, 6, 6);
-        box-shadow: 1px -1px 5px rgb(89, 255, 0);
+        box-shadow: 1px -1px 5px rgb(250, 250, 250);
 }
         @keyframes wavemaker {
         0% {
@@ -245,23 +265,18 @@ img#banner{
         transition: all .2s ease-in;
     }
 
-        @media screen and (max-width:844px) {
-        img#right {
-            width: 100%;
-            padding-left: 10px;
-            }
-}
-        @media screen and (max-width:1024px) {
-        img#right {
-            width: 60%;
-            padding-left: 10px;
-            }
-}
-        @media screen and (max-width:1805px) {
-        img#right {
-        width: 40%;
+/* Mobile version*/
+@media screen and (max-width:844px) {
+    img#right {
+        width: 100%;
         padding-left: 10px;
-            }
+        }
+}
+    @media screen and (max-width:1024px) {
+    img#right {
+        width: 60%;
+        padding-left: 10px;
+        }
 }
 
 section#Players{
