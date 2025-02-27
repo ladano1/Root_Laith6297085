@@ -69,16 +69,6 @@ a.link:hover{
     border-radius: 10px;
 }
 
-    @media screen and (max-width:460px) {
-        a.link{
-            font-size: 8px;
-        }
-    }
-    @media screen and (max-width:1024px) {
-        a.link{
-            font-size: 16px;
-        }
-    }
 
 /*Dropdown Button*/
 
@@ -114,27 +104,6 @@ a.link:hover{
         margin: 10px;
 }
 
-@media screen and (max-width:1024px) {      
-    a.link {
-    font-size: 16px;}
-    a.Teams {
-        font-size: 10px;
-    }
-    aside.logo{
-        width: 25px;
-    }
-}
-@media screen and (max-width:1024px) {      
-    nav.dropdown {
-    font-size: 8px;}
-    a.Teams {
-        font-size: 8px;
-    }
-    aside.logo{
-        width: 25px;
-    }
-}
-
 /*Dropwdown Logos*/
 aside.logo{
 width: 100px;
@@ -157,18 +126,6 @@ margin-right: auto;
         padding: 20px;
 }
 
-@media screen and (max-width:1024px) {
-img#banner{
-    width: 70%;
-    overflow: hidden;
-}
-}
-@media screen and (max-width:800px) {
-img#banner{
-    width: 50%;
-    overflow: hidden;
-}
-}
 
     nav#black{
         background-color: rgb(8, 6, 6);
@@ -265,19 +222,6 @@ img#banner{
         transition: all .2s ease-in;
     }
 
-/* Mobile version*/
-@media screen and (max-width:844px) {
-    img#right {
-        width: 100%;
-        padding-left: 10px;
-        }
-}
-    @media screen and (max-width:1024px) {
-    img#right {
-        width: 60%;
-        padding-left: 10px;
-        }
-}
 
 section#Players{
     position: relative;
