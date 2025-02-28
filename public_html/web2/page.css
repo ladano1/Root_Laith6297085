@@ -4,12 +4,6 @@
     box-sizing: border-box;
 }
 
-nav {
-    padding: 9px;
-    background: #259866;
-    width: 100%;
-    text-align: right;
-}
 
 .title {
     left: 0px;
