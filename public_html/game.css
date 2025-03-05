@@ -1,0 +1,276 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  body {  
+    font-family: "Lato", sans-serif;
+    background-color: #E7F3DB;
+      font-weight: 300;
+      font-style: normal;
+  }
+
+  main {
+    margin: 50px;
+  }
+  html {
+    scroll-behavior: smooth;
+    height: 100%;
+  }
+  
+  /*.home{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }*/
+  
+  h1 {
+    text-align: center;
+    padding: 105px;
+    font-size: 30rem;
+    margin-top: revert;
+    font-weight:thin;
+    font-family: "Lato", sans-serif;
+  }
+h2{ 
+  font-size: 249px;
+    position: relative;
+    text-align: center;
+    font-family: "Lato", sans-serif;
+    position: relative;
+}
+h4{
+    font-size: 134px;
+    position: relative;
+    text-align: center;
+    font-family: "Lato", sans-serif;
+}
+/* img{
+  display: grid;
+} */
+
+h5{
+  font-size: 3rem;
+}
+
+p{
+
+font-family: "Lato", sans-serif;;
+color: #646363;
+}
+
+  .instructions,
+  .boardgame,
+  .cards
+  .gamepieces {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: center ;
+    opacity: 0;
+    left: -1px;
+    top: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  article h2 {
+    font-size: 80px;
+    text-align: center;
+  }
+  
+  article p {
+    margin-top: 40px;
+  }
+  
+  #boardgame,
+  #cards,
+  #gamepieces {
+    margin-bottom: 150px;
+  }
+  
+  h3{
+    font-size: 50;
+  }
+  .cards{
+    /* display: grid;
+
+    grid-template-columns: 1fr 1fr 1fr 1fr; */
+  }
+  
+
+  
+  #instructions {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+  
+  #instructions section{
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    margin-bottom: 40px;
+  }
+  
+  #instructions p,
+  #boardgame p,
+  #cards p,
+  #cards p
+  #gamepieces {
+    font-size: 30px;
+    line-height: 45px;
+    margin-top: 40px;
+  }
+  
+  .photo-container {
+    display: flex; /* This makes the container a flexbox */
+    justify-content: space-around; /* Space images evenly */
+    width: 80%; /* Width of the container */
+    overflow-x: auto; /* Allows scrolling if images overflow */
+  }
+  #howtoplay .imgs {
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 50px; 
+    /* max-width: 1200px;  */
+    /* margin: 0 auto; 
+    padding: 20px;  */
+  }
+  
+  .photo-container img {
+    display: block; 
+    text-align: center; 
+    justify-content: center;      /* Center image horizontally */
+    align-items: center;
+  }
+
+  #howtoplay figcaption,
+  #boardgame figcaption,
+  #cards figcaption
+  #gamepieces figcaption {
+    width: 100%; 
+    height: 250px; 
+    object-fit: cover;
+    border-radius: 8px; 
+    transition: transform 0.3s ease; 
+  }
+  
+  #boardgame img {
+    width: 40%;
+  }
+
+  /* #howtoplay img {
+    width: 40%;
+  } */
+  
+  .cards{ padding:20px}
+  .cards img{ width: 100%;
+    /* box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.445);
+    border-radius: 10px; */
+  };
+
+  #cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    row-gap: 40px;
+  }
+  
+  #gamepieces .img {
+    display: grid;
+    grid-template-rows: 1fr;
+    row-gap: 40px;
+  }
+  
+  #gamepieces .greenpaint {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    column-gap: 40px;
+  }
+  
+  #gamepieces img {
+    width: 100%;
+  }
+  
+  footer {
+    text-align: center;
+    font-weight: bold;
+    height: 4rem;
+  }
+  
+  #boardgame{
+    text-align: center;
+  }
+
+#panel {
+  width: 100%;
+  height: 150%;
+  background-color: #4A6D56;
+  position: absolute;
+  z-index: 10;
+  top:0px;
+  left:0px;
+  padding-top: 5%;
+  /* align-content:center; */
+  color: white;
+  font-weight: bold;
+  font-family:'Times New Roman', Times, serif;
+  font-size: 100px;
+  text-align: center;
+  transition: all 2.7s linear;
+  /* 3d stuff */
+  transform-style: preserve-3d;
+  animation: moveUp 15s forwards;
+}
+.slide-up{
+  transform: translateY(-100%) /*rotateX(70deg)*/;
+}
+
+@keyframes moveUp {
+  100% {
+    transform: translateY(-100%) /*rotateX(70deg)*/;
+  }
+
+}
+
+figure{
+
+  margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+main{
+  max-width: 1600px;
+  position: relative;
+  margin: 0 auto;
+}
+#panel h1{
+  font-size: calc(100vw * 0.12);
+}
+@media screen and (min-width: 2000px) {
+
+  h1 {
+    font-size: 100px;
+  }
+  h2{
+    font-size: 80px;
+  }
+  h4{
+    font-size: 70px;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+
+  h1 {
+    font-size: 50px;
+  }
+  h2{
+    font-size: 45px;
+  }
+  h4{
+    font-size: 35px;
+  }
+}
