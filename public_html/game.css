@@ -9,11 +9,13 @@
     background-color: #E7F3DB;
       font-weight: 300;
       font-style: normal;
+      padding: 0%;
   }
-
+/* 
   main {
     margin: 50px;
-  }
+  } */
+
   html {
     scroll-behavior: smooth;
     height: 100%;
@@ -33,14 +35,14 @@
     font-family: "Lato", sans-serif;
   }
 h2{ 
-  font-size: 249px;
+  font-size: 290px;
     position: relative;
     text-align: center;
     font-family: "Lato", sans-serif;
     position: relative;
 }
 h4{
-    font-size: 134px;
+    font-size: 74px;
     position: relative;
     text-align: center;
     font-family: "Lato", sans-serif;
@@ -51,6 +53,7 @@ h4{
 
 h5{
   font-size: 3rem;
+  font-weight: 500;
 }
 
 p{
@@ -89,6 +92,7 @@ color: #646363;
     margin-bottom: 150px;
   }
   
+ 
   h3{
     font-size: 50;
   }
@@ -190,7 +194,8 @@ color: #646363;
   }
   
   #gamepieces img {
-    width: 100%;
+    width: 70%;
+    position:relative;
   }
   
   footer {
@@ -201,7 +206,16 @@ color: #646363;
   
   #boardgame{
     text-align: center;
+    background-color: #EE3825;
   }
+
+#extradetails figure img{
+  width: 100%;
+  display: block;
+        /* max-width: 1200px;  */
+    /* margin: 0 auto; 
+    padding: 20px;  */
+}
 
 #panel {
   width: 100%;
@@ -235,17 +249,16 @@ color: #646363;
 }
 
 figure{
-
   margin-block-start: 0em;
     margin-block-end: 0em;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
 }
-main{
+/*main{
   max-width: 1600px;
   position: relative;
   margin: 0 auto;
-}
+}*/
 #panel h1{
   font-size: calc(100vw * 0.12);
 }
@@ -255,7 +268,7 @@ main{
     font-size: 100px;
   }
   h2{
-    font-size: 80px;
+    font-size: 193px;
   }
   h4{
     font-size: 70px;
@@ -274,3 +287,41 @@ main{
     font-size: 35px;
   }
 }
+.cardrules{
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 50px;
+}
+
+@media screen and (max-width: 600px) {
+  .cardrules > img:hover{
+    position: relative;
+    transition: all 0.3s ease-in;
+    transform: scale(2) !important;
+  }
+}
+
+#howtoplay{
+background-color: #83ADD7;
+ padding: 64px;
+}
+
+#extradetails{
+  background-color: #FDFAEC;
+  padding: 64px;
+}
+#commercial{
+  background-color: #45ACBB;
+  padding: 64px;
+  text-align: center;
+}
+
+#Cards{
+  background-color: #EDD137;
+  padding: 64px;
+} 
+#gamepieces{
+    text-align: center;
+    background-color: #67B672;
+    padding: 64px;
+  }
