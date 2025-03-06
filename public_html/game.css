@@ -221,7 +221,7 @@ color: #646363;
   transition: all 2.7s linear;
   /* 3d stuff */
   transform-style: preserve-3d;
-  animation: moveUp 15s forwards;
+  animation: moveUp 5s forwards;
 }
 .slide-up{
   transform: translateY(-100%) /*rotateX(70deg)*/;
