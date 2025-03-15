@@ -7,11 +7,6 @@
 
 /*header stuff*/
 
-html{
-    min-height: 100%;
-    overflow: hidden;
-}
-
 header{
     background-color: rgb(11, 63, 221);
     height: 190px;
@@ -24,7 +19,13 @@ body{
 
 #grid{
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr); gap: 10px;
+}
+#grid  section {
+    border-right: 1px solid white;
+    margin-right: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 hr{
@@ -226,9 +227,18 @@ margin-right: auto;
     }
 
 
-section#Players{
+section{
     position: relative;
 }
+
+section.sqy{
+    color: brown;
+    margin-bottom: 20px;
+    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;  
+}
+
 
 nav#move {
     text-align: center;
@@ -302,6 +312,87 @@ footer a{
     text-decoration: none;
     color: white;
     font-family: "Orbitron", serif
+}
+
+
+@media screen and (max-width: 768px) {
+    #grid {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        text-align: center;
+        padding: 6px;
+    }
+
+    #logo {
+        width: 100px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .dropdown-content {
+        width: 100%;
+        position: relative;
+    }
+
+    h1.title {
+        font-size: 1px;
+        text-align: center;
+        padding: 3px;
+    }
+
+    h3 {
+        font-size: 2px;
+        text-align: center;
+        padding: 10px;
+    }
+}
+
+/* ✅ Tablets (Medium Screens) */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    #grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    h3 {
+        font-size: 28px;
+    }
+
+    h1.title {
+        font-size: 26px;
+    }
+}
+
+/* ✅ Galaxy Z Fold 5 (Closed & Unfolded) */
+@media screen and (min-width: 904px) and (max-width: 1812px) {
+    #grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    header {
+        text-align: center;
+        padding: 8px;
+    }
+
+    h3 {
+        font-size: 30px;
+    }
+
+    h1.title {
+        font-size: 8px;
+    }
+}
+
+
+/* ✅ Footer */
+footer {
+    background-color: rgb(30, 30, 30);
+    padding: 20px;
+    text-align: center;
 }
 
 
