@@ -2,7 +2,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    scroll-behavior: smooth;
+
 }
 
 /*header stuff*/
@@ -14,14 +14,19 @@ header{
 
 }
 body{
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(0, 0, 0);    
+    scroll-behavior: smooth;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
-#grid{
+.grid{
     display: grid;
     grid-template-columns: repeat(3, 1fr); gap: 10px;
 }
-#grid  section {
+.grid  section {
     border-right: 1px solid white;
     margin-right: 10px;
     padding-left: 20px;
@@ -46,11 +51,19 @@ h3{
     font-family: "Orbitron";
     font-size: 70px;
 }
+
+h5{
+    color: white;
+    text-align: center;
+    font-size: 20px;
+}
+
 nav ul{
     text-align: center;
     font-size: 28px;
     padding: 20px;
-    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: scroll;
     display: flex;
     justify-content: center;
 
@@ -316,13 +329,20 @@ footer a{
 
 
 @media screen and (max-width: 768px) {
-    #grid {
+    .grid {
         grid-template-columns: 1fr;
     }
 
     header {
         text-align: center;
         padding: 6px;
+        height: 361px;
+    }
+    .grid  section {
+        border-bottom: 1px solid white;
+        border-right: none;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
     }
 
     #logo {
@@ -340,26 +360,40 @@ footer a{
     }
 
     h1.title {
-        font-size: 1px;
+        font-size: 26px;
         text-align: center;
         padding: 3px;
     }
 
     h3 {
-        font-size: 2px;
+        font-size: 30px;
         text-align: center;
+        padding: 10px;
+    }
+    .dropdown {
+        overflow-y: hidden;
+        overflow-x: scroll;
         padding: 10px;
     }
 }
 
 /* ✅ Tablets (Medium Screens) */
 @media screen and (min-width: 769px) and (max-width: 1024px) {
-    #grid {
+    .grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
     h3 {
-        font-size: 28px;
+        font-size: 30px;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .grid  section {
+        border-bottom: 1px solid white;
+        border-right: none;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
     }
 
     h1.title {
@@ -369,7 +403,7 @@ footer a{
 
 /* ✅ Galaxy Z Fold 5 (Closed & Unfolded) */
 @media screen and (min-width: 904px) and (max-width: 1812px) {
-    #grid {
+    .grid {
         grid-template-columns: repeat(2, 1fr);
     }
     
@@ -380,10 +414,20 @@ footer a{
 
     h3 {
         font-size: 30px;
+        text-align: center;
+        padding: 10px;
     }
 
+    .grid  section {
+        border-bottom: 1px solid white;
+        border-right: none;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+    }
+
+
     h1.title {
-        font-size: 8px;
+        font-size: 26px;
     }
 }
 
