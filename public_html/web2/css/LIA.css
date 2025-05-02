@@ -1,0 +1,192 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+@media screen and (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        text-align: center;
+        padding: 6px;
+        height: 361px;
+    }
+    .grid  section {
+        border-bottom: 1px solid white;
+        border-right: none;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+    }
+
+    #logo {
+        width: 100px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .dropdown-content {
+        width: 100%;
+        position: relative;
+    }
+
+    h1.title {
+        font-size: 26px;
+        text-align: center;
+        padding: 3px;
+    }
+
+    h3 {
+        font-size: 30px;
+        text-align: center;
+        padding: 10px;
+    }
+    .dropdown {
+        overflow-y: hidden;
+        overflow-x: scroll;
+        padding: 10px;
+    }
+}
+
+/* ✅ Tablets (Medium Screens) */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    h3 {
+        font-size: 30px;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .grid  section {
+        border-bottom: 1px solid white;
+        border-right: none;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+    }
+
+    h1.title {
+        font-size: 26px;
+    }
+}
+
+/* ✅ Galaxy Z Fold 5 (Closed & Unfolded) */
+@media screen and (min-width: 904px) and (max-width: 1812px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    header {
+        text-align: center;
+        padding: 8px;
+    }
+
+    h3 {
+        font-size: 30px;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .grid  section {
+        border-bottom: 1px solid white;
+        border-right: none;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+    }
+
+
+    h1.title {
+        font-size: 26px;
+    }
+}
+
+  body {
+    margin: 0;
+    background-color: #000000;
+    overflow: hidden;
+}
+nav {
+    padding: 9px;
+    background: #25f1be;
+    width: 100%;
+    text-align: right;
+}
+
+header{
+    background-color: #25f1be;
+    text-align: center;
+    height: 32px;
+}
+
+h5{
+    color: white;
+    text-transform: capitalize;
+}
+
+      /* Base styles for each SVG element */
+      .cls-1 {
+        fill: none;
+        stroke: #00ff54;
+        stroke-miterlimit: 10;
+      }
+
+      /* Apply slide-up animation to each element */
+      line, circle, ellipse {
+        opacity: 0;
+        transform: translateY(100px); /* Start below the screen */
+        animation: slideUp 2s ease-out forwards; /* Apply animation */
+      }
+
+      /* Create a delay for each line/circle to animate one after another */
+      #line-1, #circle-1 {
+        animation-delay: 0.1s;
+      }
+
+      #line-2, #circle-2 {
+        animation-delay: 0.2s;
+      }
+
+      #line-3, #circle-3 {
+        animation-delay: 0.3s;
+      }
+
+      #line-4, #circle-4 {
+        animation-delay: 0.4s;
+      }
+
+      #line-5 {
+        animation-delay: 0.5s;
+      }
+
+      #line-6 {
+        animation-delay: 0.6s;
+      }
+
+      /* Keyframes for the slide-up effect */
+      @keyframes slideUp {
+        0% {
+          opacity: 0;
+          transform: translateY(100px); /* Start below */
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0); /* End at normal position */
+        }
+      }
+
+.share-tech-mono-regular {
+    font-family: "Share Tech Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+
+
+
+  
