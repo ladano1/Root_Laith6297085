@@ -4,37 +4,7 @@
     box-sizing: border-box;
 }
 
- /* ✅ Galaxy Z Fold  (Closed & Unfolded)  */
-@media screen and (min-width: 904px) and (max-width: 1812px){.grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    
-    header {
-        text-align: center;
-        padding: 8px;
-    }
-#products{
-  font-size: 1rem;
-}
-    h3 {
-        font-size: 30px;
-        text-align: center;
-        padding: 10px;
-    }
-
-    .grid  section {
-        border-bottom: 1px solid white;
-        border-right: none;
-        margin-bottom: 30px;
-        padding-bottom: 20px;
-    }
-
-    h1.title {
-        font-size: 26px;
-        color: aqua;
-        font-family: "Share Tech Mono", monospace;
-    }
-  }
+ 
 
 html{
   scroll-behavior: smooth;
@@ -50,16 +20,22 @@ html{
     background-color: #000000;
     overflow-x: hidden;
     min-height: 4000px;
+    font-family: "Share Tech Mono", monospace;
 }
 header{
 text-align: center; 
+font-style: normal;
+font-family: "Share Tech Mono", monospace;
+
 }
 
 .slide-in{
-  animation-duration: 3s;
+  animation-duration: 2s;
   animation-name: slide-in;
   color: yellow;
-  font-size: 1rem;
+  font-size: 3rem;
+  text-align: center;
+  
 }
 
 @keyframes slide-in {
@@ -75,6 +51,7 @@ text-align: center;
 }
 .typewriter-content h2 {
   margin: 0 0 10px 0;
+  
 }
 
       /* Base styles for each SVG element */
@@ -89,7 +66,7 @@ text-align: center;
         opacity: 0;
         transform: translateY(200px); /* Start below the screen */
         animation: slideUp 2s ease-out forwards; /* Apply animation */        
-       width: 100%;
+        width: 100%;
         height: 100%;}
 
       /* Create a delay for each line/circle to animate one after another */
@@ -146,17 +123,25 @@ h2.typewriter {
     overflow: hidden;
     width: 0;
     animation: typing 2.2s  1s forwards, blink 0.75s step-end infinite; text-align: center;
-    padding: 20px;
-    font-size: 3rem;
-    font-family: "Share Tech Mono", monospace;
+    padding: 11px;
+    font-size: 4vw;
+    font-family: "Share Tech Mono", monospace; 
   }
   
+h5{
+  background-color: #000000; 
+    color: #00ff54; 
+    border: 4px solid #0022ff;
+    border-radius: 53px;
+    font-family: "Share Tech Mono", monospace; 
+    margin-bottom: 30px;
+}
   /* General link styles */
 a {
   color: white;
   text-decoration: none;
   padding: 10px;
-  font-size: 24px;
+  font-size: 4vw;
   transition: color 1s ease, transform 2.3s ease;
   
 }
@@ -189,11 +174,17 @@ a:hover::after {
   .fade-in-text {
     opacity: 0;
     animation: fadeIn 3s ease-in forwards;
-    font-size: 5rem;
+    font-size: 7vw;
     color: #00ff55;
     font-family: "Share Tech Mono", monospace;
     text-align: center;
-    margin-top: 40px;}
+    margin-top: 44px;
+    background-color: #000000; 
+    color: #00ff54; 
+    padding: 14px;
+    border: 6px solid #fdc200;
+    border-radius: 5px;  
+  } 
   
   /* Keyframes for fade-in */
   @keyframes fadeIn {
@@ -204,7 +195,7 @@ a:hover::after {
   
   .image-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
   }
   
@@ -216,6 +207,12 @@ a:hover::after {
     letter-spacing: 1px;
     color: aqua;
     text-align: center;
+    background-color: #13039b; 
+    color: #00ff54; 
+    padding: 37px;
+    border: 6px solid #fd5400;
+    border-radius: 53px;
+    font-family: "Space Grotesk", sans-serif;
   }
   
   @keyframes fadeSlideUp {
@@ -224,20 +221,38 @@ a:hover::after {
       transform: translateY(0);
     }
   }
+  .space-grotesk-uniquifier {
+    font-family: "Space Grotesk", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
+  }
 
-figcaption{
-  color: white;
+  figcaption {
+    background-color: #0a55ea; 
+    color: #00ff54; 
+    padding: 14px;
+    border: 6px solid #fdc200;
+    border-radius: 5px;       
+    font-weight: normal;
+    font-size: 0.9em;
+    border-radius: 23px;
+  }
+
+.grid-item figure{
+  text-align: center;
 }
-
   .grid-item img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    display: block;
+    /* object-fit: cover;*/ 
+    display: inline-block;
+    
   }
   
   .image-container {
     overflow: hidden;
+    align-content: center;
   }
   
 p{
@@ -246,12 +261,39 @@ p{
   font-size: 2rem;
 }
   
+
+ h3{
+  background-color: rgb(25, 0, 255);
+  color: #ff0000;
+  font-size: 3vw;
+  text-align: center;
+  border: 6px solid #b00303;
+  border-radius: 6px;       
+}
+
+
+
+h4{
+  color:coral;
+  text-align: center;
+  background-color: rgb(72, 60, 48);
+  font-size: 3vw;
+  border: 6px solid #22ff00;
+  border-radius: 5px;   
+}
+  
   .slide-up-image {
-    width: 200px;
+    width: 59%;
     height: auto;
     transform: translateY(100px);
     opacity: 0;
     animation: slideUp 1.5s ease-out forwards;
+    align-content: center;
+    background-color: #000000; 
+    color: #00ff54; 
+    padding: 14px;
+    border: 6px solid #fdc200;
+    border-radius: 5px;  
   }
   @keyframes slideUp {
     to {
@@ -259,3 +301,39 @@ p{
       opacity: 1;
     }
   }
+  /* ✅ Galaxy Z Fold  (Closed & Unfolded)  */
+@media screen and (min-width: 904px) {.grid {
+      grid-template-columns:  1fr;
+    }
+    
+   #products{
+  font-size: 3rem;
+}
+    .grid section {
+        border-bottom: 1px solid white;
+        border-right: none;
+        margin-bottom: 30vw;
+        padding-bottom: 20vw;
+    }
+
+    h1.title {
+        font-size: 26vw;
+        color: aqua;
+        font-family: "Share Tech Mono", monospace;
+    }
+  }
+
+
+
+
+
+h1, h2, h3, h4, h5, section, footer{
+  margin-bottom: 40px;
+}
+
+.slide-up-image {
+  width: 100%;
+}
+.image-container figure{
+  padding: 20px;
+}
