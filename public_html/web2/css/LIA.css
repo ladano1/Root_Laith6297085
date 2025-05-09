@@ -20,11 +20,11 @@ html{
     min-height: 4000px;
     font-family: "Share Tech Mono", monospace;
 }
+
 header{
 text-align: center; 
 font-style: normal;
 font-family: "Share Tech Mono", monospace;
-
 }
 
 .slide-in{
@@ -33,7 +33,6 @@ font-family: "Share Tech Mono", monospace;
   color: yellow;
   font-size: 3rem;
   text-align: center;
-  
 }
 
 @keyframes slide-in {
@@ -133,6 +132,7 @@ h5{
     font-family: "Share Tech Mono", monospace; 
     margin-bottom: 30px;
 }
+
   /* General link styles */
 a {
   color: white;
@@ -149,9 +149,11 @@ a:hover {
   text-decoration: underline;
   transform: translateY(30%);
 }
+
 a:hover::after {
   width: 100%;
 }
+
   /* Animation for typing effect */
   @keyframes typing {
     from {
