@@ -1,0 +1,162 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+html, body {
+    background-color: #2d23be;
+}
+
+/* Heading */
+h1 {
+    text-align: center;
+    font-size: 10vw; /* Mobile first - scales well */
+    margin: 1rem auto; /* Adds spacing from grid */
+    padding: 0.5rem;
+    color: #00ff00;
+    background-color: #111;
+    border: 9px solid #00ff00;
+    text-shadow: 0 0 1px #0a64ff, 0 0 10px #00ff00, 0  1px #00ff00;
+    width: fit-content;
+}
+
+/* Message */
+.message {
+    text-align: center;
+    margin: 1rem 0; /* space below heading */
+}
+
+/* Player indicators */
+#X, #O {
+    color: #00ff00;
+    font-size: 6vw; /* responsive */
+    text-shadow: 0 0 10px #f68f08, 0 0 20px #00ff00;
+}
+
+/* Game grid */
+#grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem; /* spacing between boxes */
+    margin: 2rem auto; /* spacing from heading */
+    width: 90vw;
+    max-width: 500px;
+}
+
+/* Boxes */
+.box {
+    background-color: #000;
+    color: #00ff00;
+    font-size: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 5px solid #00ff00;
+    aspect-ratio: 1/1; /* keeps perfect square */
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.box:hover {
+    background-color: #000;
+    box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* Menu buttons */
+#menu {
+    margin: 2rem auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 90vw;
+    max-width: 300px;
+}
+
+.reset {
+    color: #000;
+    font-size: 5vw;
+    border-radius: 20px;
+    background-color: #00ff00;
+    border: none;
+    padding: 1rem 2rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.reset:hover {
+    background-color: #ff0000;
+    color: #00ff00;
+    cursor: pointer;
+}
+
+.hide {
+    display: none;
+}
+
+/* Larger screens */
+@media (min-width: 768px) {
+    h1 {
+        font-size: 1rem;
+    }
+
+    #X, #O {
+        font-size: 2rem;
+    }
+
+    .reset {
+        font-size: 1.5rem;
+    }
+}
+
+
+/* Glow effect for winning boxes */
+.winner {
+  animation: glow 1s infinite alternate;
+}
+
+@keyframes glow {
+  from { background-color: #00ff00; box-shadow: 0 0 10px #00ff00; }
+  to   { background-color: #00cc00; box-shadow: 0 0 20px #00ff00; }
+}
+
+/* Line strike animation */
+.strike {
+  position: absolute;
+  height: 5px;
+  background: #00ff00;
+  border-radius: 5px;
+  transform-origin: left center;
+  animation: drawLine 0.5s forwards ease-out;
+}
+
+@keyframes drawLine {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* Winner popup */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: #111;
+  color: #00ff00;
+  padding: 20px 40px;
+  border-radius: 12px;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 0 20px #00ff00;
+  animation: popupAnim 0.6s forwards ease-out;
+}
+
+@keyframes popupAnim {
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
