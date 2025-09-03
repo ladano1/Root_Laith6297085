@@ -35,8 +35,13 @@ for (let box of boxes) {
     valid();
     })
 }
-
 const valid = function() {
+    // Remove existing popup before creating a new one
+    const existingPopup = document.querySelector(".popup");
+    if (existingPopup) {
+        existingPopup.remove();
+    }
+
     for (let combo of points) {
         let [a, b, c] = combo;
         let val1 = boxes[a].innerText; 
@@ -55,16 +60,36 @@ const valid = function() {
             // Winner popup
             let popup = document.createElement("div");
             popup.classList.add("popup");
-            popup.innerText = `${val1} Wins! 🎉`;
+            popup.innerText = `${val1} Gagne! 🎉`;
             document.body.appendChild(popup);
 
             // Disable rest of the board
             for (let box of boxes) {
                 box.active = false;
             }
+            break;  // Stop checking further once a winner is found
         }
     }
 };
+
+const resetGame = function() {
+    // Remove the winner glow classes
+    for (let box of boxes) {
+        box.classList.remove("winner");
+        box.innerText = "";  // Clear box text (or reset as needed)
+        box.active = true;   // Re-enable boxes
+    }
+
+    // Remove strike line - make sure you have a way to clear the strike line, e.g.:
+    clearStrike();
+
+    // Remove popup if present
+    const popup = document.querySelector(".popup");
+    if (popup) {
+        popup.remove();
+    }
+};
+
  
 function drawStrike(start, end) {
     const board = document.querySelector(".board"); // parent container
@@ -98,3 +123,5 @@ resetbutton.addEventListener("click", ()=> {
         panelMessage.innerText = "";
     }
 })
+
+

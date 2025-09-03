@@ -125,15 +125,17 @@ footer {
   to   { background-color: #00cc00; box-shadow: 0 0 20px #00ff00; }
 }
 
-/* Line strike animation */
-.strike {
-  position: absolute;
-  height: 5px;
-  background: #00ff00;
-  border-radius: 5px;
-  transform-origin: left center;
-  animation: drawLine 0.5s forwards ease-out;
+.board {
+    position: relative;
 }
+.strike {
+    height: 5px; /* example thickness */
+    background-color: red;
+    transform-origin: 0 50%;
+    pointer-events: none;
+    z-index: 10;
+}
+
 
 @keyframes drawLine {
   from { width: 0; }
