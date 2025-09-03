@@ -1,0 +1,150 @@
+/* nav styles *
+nav, footer {
+    position: fixed;
+    padding: 0 0.5rem;
+    width: 100%;
+    height: 100px;
+    background-color: #0064FB;
+    display: grid;
+    grid-template-columns: 1fr repeat(5, minmax(auto, auto));
+    /* justify-content: end; *
+    z-index: 999;
+  }
+  
+  .expanded{
+    display: none;
+  }
+  
+  nav{
+    top:0;
+  }
+  
+  /* footer styles *
+    footer {
+      bottom: 0;
+      height: 90px;
+      grid-template-columns: 1fr repeat(5, minmax(auto, auto));
+  
+    }
+  
+    #plesk{
+      /* i guess svgs need a height *
+      height: 40px;
+    }
+  
+    nav a, footer a {
+      margin: 1.25rem 0.25em;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.5s;
+      height: 50%;
+      display: grid;
+      align-items: center;
+      
+    }
+  
+    /* footer a:nth-child(2), footer a:nth-child(3){
+      grid-row: 1/2;
+      align-items: center;
+      line-height: 0;
+      padding: 0 0.5rem;
+    }
+    footer a:nth-child(3) {
+      grid-row: 2/3;
+      padding: 0.5rem;
+    }
+    footer a:nth-child(4),
+    footer a:nth-child(5),
+    footer a:nth-child(6) {
+      grid-row: 1/3;
+    } *
+  
+
+    nav a:hover,
+    nav a:focus,
+    footer a:hover,
+    footer a:focus {
+      border-bottom: solid 3px;
+      border-image-slice: 1;
+      border-width: 3px;
+      border-image-source: linear-gradient(to right #00cee9, #00dac2, #30e292);
+    }
+   
+    nav #logo,
+    nav #logo_sm,
+    footer #logo {
+      position: absolute;
+      top: 0.25rem;
+      left: 1.2rem;
+      max-height: 40px;
+    }
+   
+  
+    nav #logo_link, #logo_link_sm{
+      opacity: 0.90 ;
+    }
+  
+     nav #logo_link:hover, #logo_link_sm:hover{
+      border-bottom: none;
+      opacity: 1;
+    }
+  
+    nav #logo {
+      top: 0.5rem;
+    }
+  
+    nav #logo_link, footer #logo {
+      display: none;
+    }
+  
+    nav img, footer img {
+      max-height: 40px;
+      width: initial;
+    }
+    nav #logo_link img{
+      max-height: 100px;
+    }
+  
+    footer #omnivox{
+      transform: translate(0, -6px);
+    }
+  
+    nav, footer {
+      justify-content: end;
+    }
+  
+  
+  /* styles for looping video *
+    header {
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+  
+    video {
+      margin-top: 100px; /*to match nav height*
+      width: 100%;
+      aspect-ratio: 16/6;
+      object-fit: cover;
+      object-position: center center;
+    } 
+  
+    header h1 {
+      font-size: clamp(1.728rem, 5vw + 1rem, 3.583rem);
+      position: absolute;
+      bottom: 0;
+    }
+   
+  
+    /* main layout styles *
+    main{
+      padding-bottom: 150px; /*to match footer height*
+    }
+  
+  
+  
+    @media screen and (min-width:700px) {
+      nav #logo_link{
+        display: inline-block;
+      } 
+    }/

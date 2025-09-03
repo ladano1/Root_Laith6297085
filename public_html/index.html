@@ -1,127 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Welcome to Laith's website</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Laith's Website</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css?v=2" />
 </head>
-<body>
-  <h1 style="color: #00ff54 ; font-family: 'Times New Roman', Times, sans-serif; letter-spacing: 2px; text-shadow: 2px 2px #00ff54;"> Welcome to Laith's website </h1> 
-    <h2 style="color: #00ff54;"> Enjoy it and take a moment to look at some of my work that I did during these 3 years in each Semester ! ;D</h2>     
-<a href="../Semester one.html"> Semester one</a>
-<a href="../web2/index.html"> Web 2</a>
-<a href="../game.html"> Hackathon game </a>
-<pre>
+<body class="intro-active">
+  <!-- INTRO OVERLAY -->
+  <div id="intro" class="intro">
+    <div class="intro-inner">
+      <pre id="code-rain" aria-hidden="true"></pre>
+      <div id="intro-content">
+        <div id="scramble" class="scramble-text" aria-live="polite"></div>
+        <div id="tw" class="typewriter" aria-live="polite"></div>
+        <button id="skip-intro" class="skip">Skip</button>
+      </div>
+    </div>
+    <div class="scanlines" aria-hidden="true"></div>
+  </div>
 
-    XXXXXXXXXXXXXXXXXXXXXXX
-    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
- XXXX                                XXXX
-XXXX                                        XXXX
-XXX                                                XXX
-XX                                                      XX
-XX                                                          XX
-XX                                                            XX
-XX                                                              XX
-XX                                                        X       XX
-XX                                                   XX     XX      XX
-XX                                                      XXX    XX     XX
-XX      XX   XX                                             XX         XX
-XX    XX   XX                                                 XX        XX
-XX    X    X                                                    XX       XX
-XX   X    X                                                               X
-X   X    X                                                                X
-X       X              8                                 8                X
-X                       8                               8                 X
-X                  8     8                             8   8              X
-X                   8  8  8                           8  8   8            X
-X                    8  8  8                         8  8  88             X
-X                     8  8  8                       XXXX  8               X
-X                      8 XXXX                       XXXXX8                X
-XX                      XXXXXX                    XXXXXXXX               XX
-XX                     XXXXXXXX                  XXXXXXXXXX              XX
-XX                    XXXXXXXXXX                XXXXXXXXXXXX             XX
-XX                  XXXXXXXXXXXX               XXXXXXXXXXXXX           XX
-XX                 XXXXXXXXXXXXX             XXXXXXXXXXXXXX          XX
-XX                XXXXXXXXXXXXXX            XXXXXXXXXXXXXXX          XX
-XX                XXXXXXXXXXXXXX           XXXXXXXXXXXXXXXX          XX
-XX              XXXXXXXXXXXXXXX           XXXXXXXXXXXXXXXX         XX
-XX             XXXXXXXXXXXXXXX           XXXXXXX    XXXXX        XX
-XX            XXXXXXX   XXXXX           XXXXXX      XXXX       XX
-XX            XXXXXX     XXX            XXXXX       XXXX       XX
-XX           XXXXX  88  XXXX           XXXX   88   XXX       XX
-XX           XXXX  8888  XX            XXXX  8888  XXX       XX
-XX          XXXX  8888 XXX            XXXX  8888 XXX       XX
-XX         XXXXX  88 XXX              XXXX  88 XXX       XX
-XX        XXXX    XXX               XXXX    XXX       XX
-XXX       XXXXXXXXX                 XXXXXXXXX       XXX
-XX          XXXXX      XXXXXXXXXXX    XXXXX           XX
-XXX           XX    XXXX           XXX  XX             XXX
-XX                XX XXXXX          XXXXX                XX
-XX               X  XX    XXXX  XXXX  XXXX   XXXX        XX
-XX                    XXX     XX     XX   XXX    X       XX
-XX                       XXX     XXX                    XX
-XX                         XXXXX                     XXX
-XX                                               XXX
-XXXXX                                        XXXX
-  XXXXXXXXXXX                     XXXXXXXX
-             XXXX             XXXX
-                XX           XX
-                 XX         XX
-                 XX         XX
-                 XX         XX
-                  XX       XX
-                   XX      XX
-                   XX      XX
-                XXXXX       XXXX
-              XX                XX
-            XX X XX        XX X XX
-           XX  XX             XX XX
-          XX  XX               XX XX
-         XX   XX               XX  XX
-        XX   XX                 XX  XX
-      XX    XX                   XX  XX
-     XX    XX                    XX   XX
-    XX    XX                     XX   XX
-   XX    XX                       XX   XX
-   XX    XX                       XX   XX
-   XX  XX                         XX   XX
-   XX  XX                         XX   XX
-    XX XX                         XX  XX
-     XXXX                         XXXX
-       XX                         XX
-       XX                         XX
-       XX                         XX
-       XX                         XX
-       XX                        XX
-       XX                       XX
-        XX                     XX
-        XX                     XX
-         XX                   XX
-          XX                 XX
-          XX     XXXXX     XX
-           XX  XX     XX  X
-            X  X       X  X
-XXXXXXX             X  X       X  X
-XXXXXX       XXXX         X  X       X  X           XXXXXX
-XXX                XXXXX    X  X       X  X      XXXXX      XXXXXX
-XX     XXXX              XXXXX  X       X  X  XXXX                 XXX
-X    XX  XX                     X     XXX  XXX              XXX      XX
-X   X  XX                       XX   XX                      XXXX     XX
-X  X XX                         XX   XX                        XXXX    XX
-X X X                        XXXX     XXXX                       X XX   X
-XX  X                    XXXX             XXX                     X X   X
-XX X                  XXX                    XXX                   X X  X
-XX XX               XX                         XXX                 X X  X
-X           XXX                              XX               X X X
-XXXXXXXXXXX                                   XXXX          XXXXX
-                                       XXXXXXXXXX
-</pre>
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="./web1/index.html">Web 1</a>
+    <a href="./web2/index.html">Web 2</a>
+    <a href="./web3/index.html">Web 3</a>
+    <a href="./mg1/index.html">Mg 1</a>
+    <a href="./pc1/index.html">Photography</a>
+    <a href="./et1/index.html">Et 1</a>
+  </nav>
 
-<pre>  ___     ___
-  (o o)   (o o)
- (  V  ) (  V  ) 
-/--m-m- /--m-m-</pre>
+  <!-- HERO -->
+  <header class="hero">
+    <h1 id="main-title">Welcome to Laith's Website</h1>
+    <h2 id="sub-title">Enjoy it and take a moment to look at some of my work over the past 3 years! </h2>
+  </header>
 
+  <!-- QUICK LINKS -->
+  <section class="links">
+    <a href="../web1/index.html"> Web 1</a>
+    <a href="../web2/index.html">Web 2</a>
+    <a href="../web3/index.html">Web 3</a>
+    <a href="../et1/index.html">Emerging Tech 1</a>
+    <a href="../mg1/index.html">Motion Graphics 1</a>
+    <a href="../pc1/index.html"> Photo Gallery</a>
+    <a href="../game.html">Hackathon Game</a>
+  </section>
+
+  <pre></pre>
+
+  <!-- JS -->
+  <script src="script.js" defer></script>
 </body>
 </html>

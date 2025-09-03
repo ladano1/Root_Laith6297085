@@ -1,0 +1,221 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+.title {
+    left: 0px;
+}
+
+#logo{
+    display: inline-block;
+    position: absolute;
+}
+
+body {
+    background-color: #00502a;
+}
+
+:any-link{
+    color: #ffff;
+    font-family: "Orbitron", serif;
+    text-decoration: underline;
+}
+
+#intro {
+    text-align: center;
+}
+
+nav h1{
+    text-align: left;
+    flex: auto;
+    font-family: "Obritron", serif;
+}
+
+nav {
+    display: flex;
+    gap: 1rem;
+}
+
+nav p {
+    font-size: 1.44rem;
+}
+
+h1{
+    color: #ffff;
+    letter-spacing: 7px; 
+    font-size: 30px;
+    font-family:'Times New Roman', Times, serif;
+    font-style: bold;
+}
+p{
+    font-size: 35px;
+}
+#intro h2{
+    font-family: "Orbitron", serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 50px;
+    color: #00ff54
+}
+h3{
+    text-align: center;
+    font-family: "Orbitron", serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 40px;
+    color: white;
+}
+a:hover{
+    color: #00ff54;
+}
+
+@font-face {
+    font-family: "MyCustomFont";
+    src: url("./fonts/Digital-7.ttf");
+  }
+
+  .share-tech-mono-regular {
+    font-family: "Share Tech Mono", serif;
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  .orbitron-uniquifier {
+    font-family: "Orbitron", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+  }
+  
+  /*@media screen and (max-width: 1900px) {
+    nav p{
+        font-size: 1rem;
+    }
+    nav h1{
+        font-size: 1.44rem;
+    }
+    
+  }
+  @media screen and (max-width: 760px) {
+    nav p {
+        font-size: 0.833rem;
+    }
+    nav h1 {
+        font-size: 1rem;
+    }
+  }*/
+
+
+  @media screen and (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        text-align: center;
+        padding: 6px;
+        height: 361px;
+    }
+    .grid  section {
+        border-bottom: 1px solid white;
+        border-right: none;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+    }
+
+    #logo {
+        width: 100px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .dropdown-content {
+        width: 100%;
+        position: relative;
+    }
+
+    h1.title {
+        font-size: 26px;
+        text-align: center;
+        padding: 3px;
+    }
+
+    h3 {
+        font-size: 30px;
+        text-align: center;
+        padding: 10px;
+    }
+    .dropdown {
+        overflow-y: hidden;
+        overflow-x: scroll;
+        padding: 10px;
+    }
+}
+
+/* ✅ Tablets (Medium Screens) */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    h3 {
+        font-size: 30px;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .grid  section {
+        border-bottom: 1px solid white;
+        border-right: none;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+    }
+
+    h1.title {
+        font-size: 26px;
+    }
+}
+
+/* ✅ Galaxy Z Fold 5 (Closed & Unfolded) */
+@media screen and (min-width: 904px) and (max-width: 1812px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    header {
+        text-align: center;
+        padding: 8px;
+    }
+
+    h3 {
+        font-size: 30px;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .grid  section {
+        border-bottom: 1px solid white;
+        border-right: none;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+    }
+
+
+    h1.title {
+        font-size: 26px;
+    }
+}
+
+
+/* ✅ Footer */
+footer {
+    background-color: rgb(30, 30, 30);
+    padding: 20px;
+    text-align: center;
+}
