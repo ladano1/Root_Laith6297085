@@ -1,4 +1,4 @@
-// === Neon Title Glow (still works) ===
+// === Neon Title Glow ===
 const titleEl = document.getElementById("main-title");
 let glowLevel = 0;
 let direction = 1;
@@ -10,7 +10,16 @@ setInterval(() => {
   }
 }, 80);
 
-// === Intro: Scramble + Typewriter (no background/no code rain) ===
+// === Audio Setup ===
+const typeSound = new Audio("./sounds/typewriter.wav");
+typeSound.volume = 0.4;
+typeSound.preload = "auto";
+
+const clickSound = new Audio("./Digital touch.wav");
+clickSound.volume = 0.5;
+clickSound.preload = "auto";
+
+// === Intro Sequence ===
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
   const intro = document.getElementById("intro");
@@ -24,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Characters used during scramble
   const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*-+=<>";
 
-  // Scrambler effect
+  // Scrambler Effect
   class Scrambler {
     constructor(el) {
       this.el = el;
@@ -80,26 +89,49 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Typewriter effect
+  // Typewriter with Sound
   async function typewriter(el, text, min = 20, max = 60) {
     el.textContent = "";
     for (let i = 0; i < text.length; i++) {
       el.textContent += text[i];
+      typeSound.currentTime = 0;
+      typeSound.play().catch(() => {}); // Handle autoplay restrictions silently
       const jitter = Math.floor(Math.random() * (max - min + 1)) + min;
       await new Promise((r) => setTimeout(r, jitter));
     }
   }
 
-  // End intro
-  function finishIntro() {
+  // End Intro and show hero content with typing
+  async function finishIntro() {
     intro.classList.add("hidden");
     body.classList.remove("intro-active");
+
+    const heroTitle = document.getElementById("main-title");
+    const heroTitleTW = document.getElementById("main-title-tw");
+    const heroSub = document.getElementById("sub-title");
+    const heroSubTW = document.getElementById("sub-title-tw");
+
+    const targetTitle = heroTitle.textContent.trim();
+    const targetSub = heroSub.textContent.trim();
+
+    heroTitle.classList.add("hidden");
+    heroSub.classList.add("hidden");
+    heroTitleTW.classList.remove("hidden");
+    heroSubTW.classList.remove("hidden");
+
+    await new Promise((r) => setTimeout(r, 400));
+    await typewriter(heroTitleTW, targetTitle, 25, 55);
+    await typewriter(heroSubTW, targetSub, 18, 40);
   }
 
   // Skip button
-  skipBtn?.addEventListener("click", finishIntro);
+  skipBtn?.addEventListener("click", () => {
+    clickSound.currentTime = 0;
+    clickSound.play().catch(() => {});
+    finishIntro();
+  });
 
-  // Run sequence
+  // Run intro sequence
   const scrambler = new Scrambler(scrambleOut);
   (async () => {
     await scrambler.setText(targetTitle.toUpperCase());
