@@ -1,0 +1,31 @@
+/* Reset styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Fullscreen centered layout */
+body {
+  background: #0b0b0b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Wrapper for responsive video */
+.video-wrapper {
+  position: relative;
+  width: 90%;
+  max-width: 560px;
+  aspect-ratio: 16 / 9;
+}
+
+/* Make iframe fill the wrapper */
+.video-wrapper iframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
