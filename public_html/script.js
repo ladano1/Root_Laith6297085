@@ -10,14 +10,84 @@ setInterval(() => {
   }
 }, 80);
 
-// === Audio Setup ===
-const typeSound = new Audio("./sounds/typewriter.wav");
+// === Audio Setup with Web Audio API Unlock ===
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioCtx = new AudioContext();
+
+const typeSound = new Audio("./Typewritter.wav");
 typeSound.volume = 0.4;
 typeSound.preload = "auto";
 
 const clickSound = new Audio("./Digital touch.wav");
 clickSound.volume = 0.5;
 clickSound.preload = "auto";
+
+// === Audio Unlock & Control Flags ===
+let soundUnlocked = false;
+let skipPressed = false;
+
+// Try to unlock audio context immediately on load
+async function unlockAudioContext() {
+  if (audioCtx.state === 'suspended') {
+    try {
+      await audioCtx.resume();
+      soundUnlocked = true;
+      playTypeSoundOnce();
+    } catch (e) {
+      console.warn("Audio context resume failed:", e);
+    }
+  } else {
+    soundUnlocked = true;
+    playTypeSoundOnce();
+  }
+}
+
+// Play typewriter sound once to unlock playback
+function playTypeSoundOnce() {
+  try {
+    typeSound.currentTime = 0;
+    typeSound.play();
+  } catch (e) {
+    console.warn("Initial type sound play failed:", e);
+  }
+}
+
+unlockAudioContext();
+
+// Also unlock on user interaction (fallback)
+function unlockOnInteraction() {
+  if (!soundUnlocked) {
+    audioCtx.resume().then(() => {
+      soundUnlocked = true;
+      playTypeSoundOnce();
+    });
+  }
+}
+document.addEventListener("click", unlockOnInteraction);
+document.addEventListener("keydown", unlockOnInteraction);
+document.addEventListener("touchstart", unlockOnInteraction);
+
+// === Typewriter with Sound (updated) ===
+async function typewriter(el, text, min = 20, max = 60) {
+  el.textContent = "";
+  for (let i = 0; i < text.length; i++) {
+    if (skipPressed) break; // Stop if skip was pressed
+
+    el.textContent += text[i];
+
+    if (soundUnlocked && !skipPressed) {
+      try {
+        typeSound.currentTime = 0;
+        typeSound.play();
+      } catch (e) {
+        console.warn("Type sound play failed:", e);
+      }
+    }
+
+    const delay = Math.floor(Math.random() * (max - min + 1)) + min;
+    await new Promise((r) => setTimeout(r, delay));
+  }
+}
 
 // === Intro Sequence ===
 document.addEventListener("DOMContentLoaded", () => {
@@ -89,18 +159,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Typewriter with Sound
-  async function typewriter(el, text, min = 20, max = 60) {
-    el.textContent = "";
-    for (let i = 0; i < text.length; i++) {
-      el.textContent += text[i];
-      typeSound.currentTime = 0;
-      typeSound.play().catch(() => {}); // Handle autoplay restrictions silently
-      const jitter = Math.floor(Math.random() * (max - min + 1)) + min;
-      await new Promise((r) => setTimeout(r, jitter));
-    }
-  }
-
   // End Intro and show hero content with typing
   async function finishIntro() {
     intro.classList.add("hidden");
@@ -124,10 +182,17 @@ document.addEventListener("DOMContentLoaded", () => {
     await typewriter(heroSubTW, targetSub, 18, 40);
   }
 
-  // Skip button
+  // Skip button — updated to stop sounds and animation immediately
   skipBtn?.addEventListener("click", () => {
+    skipPressed = true; // Stop typewriter animation & sounds
+
+    // Immediately stop any playing typing sound
+    typeSound.pause();
+    typeSound.currentTime = 0;
+
     clickSound.currentTime = 0;
     clickSound.play().catch(() => {});
+
     finishIntro();
   });
 
@@ -141,3 +206,96 @@ document.addEventListener("DOMContentLoaded", () => {
     finishIntro();
   })();
 });
+
+
+// === Circuit Animation Background (Existing + Enhanced with Wave Lines) ===
+const canvas = document.getElementById('circuitCanvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const binary = '01';
+const fontSize = 16;
+const columns = Math.floor(window.innerWidth / fontSize);
+const drops = Array(columns).fill(1);
+
+// === WAVE LINES - NEW ADDITION ===
+let t = 0;
+function drawWaveLines() {
+  const waveColor = "#00ffcc33";
+  const waveAmplitude = 30;
+  const waveFrequency = 0.02;
+
+  ctx.beginPath();
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = waveColor;
+
+  for (let y = 0; y < canvas.height; y += 40) {
+    ctx.beginPath();
+    for (let x = 0; x < canvas.width; x++) {
+      const yOffset = Math.sin(x * waveFrequency + t) * waveAmplitude;
+      ctx.lineTo(x, y + yOffset);
+    }
+    ctx.stroke();
+  }
+
+  t += 0.02;
+}
+
+// === DRAW FUNCTION COMBINED ===
+function drawCircuitEffect() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Draw binary rain
+  ctx.fillStyle = '#03f8c7ff';
+  ctx.font = `${fontSize}px monospace`;
+
+  for (let i = 0; i < drops.length; i++) {
+    const text = binary[Math.floor(Math.random() * binary.length)];
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  }
+
+  // Draw vertical circuit lines
+  drawVerticalCircuitLines();
+
+  // Draw horizontal wave lines
+  drawWaveLines();
+}
+
+// === EXISTING FUNCTION UNCHANGED ===
+function drawVerticalCircuitLines() {
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = '#23be9fff';
+  ctx.shadowColor = '#016723ff';
+  ctx.shadowBlur = 8;
+
+  const spacing = 120;
+  for (let x = 0; x < canvas.width; x += spacing) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvas.height);
+    ctx.stroke();
+
+    const y1 = Math.random() * canvas.height;
+    const y2 = y1 + 30;
+    ctx.beginPath();
+    ctx.moveTo(x, y1);
+    ctx.lineTo(x + spacing, y2);
+    ctx.stroke();
+  }
+
+  ctx.shadowBlur = 0;
+}
+
+setInterval(drawCircuitEffect, 50);

@@ -1,59 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web 3</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="../web2/css/reset.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="./css/card-single.css">
-    <link rel="stylesheet" href="./css/reset.css?v=2">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-</head>
-    <nav class="title">
-        <h1>Web 3: Game Development</h1>
-         <p><a href="projects/index.html"> </a></p>
-    </nav>
-        <article id="cards">
-        <a href="projects/index.html">
-            <article>
-              <figure>
-                <img src="https://helenledco.com/cdn/shop/articles/neon-sign-for-gaming-room_800x.png?v=1673146212" alt="">
-                <img src="https://w0.peakpx.com/wallpaper/306/268/HD-wallpaper-rog-green-logo-3d-art-republic-of-gamers-metal-grid-background-rog-neon-logo-asus-creative-rog-thumbnail.jpg" class='over'alt="">
-              </figure>
-              <section>
-                <h3>Tic Tac Toe</h3>
-                <p>Jeu</p>
-              </section>
-            </article>
-        </a>
-        
-                <a href="https://www.figma.com/design/hyRHkY8v1b3irc6gQSGsIR/Laith-s-Tic-Tac-Toe?node-id=0-1&t=3sPGodBQWaG3BJVj-1">
-            <article>
-              <figure>
-                <img src="https://www.figma.com/community/resource/8f3b2e8c-0d3f-4409-ae0d-42449d61b841/thumbnail" alt="">
-                <img src="https://www.shutterstock.com/shutterstock/videos/3501056517/thumb/1.jpg?ip=x480" class='over'alt="">
-              </figure>
-              <section>
-                <h3>Figma</h3>
-                <p> Mon figma </p>
-              </section>
-            </article>
-        </a>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Web 3: Game Dev Portal</title>
 
-        <a href="../index.html">
-            <article>
-              <figure>
-                <img src="" alt="">
-                <img src="" class='over'alt="">
-              </figure>
-              <section>
-                <h3>Main Menu</h3>
-                <p> Mon web</p>
-              </section>
-            </article>
-        </a>
-     </body>
-    </html>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css?v=11"/>
+
+<!-- JavaScript -->
+<script src="script.js" defer></script>
+
+</head>
+<body>
+  <!-- Navigation -->
+  <header>
+    <nav class="nav-glass">
+      <h1>Web 3: Game Development</h1>
+      <a href="../index.html" class="btn-main">Main Menu</a>
+    </nav>
+  </header>
+
+  <!-- Cards Grid -->
+  <main id="cards">
+    <!-- Card 1 -->
+    <a href="projects/index.html" class="game-card">
+      <article>
+        <figure>
+          <img src="https://helenledco.com/cdn/shop/articles/neon-sign-for-gaming-room_800x.png?v=1673146212" alt="Tic Tac Toe" />
+          <img src="https://w0.peakpx.com/wallpaper/306/268/HD-wallpaper-rog-green-logo-3d-art-republic-of-gamers-metal-grid-background-rog-neon-logo-asus-creative-rog-thumbnail.jpg" class="overlay" alt="Hover"/>
+        </figure>
+        <section>
+          <h3>Tic Tac Toe</h3>
+          <p>Petit Jeu</p>
+        </section>
+      </article>
+    </a>
+
+    <!-- Card 2 -->
+    <a href="./projects/second game/index.html" class="game-card">
+      <article>
+        <figure>
+
+          <img src="https://preview.redd.it/296ecft184t61.png?auto=webp&s=4af73ae815994c5fa725c3b1a91bfd0bd6219ca4" class="overlay" alt="Hover"/>          
+          <img src="https://as2.ftcdn.net/jpg/05/68/23/89/1000_F_568238990_1SC4fHC0yAI6pqK3iYRm2VI8ZQgT9CYR.jpg" alt="Canvas Game" />
+        </figure>
+        <section>
+          <h3>Canvas</h3>
+          <p>Petit Jeu #2</p>
+        </section>
+      </article>
+    </a>
+
+
+    <!-- Card 3 -->
+    <a href="" class="game-card">
+      <article>
+        <figure>
+          <img src="https://arena.rtp.pt/wp-content/uploads/2020/05/dd569eac5367fdf444e3262830a0646e292b7d9d91615fbd649071793590deb97791ef8829bc4f07dcdb593a82408ad8360abcf248a6aeb5ca92e692831427f2-860x507.png" alt="Canvas Game" />
+          <img src="https://i.pinimg.com/736x/ff/5e/a9/ff5ea9547fab0a49b4b9d658361a2bda.jpg" class="overlay" alt="Hover"/>
+        </figure>
+        <section>
+          <h3>LIA</h3>
+          <p>Grand Jeu</p>
+        </section>
+      </article>
+    </a>
+
+
+    <!-- Card 4-->
+    <a href="https://www.figma.com/design/hyRHkY8v1b3irc6gQSGsIR/Laith-s-Tic-Tac-Toe?node-id=0-1&t=3sPGodBQWaG3BJVj-1" class="game-card">
+      <article>
+        <figure>
+          <img src="https://www.figma.com/community/resource/8f3b2e8c-0d3f-4409-ae0d-42449d61b841/thumbnail" alt="Figma UI" />
+          <img src="https://www.shutterstock.com/shutterstock/videos/3501056517/thumb/1.jpg?ip=x480" class="overlay" alt="Hover"/>
+        </figure>
+        <section>
+          <h3>Figma</h3>
+          <p>Pour Tic Tac Toe</p>
+        </section>
+      </article>
+    </a>
+
+ <!-- Card 5 -->
+    <a href="" class="game-card">
+      <article>
+        <figure>
+          <img src="https://s3-alpha.figma.com/hub/file/1166690750/85f69649-5387-44c2-ba45-81ae13812e36-cover.png" alt="Figma UI" />
+          <img src="https://preview.redd.it/296ecft184t61.png?auto=webp&s=4af73ae815994c5fa725c3b1a91bfd0bd6219ca4" class="overlay" alt="Hover"/>
+        </figure>
+        <section>
+          <h3>Figma Jeu #2 </h3>
+          <p>Canvas </p>
+        </section>
+      </article>
+    </a>
+
+    <!-- Card 6 -->
+    <a href="../index.html" class="game-card">
+      <article>
+        <figure>
+          <img src="https://static.thenounproject.com/png/3483037-200.png" alt="Main Menu" />
+          <img src="https://img.freepik.com/premium-photo/cyber-dragon-logo-futuristic-design-neon-green-hd-quality-vivid-style_1277096-4777.jpg?w=360" class="overlay" alt="Hover"/>
+        </figure>
+        <section>
+          <h3>Main Menu</h3>
+          <p>Retourne a la page</p>
+        </section>
+      </article>
+    </a>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Web 3 Gaming Hub. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>

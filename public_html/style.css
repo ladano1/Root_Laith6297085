@@ -107,7 +107,9 @@ body {
   overflow: hidden;
 }
 
-
+pre{
+  display: none;
+}
 
 /* Nav */
 nav.nav {
@@ -189,6 +191,19 @@ nav.nav a:hover::after { width: 100%; }
   background: #000;
   border-top: 1px solid #00ff54;
 }
+
+/* Circuit Canvas Background */
+#circuitCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1; /* Behind everything */
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  pointer-events: none;
+}
+
 
 /* Neon pulse (kept) */
 @keyframes neon-pulse {
