@@ -1,82 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Motion Graphics</title>
-  <link rel="stylesheet" href="mg.css">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="mg.css?v=6" /> 
 </head>
 <body>
   <!-- Particle Background -->
-  <canvas id="particles"></canvas>
+  <canvas id="particles" tabindex="-1"></canvas>
 
-  <!-- Page Header -->
-  <header>
+  <!-- Header -->
+  <header role="banner">
     <h1>Motion Graphics</h1>
   </header>
 
-  <!-- Main Content -->
-  <main>
-    <section>
+  <!-- Main Section -->
+  <main role="main">
+    <section class="nav-section">
       <ul>
         <li>
-          <a href="./exercises.html">
+          <a href="./exercises.html" class="nav-link">
             <figure>
-              <img src="https://img.icons8.com/ios-filled/100/000000/running.png"  />
+              <img src="https://img.icons8.com/ios-filled/100/000000/running.png" />
               <figcaption>Exercises</figcaption>
             </figure>
           </a>
         </li>
-
         <li>
-          <a href="projects/index.html">
+          <a href="projects/index.html" class="nav-link">
             <figure>
-              <img src="https://uxwing.com/wp-content/themes/uxwing/download/business-professional-services/project-management-timeline-icon.png"/>
+              <img src="https://uxwing.com/wp-content/themes/uxwing/download/business-professional-services/project-management-timeline-icon.png" />
               <figcaption>Projects</figcaption>
             </figure>
           </a>
         </li>
-
         <li>
-          <a href="LIA/lia.html">
+          <a href="LIA/lia.html" class="nav-link">
             <figure>
               <img src="https://img.icons8.com/color/96/flower.png" />
               <figcaption>LIA</figcaption>
             </figure>
           </a>
         </li>
-
         <li>
-          <a href="https://www.figma.com/design/MxodM2oUY0E8oALxxYdExQ/Laith-s-Motion-Graphics-Website-Figma?node-id=0-1&t=JOzApjpcNBtllGhv-1"  target="_blank" >
+          <a href="https://www.figma.com/design/MxodM2oUY0E8oALxxYdExQ/Laith-s-Motion-Graphics-Website-Figma?node-id=0-1&t=JOzApjpcNBtllGhv-1" target="_blank" rel="noopener noreferrer" class="nav-link">
             <figure>
               <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" />
               <figcaption>Figma</figcaption>
             </figure>
           </a>
         </li>
-
         <li>
-          <a href="inspo/index.html">
+          <a href="inspo/index.html" class="nav-link">
             <figure>
               <img src="https://img.icons8.com/color/96/landscape.png" />
               <figcaption>Motion Graphics Inspirations</figcaption>
             </figure>
           </a>
         </li>
-
-             <li>
-          <a href="Ui Element/ui.html" alt="">
+        <li>
+          <a href="Ui Element/ui.html" class="nav-link">
             <figure>
-            <img src="https://images.prismic.io/thedecisionlab/Zjz5oUMTzAJOCqo5_Microinteractionicon.png?auto=format,compress" alt="">
-              <figcaption>The Micro Interaction/Ui Element</figcaption>
+              <img src="https://images.prismic.io/thedecisionlab/Zjz5oUMTzAJOCqo5_Microinteractionicon.png?auto=format,compress" />
+              <figcaption>UI Microinteractions</figcaption>
             </figure>
           </a>
         </li>
-  
-             <li>
-          <a href="../index.html" alt="">
+        <li>
+          <a href="../index.html" class="nav-link">
             <figure>
-              <img src="https://cdn-icons-png.flaticon.com/512/3916/3916045.png" alt=""/>
+              <img src="https://cdn-icons-png.flaticon.com/512/3916/3916045.png" />
               <figcaption>Return to Main Menu</figcaption>
             </figure>
           </a>
@@ -86,11 +84,11 @@
   </main>
 
   <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Motion Graphics</p>
+  <footer role="contentinfo">
+    <p>&copy; 2025 Motion Graphics. All rights reserved.</p>
   </footer>
 
-  <!-- Correct JavaScript link -->
-  <script src="mg.js"></script>
+  <!-- Scripts -->
+  <script src="mg.js" defer></script>
 </body>
 </html>

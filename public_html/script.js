@@ -299,3 +299,21 @@ function drawVerticalCircuitLines() {
 }
 
 setInterval(drawCircuitEffect, 50);
+
+// === Light/Dark Mode Toggle Logic ===
+const modeToggle = document.getElementById("mode-toggle");
+const savedMode = localStorage.getItem("color-mode");
+
+if (savedMode === "light") {
+  document.body.classList.add("light-mode");
+  modeToggle.textContent = "☀️";
+} else {
+  modeToggle.textContent = "🌙";
+}
+
+modeToggle.addEventListener("click", () => {
+  document.body.classList.toggle("light-mode");
+  const isLight = document.body.classList.contains("light-mode");
+  localStorage.setItem("color-mode", isLight ? "light" : "dark");
+  modeToggle.textContent = isLight ? "☀️" : "🌙";
+});

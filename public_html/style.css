@@ -236,3 +236,77 @@ nav.nav a:hover::after { width: 100%; }
   .hero h2 { font-size: 1.4rem; }
   .links a { font-size: 1rem; padding: 10px 18px; }
 }
+
+
+
+/* === MODE TOGGLE BUTTON === */
+#mode-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2000;
+  background: rgba(0, 255, 204, 0.1);
+  border: 2px solid #00ffcc;
+  color: #00ffcc;
+  font-size: 1.2rem;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+}
+#mode-toggle:hover {
+  background: #00ffcc;
+  color: #000;
+}
+
+/* === LIGHT MODE === */
+body.light-mode {
+  background-color: #f4f4f4;
+  color: #1b1b1b;
+}
+
+body.light-mode .intro,
+body.light-mode #circuitCanvas {
+  background-color: #fff;
+}
+
+body.light-mode .intro-inner {
+  border-color: #333;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+  background: radial-gradient(1200px 500px at 50% 0%, rgba(0, 0, 0, 0.05), transparent 70%);
+}
+
+body.light-mode #code-rain {
+  color: #555;
+}
+
+body.light-mode .scramble-text,
+body.light-mode .typewriter,
+body.light-mode nav.nav a,
+body.light-mode .hero h1,
+body.light-mode .hero h2,
+body.light-mode .links a {
+  color: #1b1b1b;
+  text-shadow: none;
+  border-color: #444;
+}
+
+body.light-mode .links a {
+  border-color: #00bbaa;
+}
+
+body.light-mode .links a:hover {
+  background-color: #00bbaa;
+  color: #fff;
+  box-shadow: 0 0 20px #00bbaa;
+}
+
+body.light-mode nav.nav {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+body.light-mode nav.nav a::after {
+  background-color: #1b1b1b;
+}
