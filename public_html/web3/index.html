@@ -9,23 +9,31 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="style.css?v=11"/>
+  <link rel="stylesheet" href="style.css?v=16"/>
 
-<!-- JavaScript -->
-<script src="script.js" defer></script>
-
+  <!-- JavaScript -->
+  <script src="script.js" defer></script>
 </head>
-<body>
-  <!-- Navigation -->
-  <header>
+ <header>
     <nav class="nav-glass">
-      <h1>Web 3: Game Development</h1>
-      <a href="../index.html" class="btn-main">Main Menu</a>
+      <h1 class="site-title">Web3: Game Development</h1>
+      <div class="nav-actions">
+        <a href="../index.html" class="btn-main">Main Menu</a>
+      </div>
     </nav>
   </header>
 
+  <!-- Light/Dark Mode Toggle -->
+  <label class="toggle-switch" id="mode-toggle-label" title="Toggle Light/Dark Mode">
+    <input type="checkbox" id="mode-toggle" />
+    <span class="slider"></span>
+  </label>
+  </header>
+  <canvas id="waveCanvas"></canvas>
+  <canvas id="shapeCanvas"></canvas>
+
   <!-- Cards Grid -->
-  <main id="cards">
+  <main id="cards" class="cards-container">
     <!-- Card 1 -->
     <a href="projects/index.html" class="game-card">
       <article>
@@ -41,10 +49,9 @@
     </a>
 
     <!-- Card 2 -->
-    <a href="" class="game-card">
+    <a href="project 2/index.html" class="game-card">
       <article>
         <figure>
-
           <img src="https://preview.redd.it/296ecft184t61.png?auto=webp&s=4af73ae815994c5fa725c3b1a91bfd0bd6219ca4" class="overlay" alt="Hover"/>          
           <img src="https://as2.ftcdn.net/jpg/05/68/23/89/1000_F_568238990_1SC4fHC0yAI6pqK3iYRm2VI8ZQgT9CYR.jpg" alt="Canvas Game" />
         </figure>
@@ -54,7 +61,6 @@
         </section>
       </article>
     </a>
-
 
     <!-- Card 3 -->
     <a href="" class="game-card">
@@ -70,7 +76,6 @@
       </article>
     </a>
 
-
     <!-- Card 4-->
     <a href="https://www.figma.com/design/hyRHkY8v1b3irc6gQSGsIR/Laith-s-Tic-Tac-Toe?node-id=0-1&t=3sPGodBQWaG3BJVj-1" class="game-card">
       <article>
@@ -85,7 +90,7 @@
       </article>
     </a>
 
- <!-- Card 5 -->
+    <!-- Card 5 -->
     <a href="" class="game-card">
       <article>
         <figure>

@@ -10,7 +10,7 @@ setInterval(() => {
   }
 }, 80);
 
-// === Audio Setup with Web Audio API Unlock ===
+// === Audio Setup ===
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
 
@@ -22,11 +22,9 @@ const clickSound = new Audio("./Digital touch.wav");
 clickSound.volume = 0.5;
 clickSound.preload = "auto";
 
-// === Audio Unlock & Control Flags ===
 let soundUnlocked = false;
 let skipPressed = false;
 
-// Try to unlock audio context immediately on load
 async function unlockAudioContext() {
   if (audioCtx.state === 'suspended') {
     try {
@@ -42,7 +40,6 @@ async function unlockAudioContext() {
   }
 }
 
-// Play typewriter sound once to unlock playback
 function playTypeSoundOnce() {
   try {
     typeSound.currentTime = 0;
@@ -53,28 +50,16 @@ function playTypeSoundOnce() {
 }
 
 unlockAudioContext();
+document.addEventListener("click", unlockAudioContext);
+document.addEventListener("keydown", unlockAudioContext);
+document.addEventListener("touchstart", unlockAudioContext);
 
-// Also unlock on user interaction (fallback)
-function unlockOnInteraction() {
-  if (!soundUnlocked) {
-    audioCtx.resume().then(() => {
-      soundUnlocked = true;
-      playTypeSoundOnce();
-    });
-  }
-}
-document.addEventListener("click", unlockOnInteraction);
-document.addEventListener("keydown", unlockOnInteraction);
-document.addEventListener("touchstart", unlockOnInteraction);
-
-// === Typewriter with Sound (updated) ===
+// === Typewriter ===
 async function typewriter(el, text, min = 20, max = 60) {
   el.textContent = "";
   for (let i = 0; i < text.length; i++) {
-    if (skipPressed) break; // Stop if skip was pressed
-
+    if (skipPressed) break;
     el.textContent += text[i];
-
     if (soundUnlocked && !skipPressed) {
       try {
         typeSound.currentTime = 0;
@@ -83,7 +68,6 @@ async function typewriter(el, text, min = 20, max = 60) {
         console.warn("Type sound play failed:", e);
       }
     }
-
     const delay = Math.floor(Math.random() * (max - min + 1)) + min;
     await new Promise((r) => setTimeout(r, delay));
   }
@@ -100,10 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const targetTitle = (document.getElementById("main-title")?.textContent || "Welcome").trim();
   const targetSub = (document.getElementById("sub-title")?.textContent || "").trim();
 
-  // Characters used during scramble
   const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*-+=<>";
 
-  // Scrambler Effect
   class Scrambler {
     constructor(el) {
       this.el = el;
@@ -159,7 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // End Intro and show hero content with typing
   async function finishIntro() {
     intro.classList.add("hidden");
     body.classList.remove("intro-active");
@@ -182,21 +163,15 @@ document.addEventListener("DOMContentLoaded", () => {
     await typewriter(heroSubTW, targetSub, 18, 40);
   }
 
-  // Skip button — updated to stop sounds and animation immediately
   skipBtn?.addEventListener("click", () => {
-    skipPressed = true; // Stop typewriter animation & sounds
-
-    // Immediately stop any playing typing sound
+    skipPressed = true;
     typeSound.pause();
     typeSound.currentTime = 0;
-
     clickSound.currentTime = 0;
     clickSound.play().catch(() => {});
-
     finishIntro();
   });
 
-  // Run intro sequence
   const scrambler = new Scrambler(scrambleOut);
   (async () => {
     await scrambler.setText(targetTitle.toUpperCase());
@@ -205,10 +180,26 @@ document.addEventListener("DOMContentLoaded", () => {
     await new Promise((r) => setTimeout(r, 400));
     finishIntro();
   })();
+
+  // === Light/Dark Mode Setup (after DOM ready) ===
+  const modeToggle = document.getElementById("mode-toggle");
+  const savedMode = localStorage.getItem("color-mode");
+  if (savedMode === "light") {
+    document.body.classList.add("light-mode");
+    modeToggle.textContent = "☀️";
+  } else {
+    modeToggle.textContent = "🌙";
+  }
+
+  modeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("light-mode");
+    const isLight = document.body.classList.contains("light-mode");
+    localStorage.setItem("color-mode", isLight ? "light" : "dark");
+    modeToggle.textContent = isLight ? "☀️" : "🌙";
+  });
 });
 
-
-// === Circuit Animation Background (Existing + Enhanced with Wave Lines) ===
+// === Canvas Effects ===
 const canvas = document.getElementById('circuitCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -223,61 +214,12 @@ const binary = '01';
 const fontSize = 16;
 const columns = Math.floor(window.innerWidth / fontSize);
 const drops = Array(columns).fill(1);
-
-// === WAVE LINES - NEW ADDITION ===
 let t = 0;
-function drawWaveLines() {
-  const waveColor = "#00ffcc33";
-  const waveAmplitude = 30;
-  const waveFrequency = 0.02;
 
-  ctx.beginPath();
+function drawVerticalCircuitLines(isLightMode) {
   ctx.lineWidth = 1;
-  ctx.strokeStyle = waveColor;
-
-  for (let y = 0; y < canvas.height; y += 40) {
-    ctx.beginPath();
-    for (let x = 0; x < canvas.width; x++) {
-      const yOffset = Math.sin(x * waveFrequency + t) * waveAmplitude;
-      ctx.lineTo(x, y + yOffset);
-    }
-    ctx.stroke();
-  }
-
-  t += 0.02;
-}
-
-// === DRAW FUNCTION COMBINED ===
-function drawCircuitEffect() {
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  // Draw binary rain
-  ctx.fillStyle = '#03f8c7ff';
-  ctx.font = `${fontSize}px monospace`;
-
-  for (let i = 0; i < drops.length; i++) {
-    const text = binary[Math.floor(Math.random() * binary.length)];
-    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-      drops[i] = 0;
-    }
-    drops[i]++;
-  }
-
-  // Draw vertical circuit lines
-  drawVerticalCircuitLines();
-
-  // Draw horizontal wave lines
-  drawWaveLines();
-}
-
-// === EXISTING FUNCTION UNCHANGED ===
-function drawVerticalCircuitLines() {
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = '#23be9fff';
-  ctx.shadowColor = '#016723ff';
+  ctx.strokeStyle = isLightMode ? '#009146ff' : '#23be9fff';
+  ctx.shadowColor = isLightMode ? '#00a537ff' : '#016723ff';
   ctx.shadowBlur = 8;
 
   const spacing = 120;
@@ -298,22 +240,48 @@ function drawVerticalCircuitLines() {
   ctx.shadowBlur = 0;
 }
 
-setInterval(drawCircuitEffect, 50);
+function drawWaveLines(isLightMode) {
+  const waveColor = isLightMode ? "rgba(0, 133, 71, 0.5)" : "#00ffcc33";
+  const waveAmplitude = 30;
+  const waveFrequency = 0.02;
 
-// === Light/Dark Mode Toggle Logic ===
-const modeToggle = document.getElementById("mode-toggle");
-const savedMode = localStorage.getItem("color-mode");
+  ctx.beginPath();
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = waveColor;
 
-if (savedMode === "light") {
-  document.body.classList.add("light-mode");
-  modeToggle.textContent = "☀️";
-} else {
-  modeToggle.textContent = "🌙";
+  for (let y = 0; y < canvas.height; y += 40) {
+    ctx.beginPath();
+    for (let x = 0; x < canvas.width; x++) {
+      const yOffset = Math.sin(x * waveFrequency + t) * waveAmplitude;
+      ctx.lineTo(x, y + yOffset);
+    }
+    ctx.stroke();
+  }
+
+  t += 0.02;
 }
 
-modeToggle.addEventListener("click", () => {
-  document.body.classList.toggle("light-mode");
-  const isLight = document.body.classList.contains("light-mode");
-  localStorage.setItem("color-mode", isLight ? "light" : "dark");
-  modeToggle.textContent = isLight ? "☀️" : "🌙";
-});
+function drawCircuitEffect() {
+  const isLightMode = document.body.classList.contains("light-mode");
+
+  ctx.fillStyle = isLightMode ? '#ffffff5b' : '#00000012';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = isLightMode ? '#000000ff' : '#03f8c7ff';
+  ctx.font = `${fontSize}px monospace`;
+
+  for (let i = 0; i < drops.length; i++) {
+    const text = binary[Math.floor(Math.random() * binary.length)];
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  }
+
+  drawVerticalCircuitLines(isLightMode);
+  drawWaveLines(isLightMode);
+}
+
+setInterval(drawCircuitEffect, 50);

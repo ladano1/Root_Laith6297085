@@ -70,7 +70,11 @@ body {
   animation: caret 900ms steps(1) infinite;
   padding-right: 6px;
 }
-@keyframes caret { 50% { border-color: transparent; } }
+@keyframes caret {
+  50% {
+    border-color: transparent;
+  }
+}
 .skip {
   margin-top: 10px;
   background: transparent;
@@ -80,34 +84,37 @@ body {
   padding: 6px 12px;
   border-radius: 999px;
   cursor: pointer;
-  transition: transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, 0.2s ease, color 0.2s ease;
 }
-.skip:hover { transform: translateY(-1px) scale(1.03); box-shadow: 0 0 16px rgba(0,255,84,.35); background:#00ffcc; color:#000; }
+.skip:hover {
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 0 16px rgba(0, 255, 84, 0.35);
+  background: #00ffcc;
+  color: #000;
+}
 
 .scanlines {
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(0,0,0,0) 0px,
-    rgba(0,0,0,0) 2px,
-    rgba(0,255,84,0.05) 3px
-  );
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 2px, rgba(0, 255, 84, 0.05) 3px);
   mix-blend-mode: overlay;
   animation: flicker 2s infinite;
   pointer-events: none;
 }
 @keyframes flicker {
-  0%,100% { opacity: .35 }
-  50% { opacity: .55 }
+  0%, 100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.55;
+  }
 }
 
-/* When intro is active, prevent scroll jump */
 .intro-active {
   overflow: hidden;
 }
 
-pre{
+pre {
   display: none;
 }
 
@@ -139,7 +146,9 @@ nav.nav a::after {
   background-color: #00ffcc;
   transition: 0.4s ease-in-out;
 }
-nav.nav a:hover::after { width: 100%; }
+nav.nav a:hover::after {
+  width: 100%;
+}
 
 /* Hero */
 .hero {
@@ -182,7 +191,7 @@ nav.nav a:hover::after { width: 100%; }
   transform: scale(1.1);
 }
 
-/* ASCII block (kept) */
+/* ASCII block */
 .ascii {
   padding: 20px;
   color: #00ff54;
@@ -192,121 +201,179 @@ nav.nav a:hover::after { width: 100%; }
   border-top: 1px solid #00ff54;
 }
 
-/* Circuit Canvas Background */
+/* Canvas background */
 #circuitCanvas {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: -1; /* Behind everything */
+  z-index: -1;
   width: 100vw;
   height: 100vh;
   background: black;
   pointer-events: none;
 }
 
-
-/* Neon pulse (kept) */
+/* Neon pulse */
 @keyframes neon-pulse {
-  from { text-shadow: 0 0 5px #00ff54, 0 0 10px #00ff54, 0 0 15px #00ff54; }
-  to   { text-shadow: 0 0 20px #00ff54, 0 0 30px #00ff54, 0 0 40px #00ff54; }
+  from {
+    text-shadow: 0 0 5px #00ff54, 0 0 10px #00ff54, 0 0 15px #00ff54;
+  }
+  to {
+    text-shadow: 0 0 20px #00ff54, 0 0 30px #00ff54, 0 0 40px #00ff54;
+  }
 }
 
-/* Galaxy S21 (412px wide) */
+/* Responsive Text Sizes */
 @media (min-width: 400px) {
-  #scramble { font-size: 1.6rem; }
-  #tw { font-size: 1.1rem; }
-  .hero h1 { font-size: 2rem; }
-  .hero h2 { font-size: 1.1rem; }
+  #scramble {
+    font-size: 1.6rem;
+  }
+  #tw {
+    font-size: 1.1rem;
+  }
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .hero h2 {
+    font-size: 1.1rem;
+  }
 }
-
-/* iPhone 16 (430px wide) */
 @media (min-width: 428px) {
-  #scramble { font-size: 1.8rem; }
-  #tw { font-size: 1.2rem; }
-  .hero h1 { font-size: 2.2rem; }
-  .hero h2 { font-size: 1.2rem; }
+  #scramble {
+    font-size: 1.8rem;
+  }
+  #tw {
+    font-size: 1.2rem;
+  }
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+  .hero h2 {
+    font-size: 1.2rem;
+  }
 }
-
-/* Galaxy Z Fold 5 portrait (front screen ~904px wide unfolded) */
 @media (min-width: 768px) {
-  .intro-inner { max-width: 640px; }
-  #scramble { font-size: 2.2rem; }
-  #tw { font-size: 1.4rem; }
-  .hero h1 { font-size: 2.6rem; }
-  .hero h2 { font-size: 1.4rem; }
-  .links a { font-size: 1rem; padding: 10px 18px; }
+  .intro-inner {
+    max-width: 640px;
+  }
+  #scramble {
+    font-size: 2.2rem;
+  }
+  #tw {
+    font-size: 1.4rem;
+  }
+  .hero h1 {
+    font-size: 2.6rem;
+  }
+  .hero h2 {
+    font-size: 1.4rem;
+  }
+  .links a {
+    font-size: 1rem;
+    padding: 10px 18px;
+  }
 }
-
-
 
 /* === MODE TOGGLE BUTTON === */
 #mode-toggle {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
   z-index: 2000;
-  background: rgba(0, 255, 204, 0.1);
+  background: #00ffcc26;
   border: 2px solid #00ffcc;
   color: #00ffcc;
-  font-size: 1.2rem;
-  padding: 8px 12px;
-  border-radius: 8px;
+  font-size: 1.4rem;
+  padding: 10px 14px;
+  border-radius: 50px;
   cursor: pointer;
   font-family: 'Orbitron', sans-serif;
   backdrop-filter: blur(6px);
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  box-shadow: 0 0 12px rgba(0, 255, 204, 0.3);
 }
 #mode-toggle:hover {
   background: #00ffcc;
   color: #000;
+  box-shadow: 0 0 20px #00ffcc;
 }
 
-/* === LIGHT MODE === */
+/* Toggle styles in light mode */
+body.light-mode #mode-toggle {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: #0077ff;
+  color: #0077ff;
+  box-shadow: 0 0 10px rgba(0, 119, 255, 0.3);
+}
+body.light-mode #mode-toggle:hover {
+  background: #0077ff;
+  color: white;
+  box-shadow: 0 0 20px #0077ff;
+}
+
+/* Mobile tweaks for toggle */
+@media (max-width: 480px) {
+  #mode-toggle {
+    top: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+    padding: 8px;
+  }
+}
+
+/* === LIGHT MODE STYLES === */
 body.light-mode {
-  background-color: #f4f4f4;
+  background-color: #f8f9fa;
   color: #1b1b1b;
 }
-
 body.light-mode .intro,
 body.light-mode #circuitCanvas {
-  background-color: #fff;
+  background-color: #e8fff5; /* Soft mint/light teal */
 }
-
 body.light-mode .intro-inner {
   border-color: #333;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
   background: radial-gradient(1200px 500px at 50% 0%, rgba(0, 0, 0, 0.05), transparent 70%);
 }
-
 body.light-mode #code-rain {
-  color: #555;
+  color: #007f5f; /* Dark teal for rain code */
+  opacity: 0.35;
 }
-
 body.light-mode .scramble-text,
 body.light-mode .typewriter,
 body.light-mode nav.nav a,
 body.light-mode .hero h1,
 body.light-mode .hero h2,
 body.light-mode .links a {
-  color: #1b1b1b;
+  color: #000000;
   text-shadow: none;
   border-color: #444;
 }
-
 body.light-mode .links a {
   border-color: #00bbaa;
 }
-
 body.light-mode .links a:hover {
   background-color: #00bbaa;
   color: #fff;
   box-shadow: 0 0 20px #00bbaa;
 }
-
 body.light-mode nav.nav {
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: rgba(0, 255, 42, 0.766);
 }
-
 body.light-mode nav.nav a::after {
   background-color: #1b1b1b;
+}
+
+/* Wave lines and circuit lines colors */
+body.light-mode .wave-lines,
+body.light-mode .circuit-lines {
+  stroke: #66cc99; /* light teal */
+  opacity: 0.7;
 }
