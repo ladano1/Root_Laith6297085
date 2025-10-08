@@ -256,6 +256,8 @@ body.light-mode footer {
   color: #333; /* better footer text color */
 }
 
+
+
 /* === Custom Toggle Switch === */
 .toggle-switch {
   position: fixed;
@@ -306,7 +308,7 @@ body.light-mode footer {
 
 /* Light mode state */
 .toggle-switch input:checked + .slider {
-  background-color: #15ff00;
+  background-color: #0ff14f;
   background-image: url('https://img.icons8.com/ios-filled/50/000000/sun--v1.png');
   background-position: 42px center;
 }
