@@ -32,13 +32,12 @@ winImage.onload=()=>imagesReady.win=true;
 // --- Player & Sizes ---
 var basePlayerSize=120;
 var baddieSize=90;
-var player={speed:5,width:basePlayerSize,height:basePlayerSize,x:0,y:0};
+var player={speed:8,width:basePlayerSize,height:basePlayerSize,x:0,y:0};
 var playerCurrentImage=playerRImage;
 
 var goodies=[],baddies=[];
 var vX=0,vY=0;
 var life=100;
-var timerObj={sec:0,min:0};
 var collectedGoodies=0;
 
 // --- Controls ---
@@ -56,11 +55,11 @@ function checkLose(){return life<1;}
 function checkWin(){return collectedGoodies>=4;}
 
 function spawnGoody(){
-    var g={width:basePlayerSize,height:basePlayerSize,x:Math.random()*(canvas.width-basePlayerSize),y:-basePlayerSize,speedY:1+Math.random()*2};
+    var g={width:basePlayerSize,height:basePlayerSize,x:Math.random()*(canvas.width-basePlayerSize),y:-basePlayerSize,speedY:3+Math.random()*3};
     goodies.push(g);
 }
 function spawnBaddie(){
-    var b={width:baddieSize,height:baddieSize,x:Math.random()*(canvas.width-baddieSize),y:-baddieSize,speedY:2+Math.random()*3};
+    var b={width:baddieSize,height:baddieSize,x:Math.random()*(canvas.width-baddieSize),y:-baddieSize,speedY:4+Math.random()*4};
     baddies.push(b);
 }
 
@@ -71,16 +70,11 @@ function init(){
     for(let i=0;i<3;i++)spawnGoody();
     spawnBaddie();
     life=100;
-    timerObj.sec=0;timerObj.min=0;
     vX=0;vY=0;
     playerCurrentImage=playerRImage;
     gameRunning=true;
 }
 
-setInterval(()=>{
-    timerObj.sec++;
-    if(timerObj.sec===60){timerObj.min++;timerObj.sec=0;}
-},1000);
 
 var gameRunning=true;
 var gameOverAnimProgress=0;
@@ -115,7 +109,6 @@ function animateWin(){
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    // background flash
     let flash=(Math.sin(winAnimProgress*10)+1)/2;
     ctx.fillStyle=`hsl(${120+flash*60},100%,${40+20*flash}%)`;
     ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -123,25 +116,21 @@ function animateWin(){
     updateConfetti();
     drawConfetti();
 
-    // big pulsing WIN text
     ctx.textAlign="center";
     ctx.fillStyle="white";
     ctx.font="100px 'Press Start 2P', monospace";
     ctx.fillText("VOUS GAGNEZ !",canvas.width/2,canvas.height/2);
 
-    // Shockwave ring
     ctx.beginPath();
     ctx.strokeStyle=`rgba(255,255,255,${1-(winAnimProgress%1)})`;
     ctx.lineWidth=8;
     ctx.arc(canvas.width/2,canvas.height/2,winAnimProgress*300,0,Math.PI*2);
     ctx.stroke();
 
-    // replay text
     ctx.font="22px 'Press Start 2P', monospace";
     ctx.fillStyle=`rgba(255,255,255,${0.7+0.3*Math.sin(winAnimProgress*5)})`;
     ctx.fillText("Cliquez pour rejouer",canvas.width/2,canvas.height/2+120);
 
-    // restart
     canvas.onclick=()=>{
         init(); gameRunning=true; winAnimProgress=0;
         canvas.onclick=null; window.requestAnimationFrame(main);
@@ -155,12 +144,10 @@ function animateGameOver(){
     gameOverAnimProgress+=0.08;
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    // Flicker red background
     let flicker=Math.sin(gameOverAnimProgress*20)*50;
     ctx.fillStyle=`rgb(${120+flicker},0,0)`;
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    // Lightning arcs
     for(let i=0;i<8;i++){
         ctx.strokeStyle=`rgba(255,0,0,${Math.random()*0.8})`;
         ctx.beginPath();
@@ -171,24 +158,20 @@ function animateGameOver(){
         ctx.stroke();
     }
 
-    // Text
     ctx.textAlign="center";
     ctx.fillStyle="white";
     ctx.font="90px 'Press Start 2P', monospace";
     ctx.fillText("JEU TERMINÉ !",canvas.width/2,canvas.height/2);
 
-    // Pixel explosion
     for(let i=0;i<80;i++){
         ctx.fillStyle=`rgba(255,${Math.random()*100},${Math.random()*100},0.8)`;
         ctx.fillRect(canvas.width/2+Math.random()*400-200,canvas.height/2+Math.random()*300-150,4,4);
     }
 
-    // Replay text
     ctx.font="22px 'Press Start 2P', monospace";
     ctx.fillStyle=`rgba(255,255,255,${0.7+0.3*Math.sin(gameOverAnimProgress*5)})`;
     ctx.fillText("Cliquez pour réessayer",canvas.width/2,canvas.height/2+120);
 
-    // restart
     canvas.onclick=()=>{
         init(); gameRunning=true; gameOverAnimProgress=0;
         canvas.onclick=null; window.requestAnimationFrame(main);
@@ -197,7 +180,6 @@ function animateGameOver(){
     if(!gameRunning)window.requestAnimationFrame(animateGameOver);
 }
 
-// --- Trigger game over ---
 function gameOver(){gameRunning=false; gameOverAnimProgress=0; animateGameOver();}
 
 // --- Main Game Loop ---
@@ -254,7 +236,6 @@ function render(){
         else ctx.drawImage(playerCurrentImage,player.x,player.y,player.width,player.height);
     }
 
-    // Health Bar
     const healthBarWidth=200;
     const healthBarHeight=30;
     const healthBarX=20;
@@ -263,10 +244,11 @@ function render(){
     ctx.fillStyle="limegreen"; ctx.fillRect(healthBarX,healthBarY,(life/100)*healthBarWidth,healthBarHeight);
     ctx.strokeStyle="black"; ctx.lineWidth=2; ctx.strokeRect(healthBarX,healthBarY,healthBarWidth,healthBarHeight);
 
-    // Bottom HUD
-    ctx.fillStyle="black"; ctx.font="20px 'Press Start 2P', monospace"; ctx.textAlign="left";
+    ctx.fillStyle="black"; 
+    ctx.font="20px 'Press Start 2P', monospace"; 
+    ctx.textAlign="left";
     let bottomY=canvas.height-40;
-    ctx.fillText(`Temps: ${timerObj.min}m ${timerObj.sec}s`,20,bottomY);
+    // Timer removed, so no time display here
     ctx.fillText(`Feuille: ${collectedGoodies}/4`,20,bottomY-30);
 }
 
