@@ -6,34 +6,39 @@
   <title>Laith's Website</title>
 
   <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
 
-  <!-- External CSS -->
-  <link rel="stylesheet" href="style.css?v=18" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css?v=28" />
 </head>
 
 <body class="intro-active">
-  <button id="mode-toggle" aria-label="Toggle light/dark mode" title="Toggle Light/Dark Mode">🌙</button>
+  <button id="mode-toggle" title="Toggle Light/Dark Mode">🌙</button>
 
   <!-- INTRO OVERLAY -->
   <div id="intro" class="intro">
     <div class="intro-inner">
-      <pre id="code-rain" aria-hidden="true"></pre>
+      <pre id="code-rain"></pre>
       <div id="intro-content">
-        <div id="scramble" class="scramble-text" aria-live="polite"></div>
-        <div id="tw" class="typewriter" aria-live="polite"></div>
+        <div id="scramble" class="scramble-text"></div>
+        <div id="tw" class="typewriter"></div>
+
+        <!-- === NEW LOADING BAR === -->
+        <div id="loading-container">
+          <div id="loading-bar"><div id="loading-fill"></div></div>
+          <div id="loading-text">0%</div>
+        </div>
+
         <button id="skip-intro" class="skip">Skip</button>
       </div>
     </div>
-    <div class="scanlines" aria-hidden="true"></div>
+    <div class="scanlines"></div>
   </div>
 
-  <!-- Canvas for circuits + waves -->
-  <canvas id="circuitCanvas" aria-hidden="true"></canvas>
+  <!-- CANVAS BACKGROUND -->
+  <canvas id="circuitCanvas"></canvas>
 
-  <!-- NAV -->
+  <!-- NAVIGATION -->
   <nav class="nav">
     <a href="./web1/index.html">Web 1</a>
     <a href="./web2/index.html">Web 2</a>
@@ -48,22 +53,21 @@
   <!-- HERO -->
   <header class="hero">
     <h1 id="main-title">Welcome to Laith's Website</h1>
-    <h2 id="sub-title">ENTERING TO "THE MATRIX" !!! </h2>
+    <h2 id="sub-title">ENTERING THE MATRIX !!!</h2>
   </header>
 
-  <!-- QUICK LINKS -->
+  <!-- LINKS -->
   <section class="links">
-    <a href="../web1/index.html"><span class="link-text">Web 1</span></a>
-    <a href="../web2/index.html"><span class="link-text">Web 2</span></a>
-    <a href="../web3/index.html"><span class="link-text">Web 3</span></a>
-    <a href="../et1/index.html"><span class="link-text">Emerging Tech 1</span></a>
-    <a href="https://www.figma.com/board/16L4vvfDrV9mSD0dfQrvnf/Opposite-Thinking-Exercise?t=bWXk5UEcsb2QHbK1-1"><span class="link-text">Opposite Thinking Ideation Exercise</span></a>
-    <a href="../mg1/index.html"><span class="link-text">Motion Graphics 1</span></a>
-    <a href="../pc1/index.html"><span class="link-text">Photo Gallery</span></a>
-    <a href="../game.html"><span class="link-text">Hackathon Game</span></a>
+    <a href="../web1/index.html">Web 1</a>
+    <a href="../web2/index.html">Web 2</a>
+    <a href="../web3/index.html">Web 3</a>
+    <a href="../et1/index.html">Emerging Tech 1</a>
+    <a href="https://www.figma.com/board/16L4vvfDrV9mSD0dfQrvnf/Opposite-Thinking-Exercise?t=bWXk5UEcsb2QHbK1-1">Opposite Thinking Exercise</a>
+    <a href="../mg1/index.html">Motion Graphics 1</a>
+    <a href="../pc1/index.html">Photo Gallery</a>
+    <a href="../game.html">Hackathon Game</a>
   </section>
 
-  <!-- JS -->
   <script src="script.js" defer></script>
 </body>
 </html>

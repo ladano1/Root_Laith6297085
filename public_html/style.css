@@ -1,4 +1,4 @@
-/* Base */
+/* --- Your Original Base --- */
 body {
   background-color: #000;
   color: #00ffcc;
@@ -8,7 +8,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Intro overlay */
+/* --- Your Intro Overlay --- */
 .intro {
   position: fixed;
   inset: 0;
@@ -196,7 +196,6 @@ nav.nav a:hover::after {
   display: inline-block;
 }
 
-
 /* ASCII block */
 .ascii {
   padding: 20px;
@@ -322,15 +321,33 @@ body.light-mode #mode-toggle:hover {
   box-shadow: 0 0 20px #0077ff;
 }
 
-/* Mobile tweaks for toggle */
+/* Mobile adjustments to make intro, code rain, and typewriter fit */
 @media (max-width: 480px) {
-  #mode-toggle {
-    top: 12px;
-    right: 12px;
-    width: 44px;
-    height: 44px;
-    font-size: 1.2rem;
-    padding: 8px;
+  .intro-inner {
+    width: 90vw;
+    height: 60vh;
+    padding: 12px;
+  }
+  #code-rain {
+    padding: 12px;
+    font-size: clamp(8px, 3vw, 12px);
+  }
+  .typewriter {
+    font-size: clamp(12px, 4vw, 16px);
+  }
+  .scramble-text {
+    font-size: clamp(18px, 5vw, 32px);
+  }
+  #loading-container {
+    width: 95% !important;  /* fix width */
+    max-width: none;        /* remove desktop max-width */
+  }
+  #loading-bar {
+    width: 100% !important; /* ensure full width */
+    height: 16px;
+  }
+  #loading-text {
+    font-size: 0.9rem;
   }
 }
 
@@ -382,4 +399,72 @@ body.light-mode .wave-lines,
 body.light-mode .circuit-lines {
   stroke: #66cc99; /* light teal */
   opacity: 0.7;
+}
+
+/* Loading container */
+#loading-container {
+  width: 90%;
+  max-width: 400px;
+  min-width: 200px;
+  text-align: center;
+  margin: 10px auto;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+/* Loading bar */
+#loading-bar {
+  width: 100%;
+  height: 14px;
+  background: rgba(0, 255, 84, 0.15);
+  border: 1px solid #00ffcc;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 8px rgba(0, 255, 204, 0.3);
+}
+
+/* Loading fill */
+#loading-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #00ffcc, #00ff54);
+  box-shadow: 0 0 12px #00ffcc;
+  transition: width 0.05s linear;
+  border-radius: 12px;
+}
+
+/* Loading text */
+#loading-text {
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  margin-top: 6px;
+  color: #00ffcc;
+  text-shadow: 0 0 10px #00ffcc;
+  letter-spacing: 1px;
+}
+
+/* Light mode bar */
+body.light-mode #loading-bar {
+  background: rgba(0, 119, 255, 0.1);
+  border-color: #0077ff;
+}
+body.light-mode #loading-fill {
+  background: linear-gradient(90deg, #0077ff, #00bbaa);
+  box-shadow: 0 0 12px #0077ff;
+}
+body.light-mode #loading-text {
+  color: #0077ff;
+  text-shadow: none;
+}
+
+
+/* --- My Intro and Loading CSS merged with minimal conflicts --- */
+/* Using #intro-wrapper prefix to avoid conflicts with your .intro class */
+
+#intro-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #001a33; /* Dark blue background */
 }

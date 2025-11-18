@@ -54,7 +54,7 @@ document.addEventListener("click", unlockAudioContext);
 document.addEventListener("keydown", unlockAudioContext);
 document.addEventListener("touchstart", unlockAudioContext);
 
-// === Typewriter Function for Intro ===
+// === Typewriter Function ===
 async function typewriter(el, text, min = 20, max = 60) {
   el.textContent = "";
   for (let i = 0; i < text.length; i++) {
@@ -172,15 +172,30 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const scrambler = new Scrambler(scrambleOut);
+
+  // === MAIN INTRO FLOW (with loading bar) ===
   (async () => {
+    const barFill = document.getElementById("loading-fill");
+    const barText = document.getElementById("loading-text");
+
     await scrambler.setText(targetTitle.toUpperCase());
     await new Promise((r) => setTimeout(r, 150));
     await typewriter(twOut, targetSub);
-    await new Promise((r) => setTimeout(r, 200));
+    await new Promise((r) => setTimeout(r, 250));
+
+    // --- LOADING BAR ---
+    for (let i = 0; i <= 100; i++) {
+      if (skipPressed) break;
+      barFill.style.width = `${i}%`;
+      barText.textContent = `${i}%`;
+      await new Promise((r) => setTimeout(r, 25));
+    }
+
+    await new Promise((r) => setTimeout(r, 300));
     finishIntro();
   })();
 
-  // === Light/Dark Mode Setup ===
+  // === Light/Dark Mode Toggle ===
   const modeToggle = document.getElementById("mode-toggle");
   const savedMode = localStorage.getItem("color-mode");
   if (savedMode === "light") {
@@ -196,22 +211,16 @@ document.addEventListener("DOMContentLoaded", () => {
     modeToggle.textContent = isLight ? "☀️" : "🌙";
   });
 
-  // === Click Sound + Green/Black Lightning Glow on ALL Links ===
-  const allLinks = document.querySelectorAll("a"); // Select ALL links
+  // === Click Sound + Glow Effect on Links ===
+  const allLinks = document.querySelectorAll("a");
   allLinks.forEach(link => {
     link.addEventListener("click", (e) => {
       if (!soundUnlocked) return;
-
-      // Play click sound
       clickSound.currentTime = 0;
       clickSound.play().catch(() => {});
-
-      // Green/Black lightning flash effect
       link.style.transition = "0.1s all";
       link.style.textShadow = "0 0 10px #00ff00, 0 0 25px #000000, 0 0 40px #00ff00";
-      setTimeout(() => {
-        link.style.textShadow = "";
-      }, 250);
+      setTimeout(() => { link.style.textShadow = ""; }, 250);
     });
   });
 });
@@ -288,5 +297,4 @@ function drawCircuitEffect() {
   drawVerticalCircuitLines(isLightMode);
   drawWaveLines(isLightMode);
 }
-
 setInterval(drawCircuitEffect, 50);
