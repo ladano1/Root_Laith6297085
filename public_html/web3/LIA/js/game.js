@@ -6,11 +6,31 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 gameBox.appendChild(canvas);
 
+// ======= HELPERS (for responsiveness) =======
+function isMobile() {
+    return window.innerWidth <= 768;
+}
+
+function clamp(v, min, max) {
+    return Math.max(min, Math.min(max, v));
+}
+
 // ======= BACKGROUND =======
 const backgroundImage = new Image();
 backgroundImage.src = "img/new background.png";
 let bgLoaded = false;
 backgroundImage.onload = () => (bgLoaded = true);
+
+// ======= WIN / LOSE GRAPHICS (NEW) =======
+const winCatImage = new Image();
+winCatImage.src = "img/win-cat.png";
+let winCatLoaded = false;
+winCatImage.onload = () => (winCatLoaded = true);
+
+const loseRockImage = new Image();
+loseRockImage.src = "img/lose-rock.png";
+let loseRockLoaded = false;
+loseRockImage.onload = () => (loseRockLoaded = true);
 
 // ======= CHARACTER ANIMATION =======
 const charFrames = [
@@ -61,52 +81,31 @@ const rockVerticalOffset = 60;
 // Each rock in the stack has its own x + y
 let rockStack = [];
 
-// ======= FALLING OBJECTS =======
+// ======= OBJECT IMAGES =======
 const goodyImg = new Image();
 goodyImg.src = "img/orbs 1.png";
 
 const baddieImg = new Image();
 baddieImg.src = "img/bats 1.png";
 
-// keep bats & goodies inside the central cave area (not behind black walls)
-function getPlayableX(objWidth = 0) {
-    const margin = canvas.width * 0.2; // 20% margin on each side
-    const usableWidth = canvas.width - 2 * margin - objWidth;
-    return margin + Math.random() * Math.max(usableWidth, 0);
-}
-
 let goodies = [];
 let baddies = [];
 
-// ---- BADDIE CORRECT SIZE (KEEPS REAL ASPECT RATIO) ----
+// ---- BADDIE CORRECT SIZE (KEEPS REAL ASPECT RATIO) + RESPONSIVE ----
 let baddieWidth = 80;
 let baddieHeight = 80;
+let baddieAspect = 1;
+
+function updateBaddieSize() {
+    // smaller on mobile
+    baddieHeight = isMobile() ? 60 : 80;
+    baddieWidth = baddieHeight * baddieAspect;
+}
 
 baddieImg.onload = () => {
-    const aspect = baddieImg.width / baddieImg.height; // ~1.7 (wider than tall)
-    baddieHeight = 80;               // control height here
-    baddieWidth = baddieHeight * aspect; // width scaled by aspect ratio
+    baddieAspect = baddieImg.width / baddieImg.height || 1;
+    updateBaddieSize();
 };
-
-function spawnGoody() {
-    const size = 80;
-    goodies.push({
-        x: getPlayableX(size),
-        y: -50,
-        size: size,
-        speed: 2 + Math.random() * 1.5
-    });
-}
-
-function spawnBaddie() {
-    baddies.push({
-        x: getPlayableX(baddieWidth), // left position, considers width
-        y: -baddieHeight,
-        width: baddieWidth,
-        height: baddieHeight,
-        speed: 2.5 + Math.random() * 1.5
-    });
-}
 
 // ======= GAME VARIABLES =======
 let score = 0;
@@ -116,7 +115,7 @@ let frameCount = 0;
 // ======= WIN / GAME OVER STATE =======
 let gameWon = false;
 // Winning is based on how HIGH the rock stack is:
-const winRockY = canvas.height * 0.3; // when top rock's y <= this (near top), you win
+let winRockY = canvas.height * 0.3; // updated on resize
 let winTimer = 0;
 let gameOverTimer = 0;
 
@@ -126,6 +125,27 @@ let gameReady = false;  // becomes true after rocks are initialized
 // ======= SOUNDS =======
 const winSound = new Audio("audio/Gun sound.wav");
 const gameOverSound = new Audio("audio/game-over.mp3");
+
+// ======= RESPONSIVE: RESIZE CANVAS =======
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    winRockY = canvas.height * 0.3;
+
+    // reset moving objects so nothing is stuck offscreen
+    goodies = [];
+    baddies = [];
+
+    // update baddie size for this screen
+    updateBaddieSize();
+
+    // re-init rocks & reposition cat if rocks already loaded
+    if (rockLoaded && rockSizes[0]) {
+        initRocks();
+    }
+}
+window.addEventListener("resize", resizeCanvas);
+window.addEventListener("orientationchange", resizeCanvas);
 
 // ======= INITIALIZE ROCKS =======
 function initRocks() {
@@ -181,6 +201,61 @@ function resetCharPosition() {
     facing = 1;
 }
 
+// ======= SIDEWAYS SPAWN HELPERS =======
+// random Y band where objects travel (middle of screen)
+function getPlayableY(objHeight = 0) {
+    const topBand = canvas.height * 0.25;
+    const bandHeight = canvas.height * 0.5 - objHeight;
+    return topBand + Math.random() * Math.max(bandHeight, 0);
+}
+
+// responsive goody size
+function getGoodySize() {
+    // smaller on mobile
+    return isMobile() ? 60 : 80;
+}
+
+// ======= SLOWER SPEEDS (both mobile & desktop) =======
+function getGoodySpeed() {
+    return isMobile()
+        ? 0.4 + Math.random() * 0.5   // 0.4 – 0.9 (much slower)
+        : 0.8 + Math.random() * 0.6;  // 0.8 – 1.4
+}
+
+function getBaddieSpeed() {
+    return isMobile()
+        ? 0.5 + Math.random() * 0.6   // 0.5 – 1.1
+        : 1.0 + Math.random() * 0.7;  // 1.0 – 1.7
+}
+
+// goodies come from left or right edges, move horizontally
+function spawnGoody() {
+    const size = getGoodySize();
+    const fromLeft = Math.random() < 0.5;
+    const speed = getGoodySpeed();
+
+    goodies.push({
+        x: fromLeft ? -size : canvas.width,
+        y: getPlayableY(size),
+        size: size,
+        vx: fromLeft ? speed : -speed
+    });
+}
+
+// baddies come from left or right edges, move horizontally
+function spawnBaddie() {
+    const fromLeft = Math.random() < 0.5;
+    const speed = getBaddieSpeed();
+
+    baddies.push({
+        x: fromLeft ? -baddieWidth : canvas.width,
+        y: getPlayableY(baddieHeight),
+        width: baddieWidth,
+        height: baddieHeight,
+        vx: fromLeft ? speed : -speed
+    });
+}
+
 // ======= MAIN LOOP (ONLY ONCE) =======
 function loop() {
     if (!gameReady) {
@@ -226,7 +301,7 @@ function update() {
     if (frameCount % 80 === 0) spawnGoody();
     if (frameCount % 140 === 0) spawnBaddie();
 
-    // Horizontal movement
+    // Horizontal movement of cat
     charVx = 0;
     if (leftPressed) charVx -= moveSpeed;
     if (rightPressed) charVx += moveSpeed;
@@ -269,12 +344,17 @@ function update() {
         charTimer = 0;
     }
 
-    // Move goodies & baddies
-    goodies.forEach(g => g.y += g.speed);
-    baddies.forEach(b => b.y += b.speed);
+    // Move goodies & baddies SIDEWAYS
+    goodies.forEach(g => g.x += g.vx);
+    baddies.forEach(b => b.x += b.vx);
 
-    goodies = goodies.filter(g => g.y < canvas.height + 100);
-    baddies = baddies.filter(b => b.y < canvas.height + 100);
+    // Remove when off screen horizontally
+    goodies = goodies.filter(
+        g => g.x > -g.size - 100 && g.x < canvas.width + 100
+    );
+    baddies = baddies.filter(
+        b => b.x > -b.width - 100 && b.x < canvas.width + 100
+    );
 
     checkCollisions();
 }
@@ -389,7 +469,7 @@ function updateWin() {
     winTimer++;
 }
 
-// === GLITCHY NEON TEXT DRAW (supports color) ===
+// === (old neon helpers kept just in case, but unused now) ===
 function drawGlitchText(text, x, y, baseSize, color = "#00ff66") {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
@@ -409,13 +489,11 @@ function drawGlitchText(text, x, y, baseSize, color = "#00ff66") {
         ctx.rect(0, sliceY, canvas.width, sliceHeight);
         ctx.clip();
 
-        // soft glow behind
         ctx.fillStyle = color;
         ctx.shadowColor = color;
         ctx.shadowBlur = 25;
         ctx.fillText(text, x + offset, y);
 
-        // main bright core
         ctx.shadowBlur = 0;
         ctx.fillStyle = "#e6ffe6";
         ctx.fillText(text, x + offset + 1, y);
@@ -423,7 +501,6 @@ function drawGlitchText(text, x, y, baseSize, color = "#00ff66") {
         ctx.restore();
     }
 
-    // random little neon pixels around
     for (let i = 0; i < 30; i++) {
         const px = x + (Math.random() - 0.5) * baseSize * 1.5;
         const py = y + (Math.random() - 0.5) * baseSize;
@@ -433,7 +510,7 @@ function drawGlitchText(text, x, y, baseSize, color = "#00ff66") {
     }
 }
 
-// === HELPER: GLOWING NEON RING (color is "r,g,b") ===
+// === HELPER: GLOWING NEON RING (unused now) ===
 function drawGlowRing(x, y, radius, thickness, alpha, color = "0,255,140") {
     ctx.save();
     ctx.beginPath();
@@ -446,234 +523,173 @@ function drawGlowRing(x, y, radius, thickness, alpha, color = "0,255,140") {
     ctx.restore();
 }
 
-// ======= WIN SCREEN (slowed down) =======
+// === HELPER: ROUNDED RECTANGLE ===
+function drawRoundedRect(x, y, width, height, radius) {
+    const r = Math.min(radius, width / 2, height / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + width - r, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + r);
+    ctx.lineTo(x + width, y + height - r);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - r, y + height);
+    ctx.lineTo(x + r, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+}
+
+// ======= WIN SCREEN (NEW STYLE, RESPONSIVE) =======
 function drawWin() {
     const centerX = canvas.width / 2;
-    const centerY = canvas.height * 0.35;
+    const titleY = canvas.height * 0.18;
+    const artY = canvas.height * 0.40;
+    const subtitleY = canvas.height * 0.62;
+    const btnY = canvas.height * 0.72;
 
-    const shakeStrength = 4;
-    const shakeX = (Math.random() - 0.5) * shakeStrength;
-    const shakeY = (Math.random() - 0.5) * shakeStrength;
-
-    ctx.save();
-    ctx.translate(shakeX, shakeY);
-
-    const t = winTimer / 80;
-
-    const grad = ctx.createRadialGradient(
-        centerX, centerY, 50,
-        centerX, centerY, canvas.height * 0.8
-    );
-    grad.addColorStop(0, "rgba(0, 255, 140, 0.28)");
-    grad.addColorStop(0.4, "rgba(0, 40, 80, 1)");
-    grad.addColorStop(1, "rgba(0, 5, 20, 1)");
-
-    ctx.fillStyle = grad;
+    // background
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#050522"; // deep night blue
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "rgba(0,0,0,0.40)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    const ringBaseRadius = 140;
-    const ringCount = 3;
-    for (let i = 0; i < ringCount; i++) {
-        const r = ringBaseRadius + i * 18 + Math.sin(t * 2 + i) * 6;
-        const alpha = 0.25 + 0.12 * Math.sin(t * 3 + i);
-        drawGlowRing(centerX, centerY, r, 5, alpha, "0,255,140");
-    }
-
-    ctx.fillStyle = "rgba(0,0,30,0.18)";
-    for (let y = 0; y < canvas.height; y += 4) {
-        ctx.fillRect(0, y, canvas.width, 1);
-    }
-
-    const baseSize = 80;
-    const yOffset = Math.sin(winTimer / 40) * 4;
-
-    drawGlitchText("VOUS GAGNEZ", centerX - 2, centerY + yOffset, baseSize, "#ff66ff");
-    drawGlitchText("VOUS GAGNEZ", centerX + 2, centerY + yOffset + 1, baseSize, "#00ffff");
-    drawGlitchText("VOUS GAGNEZ", centerX, centerY + yOffset, baseSize, "#00ff66");
-
-    if (winTimer % 2 === 0) {
-        const particleCount = 40;
-        for (let i = 0; i < particleCount; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const dist = 20 + Math.random() * 140;
-            const px = centerX + Math.cos(angle) * dist * (0.6 + 0.4 * Math.sin(t * 3 + i));
-            const py = centerY + Math.sin(angle) * dist * (0.6 + 0.4 * Math.cos(t * 2 + i));
-            const size = 2 + Math.random() * 3;
-
-            ctx.fillStyle = `hsla(${120 + Math.random() * 60}, 100%, 60%, 0.75)`;
-            ctx.fillRect(px, py, size, size);
-        }
-    }
-
-    const btnWidth = 520;
-    const btnHeight = 70;
-    const btnX = centerX - btnWidth / 2;
-    const btnY = canvas.height * 0.62 - btnHeight / 2;
-
-    const glowPulse = 18 + 8 * Math.sin(winTimer / 30);
-
-    ctx.save();
-    ctx.shadowColor = "#00ff88";
-    ctx.shadowBlur = glowPulse;
-    ctx.fillStyle = "rgba(0, 20, 60, 0.9)";
-    ctx.fillRect(btnX, btnY, btnWidth, btnHeight);
-    ctx.restore();
-
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = "#00ff88";
-    ctx.strokeRect(btnX, btnY, btnWidth, btnHeight);
-
-    ctx.strokeStyle = "rgba(0,255,160,0.4)";
-    ctx.strokeRect(
-        btnX + Math.sin(winTimer / 40) * 2,
-        btnY + Math.cos(winTimer / 50) * 2,
-        btnWidth,
-        btnHeight
-    );
-
-    ctx.fillStyle = "#eaffff";
-    ctx.font = "14px 'Press Start 2P'";
+    // Title "Gagnant!" (slightly smaller so it never touches edges)
+    const titleSize = clamp(canvas.height * 0.07, 28, 80);
+    ctx.fillStyle = "#E2E4FF";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
+    ctx.font = `${titleSize}px 'Playfair Display', serif`;
+    ctx.fillText("Gagnant!", centerX, titleY);
 
-    const btnText = "CLIQUEZ POUR REJOUER";
+    // Cat graphic with gentle bob + rotation
+    const bob = Math.sin(winTimer / 25) * 8;
+    const rot = Math.sin(winTimer / 60) * 0.06;
 
-    const waveOffset = Math.sin(winTimer / 35) * 3;
     ctx.save();
-    ctx.translate(centerX, btnY + btnHeight / 2 + waveOffset);
-    ctx.fillText(btnText, 0, 0);
+    ctx.translate(centerX, artY + bob);
+    ctx.rotate(rot);
+
+    if (winCatLoaded) {
+        // wider on mobile so it fills nicely
+        const desiredWidth = canvas.width * (isMobile() ? 0.55 : 0.35);
+        const scale = desiredWidth / winCatImage.width;
+        const imgW = winCatImage.width * scale;
+        const imgH = winCatImage.height * scale;
+        ctx.drawImage(winCatImage, -imgW / 2, -imgH / 2, imgW, imgH);
+    } else {
+        // simple placeholder circle if image not loaded
+        ctx.fillStyle = "#FF6688";
+        ctx.beginPath();
+        ctx.arc(0, 0, 80, 0, Math.PI * 2);
+        ctx.fill();
+    }
     ctx.restore();
+
+    // Subtitle "Tu as atteint la surface!" (a bit smaller)
+    const subtitleSize = clamp(canvas.height * 0.027, 12, 22);
+    ctx.fillStyle = "#D2D4F7";
+    ctx.font = `${subtitleSize}px 'Poppins', sans-serif`;
+    ctx.fillText("Tu as atteint la surface!", centerX, subtitleY);
+
+    // Button "Rejouer" (taller + smaller font so text stays inside)
+    const btnWidth = canvas.width * 0.25;
+    const btnHeight = canvas.height * 0.10; // slightly taller
+    const btnX = centerX - btnWidth / 2;
+
+    const pulse = 1 + Math.sin(winTimer / 30) * 0.03;
+    const btnCenterY = btnY + btnHeight / 2;
+
+    ctx.save();
+    ctx.translate(centerX, btnCenterY);
+    ctx.scale(pulse, pulse);
+    ctx.translate(-centerX, -btnCenterY);
+
+    ctx.fillStyle = "#D5D6FB";
+    drawRoundedRect(btnX, btnY, btnWidth, btnHeight, btnHeight / 2);
+    ctx.fill();
+
+    const btnFontSize = clamp(canvas.height * 0.028, 14, 24);
+    ctx.fillStyle = "#1A1636";
+    ctx.font = `${btnFontSize}px 'Playfair Display', serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("Rejouer", centerX, btnCenterY);
 
     ctx.restore();
 }
 
-// ======= CRAZY (BUT SLOWER) GAME OVER SCREEN =======
+// ======= GAME OVER SCREEN (NEW STYLE, RESPONSIVE) =======
 function drawGameOver() {
     gameOverTimer++;
 
     const centerX = canvas.width / 2;
-    const centerY = canvas.height * 0.35;
+    const titleY = canvas.height * 0.18;
+    const artY = canvas.height * 0.40;
+    const subtitleY = canvas.height * 0.62;
+    const btnY = canvas.height * 0.72;
 
-    const shakeStrength = 8;
-    const shakeX = (Math.random() - 0.5) * shakeStrength;
-    const shakeY = (Math.random() - 0.5) * shakeStrength;
-
-    ctx.save();
-    ctx.translate(centerX, centerY);
-    ctx.rotate(Math.sin(gameOverTimer / 16) * 0.03);
-    ctx.translate(-centerX, -centerY);
-    ctx.translate(shakeX, shakeY);
-
-    const t = gameOverTimer / 80;
-
-    const grad = ctx.createRadialGradient(
-        centerX, centerY, 40,
-        centerX, centerY, canvas.height * 0.9
-    );
-    grad.addColorStop(0, "rgba(255, 80, 140, 0.5)");
-    grad.addColorStop(0.4, "rgba(60, 0, 40, 1)");
-    grad.addColorStop(1, "rgba(5, 0, 10, 1)");
-
-    ctx.fillStyle = grad;
+    // background
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#050522";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "rgba(0,0,0,0.6)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    const ringBaseRadius = 140;
-    const ringCount = 4;
-    for (let i = 0; i < ringCount; i++) {
-        const r = ringBaseRadius + i * 25 + Math.sin(t * 3 + i) * 9;
-        const alpha = 0.4 + 0.18 * Math.sin(t * 4 + i);
-        drawGlowRing(centerX, centerY, r, 7, alpha, "255,40,80");
-    }
-
-    ctx.fillStyle = "rgba(0,0,0,0.3)";
-    for (let y = 0; y < canvas.height; y += 4) {
-        ctx.fillRect(0, y, canvas.width, 2);
-    }
-
-    for (let i = 0; i < 8; i++) {
-        const barX = Math.random() * canvas.width;
-        const barW = 10 + Math.random() * 40;
-        const barAlpha = 0.08 + Math.random() * 0.18;
-        ctx.fillStyle = `rgba(255, 80, 160, ${barAlpha})`;
-        ctx.fillRect(barX, 0, barW, canvas.height);
-    }
-
-    for (let i = 0; i < 8; i++) {
-        const ry = Math.random() * canvas.height;
-        const rh = 3 + Math.random() * 7;
-        const rx = (Math.random() - 0.5) * 50;
-        ctx.fillStyle = "rgba(255,255,255,0.07)";
-        ctx.fillRect(rx, ry, canvas.width, rh);
-    }
-
-    if (gameOverTimer % 60 < 5) {
-        ctx.fillStyle = "rgba(255,0,40,0.18)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
-
-    const baseSize = 80;
-    const yOffset = Math.sin(gameOverTimer / 14) * 6;
-
-    drawGlitchText("JEU TERMINÉ", centerX - 4, centerY + yOffset, baseSize, "#ff3366");
-    drawGlitchText("JEU TERMINÉ", centerX + 4, centerY + yOffset + 2, baseSize, "#ff66ff");
-    drawGlitchText("JEU TERMINÉ", centerX, centerY + yOffset, baseSize, "#ff0033");
-
-    const particleCount = 70;
-    for (let i = 0; i < particleCount; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const dist = 20 + Math.random() * 170;
-        const px = centerX + Math.cos(angle) * dist * (0.55 + 0.45 * Math.sin(t * 3 + i));
-        const py = centerY + Math.sin(angle) * dist * (0.55 + 0.45 * Math.cos(t * 2 + i));
-        const size = 2 + Math.random() * 4;
-
-        ctx.fillStyle = `hsla(${330 + Math.random() * 40}, 100%, 60%, 0.9)`;
-        ctx.fillRect(px, py, size, size);
-    }
-
-    const btnWidth = 520;
-    const btnHeight = 70;
-    const btnX = centerX - btnWidth / 2;
-    const btnY = canvas.height * 0.62 - btnHeight / 2;
-
-    const glowPulse = 24 + 10 * Math.sin(gameOverTimer / 14);
-
-    ctx.save();
-    ctx.shadowColor = "#ff3366";
-    ctx.shadowBlur = glowPulse;
-    ctx.fillStyle = "rgba(40, 0, 20, 0.95)";
-    ctx.fillRect(btnX, btnY, btnWidth, btnHeight);
-    ctx.restore();
-
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = "#ff3366";
-    ctx.strokeRect(btnX, btnY, btnWidth, btnHeight);
-
-    ctx.strokeStyle = "rgba(255,150,200,0.5)";
-    ctx.strokeRect(
-        btnX + Math.sin(gameOverTimer / 16) * 2,
-        btnY + Math.cos(gameOverTimer / 18) * 2,
-        btnWidth,
-        btnHeight
-    );
-
-    ctx.fillStyle = "#ffeaf5";
-    ctx.font = "14px 'Press Start 2P'";
+    // Title "Perdant..." (same treatment as win)
+    const titleSize = clamp(canvas.height * 0.07, 28, 80);
+    ctx.fillStyle = "#E2E4FF";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
+    ctx.font = `${titleSize}px 'Playfair Display', serif`;
+    ctx.fillText("Perdant...", centerX, titleY);
 
-    const btnText = "CLIQUEZ POUR REJOUER";
+    // Rock graphic with small shake (responsive width)
+    const shakeX = Math.sin(gameOverTimer / 12) * 6;
+    const shakeRot = Math.sin(gameOverTimer / 18) * 0.05;
 
-    const waveOffset = Math.sin(gameOverTimer / 22) * 4;
     ctx.save();
-    ctx.translate(centerX, btnY + btnHeight / 2 + waveOffset);
-    ctx.fillText(btnText, 0, 0);
+    ctx.translate(centerX + shakeX, artY);
+    ctx.rotate(shakeRot);
+
+    if (loseRockLoaded) {
+        const desiredWidth = canvas.width * (isMobile() ? 0.5 : 0.30);
+        const scale = desiredWidth / loseRockImage.width;
+        const imgW = loseRockImage.width * scale;
+        const imgH = loseRockImage.height * scale;
+        ctx.drawImage(loseRockImage, -imgW / 2, -imgH / 2, imgW, imgH);
+    } else {
+        // placeholder rectangle
+        ctx.fillStyle = "#555A8E";
+        ctx.fillRect(-80, -40, 160, 80);
+    }
     ctx.restore();
+
+    // Subtitle "La tour s’est effondrée..." (smaller)
+    const subtitleSize = clamp(canvas.height * 0.027, 12, 22);
+    ctx.fillStyle = "#D2D4F7";
+    ctx.font = `${subtitleSize}px 'Poppins', sans-serif`;
+    ctx.fillText("La tour s'est effondrée...", centerX, subtitleY);
+
+    // Button "Rejouer" (same fix as win)
+    const btnWidth = canvas.width * 0.25;
+    const btnHeight = canvas.height * 0.10;
+    const btnX = centerX - btnWidth / 2;
+
+    const pulse = 1 + Math.sin(gameOverTimer / 28) * 0.03;
+    const btnCenterY = btnY + btnHeight / 2;
+
+    ctx.save();
+    ctx.translate(centerX, btnCenterY);
+    ctx.scale(pulse, pulse);
+    ctx.translate(-centerX, -btnCenterY);
+
+    ctx.fillStyle = "#D5D6FB";
+    drawRoundedRect(btnX, btnY, btnWidth, btnHeight, btnHeight / 2);
+    ctx.fill();
+
+    const btnFontSize = clamp(canvas.height * 0.028, 14, 24);
+    ctx.fillStyle = "#1A1636";
+    ctx.font = `${btnFontSize}px 'Playfair Display', serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("Rejouer", centerX, btnCenterY);
 
     ctx.restore();
 }
@@ -693,6 +709,7 @@ function handleJump() {
     }
 }
 
+// Keyboard controls (desktop)
 window.addEventListener("keydown", e => {
     if (gameOver || gameWon) {
         return;
@@ -717,7 +734,7 @@ window.addEventListener("keyup", e => {
     }
 });
 
-// Mouse / touch click = jump OR restart if win/lose
+// Mouse click: jump or restart (desktop)
 window.addEventListener("click", () => {
     if (gameOver || gameWon) {
         restart();
@@ -725,6 +742,53 @@ window.addEventListener("click", () => {
         handleJump();
     }
 });
+
+// ======= TOUCH CONTROLS (MOBILE) =======
+function handleTouchStart(e) {
+    if (e.touches.length === 0) return;
+    const touch = e.touches[0];
+    const x = touch.clientX;
+    const y = touch.clientY;
+
+    // prevent scrolling on mobile while playing
+    e.preventDefault();
+
+    if (gameOver || gameWon) {
+        restart();
+        return;
+    }
+
+    const w = canvas.width;
+    const h = canvas.height;
+
+    // Top half = jump
+    if (y < h * 0.4) {
+        handleJump();
+        leftPressed = false;
+        rightPressed = false;
+    } else {
+        // bottom half: left / right move
+        if (x < w * 0.5) {
+            leftPressed = true;
+            rightPressed = false;
+            facing = 1;
+        } else {
+            rightPressed = true;
+            leftPressed = false;
+            facing = -1;
+        }
+    }
+}
+
+function handleTouchEnd(e) {
+    e.preventDefault();
+    leftPressed = false;
+    rightPressed = false;
+}
+
+canvas.addEventListener("touchstart", handleTouchStart, { passive: false });
+canvas.addEventListener("touchend", handleTouchEnd, { passive: false });
+canvas.addEventListener("touchcancel", handleTouchEnd, { passive: false });
 
 // ======= DRAW (NORMAL) =======
 function draw() {
@@ -804,5 +868,6 @@ function loadCharacter() {
 }
 loadCharacter();
 
-// ======= START GAME =======
+// ======= KICK THINGS OFF =======
+resizeCanvas(); // set initial size + winRockY
 loop();
