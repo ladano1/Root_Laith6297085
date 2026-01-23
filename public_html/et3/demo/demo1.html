@@ -7,8 +7,17 @@
       <a-box position="-0.77774 0.60398 -3.67948" rotation="0 45 0" color="#4CC3D9" material="color: #e1ff00"></a-box>
       <a-sphere position="0.99773 2.50555 -3.00726" radius="1.25" color="#EF2D5E" material="color: #00ff54"></a-sphere>
       <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D" material="color: #5c5733"></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" material="color: #00ff2a"></a-plane>
-      <a-sky color="#ECECEC" material="color: #00eeff"></a-sky>
+      <!-- <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" material="color: #00ff2a; normalScale: 1.1 1" geometry="height: 7.28; width: 8.27"></a-plane> -->
+      <!-- <a-sky color="#ECECEC" material="shader: standard; transparent: true; dithering: false; color: #00eeff; fog: false"></a-sky> -->
+      <a-assets>
+    <img id="sky" src="sky new.jpg">
+  </a-assets>
+  <a-sky src="#sky"></a-sky>
+
+  <a-assets>
+    <img id="ground" src="new ground.jpg">
+  </a-assets>
+    <a-plane src="#ground" rotation="-90 0 0" width="30" height="30" position="0 0 -4" material="repeat: 10 10"></a-plane>
     </a-scene>
   </body>
 </html>
