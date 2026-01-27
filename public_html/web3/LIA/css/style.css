@@ -20,3 +20,10 @@ canvas {
     background: linear-gradient(180deg, #1e1e2f, #2a2a40);
 }
 
+/* ======= CUSTOM FONTS ======= */
+@font-face {
+  font-family: 'Rosalia';
+  src: url('../font/Rosalia.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}

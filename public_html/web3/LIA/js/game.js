@@ -6,13 +6,35 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 gameBox.appendChild(canvas);
 
-// ======= HELPERS (for responsiveness) =======
+
+
+// ======= FONT CONFIGURATION =======
+// To change fonts, replace the font names in quotes below:
+const TITLE_FONT = "'Rosalia', serif";  // Titles will use Rosalia first
+const BODY_FONT = "'Poppins', sans-serif";        // Change this to your DaFont font name
+const GAME_FONT = "'Press Start 2P'";             // Change this to your DaFont font name
+ 
+// ======= HELPERS =======
 function isMobile() {
-    return window.innerWidth <= 768;
+    return window.innerWidth <= 768 || 'ontouchstart' in window;
 }
 
 function clamp(v, min, max) {
     return Math.max(min, Math.min(max, v));
+}
+
+// ======= DOWNLOAD ZIP (ADDED) =======
+function downloadPromoZip() {
+    // Put your zip file inside your website folder at:
+    // downloads/Trousse_Promotionnelle.zip
+    const url = "downloads/Trousse_Promotionnelle.zip";
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Trousse_Promotionnelle.zip";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
 }
 
 // ======= BACKGROUND =======
@@ -21,7 +43,7 @@ backgroundImage.src = "img/new background.png";
 let bgLoaded = false;
 backgroundImage.onload = () => (bgLoaded = true);
 
-// ======= WIN / LOSE GRAPHICS (NEW) =======
+// ======= WIN / LOSE GRAPHICS =======
 const winCatImage = new Image();
 winCatImage.src = "img/win-cat.png";
 let winCatLoaded = false;
@@ -45,28 +67,24 @@ let charIndex = 0;
 let charTimer = 0;
 let charAnimating = false;
 
-// ===== CHARACTER SETTINGS (SLOWED DOWN, HIGHER JUMP) =====
+// ======= CHARACTER SETTINGS =======
 let charX = canvas.width / 2;
 let charY = 0;
 let charVy = 0;
 let charVx = 0;
 const gravity = 0.8;
-const jumpForce = -26; // higher jump
-const moveSpeed = 6;
+const jumpForce = -26;
+let moveSpeed = 6;
 let isJumping = false;
 
-// Cat size & rock sit offset
-const CAT_HEIGHT = 150;
-const CAT_SIT_OFFSET = 20; // how much the cat sinks into the rock
+let CAT_HEIGHT = 150;
+const CAT_SIT_OFFSET = 20;
 
-// Keyboard state for left/right movement
 let leftPressed = false;
 let rightPressed = false;
-
-// Facing direction: 1 = normal, -1 = flipped horizontally
 let facing = 1;
 
-// ===== ROCKS =======
+// ======= ROCKS =======
 const rockImgs = [new Image(), new Image()];
 rockImgs[0].src = "img/rocks-01 1.png";
 rockImgs[1].src = "img/rocks-02 1.png";
@@ -74,11 +92,7 @@ rockImgs[1].src = "img/rocks-02 1.png";
 let rockLoadedCount = 0;
 let rockLoaded = false;
 let rockSizes = [];
-
-// How far apart rocks are vertically (smaller = closer)
-const rockVerticalOffset = 60;
-
-// Each rock in the stack has its own x + y
+let rockVerticalOffset = 60;
 let rockStack = [];
 
 // ======= OBJECT IMAGES =======
@@ -88,17 +102,16 @@ goodyImg.src = "img/orbs 1.png";
 const baddieImg = new Image();
 baddieImg.src = "img/bats 1.png";
 
+let blocks = [];
 let goodies = [];
 let baddies = [];
 
-// ---- BADDIE CORRECT SIZE (KEEPS REAL ASPECT RATIO) + RESPONSIVE ----
 let baddieWidth = 80;
 let baddieHeight = 80;
 let baddieAspect = 1;
 
 function updateBaddieSize() {
-    // smaller on mobile
-    baddieHeight = isMobile() ? 60 : 80;
+    baddieHeight = isMobile() ? 50 : 80;
     baddieWidth = baddieHeight * baddieAspect;
 }
 
@@ -109,43 +122,44 @@ baddieImg.onload = () => {
 
 // ======= GAME VARIABLES =======
 let score = 0;
-let gameOver = false;
+let health = 3;
+const maxHealth = 3;
 let frameCount = 0;
 
-// ======= WIN / GAME OVER STATE =======
-let gameWon = false;
-// Winning is based on how HIGH the rock stack is:
-let winRockY = canvas.height * 0.3; // updated on resize
+// ======= GAME STATE =======
+let gameState = "menu";
+let winRockY = canvas.height * 0.3;
 let winTimer = 0;
 let gameOverTimer = 0;
-
-// ======= READY FLAG =======
-let gameReady = false;  // becomes true after rocks are initialized
+let gameReady = false;
 
 // ======= SOUNDS =======
 const winSound = new Audio("audio/Gun sound.wav");
 const gameOverSound = new Audio("audio/game-over.mp3");
 
-// ======= RESPONSIVE: RESIZE CANVAS =======
+// ======= RESIZE CANVAS =======
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     winRockY = canvas.height * 0.3;
 
-    // reset moving objects so nothing is stuck offscreen
+    moveSpeed = isMobile() ? 8 : 6;
+    CAT_HEIGHT = isMobile() ? 120 : 150;
+    rockVerticalOffset = isMobile() ? 50 : 60;
+
+    blocks = [];
     goodies = [];
     baddies = [];
-
-    // update baddie size for this screen
     updateBaddieSize();
 
-    // re-init rocks & reposition cat if rocks already loaded
-    if (rockLoaded && rockSizes[0]) {
+    if (rockLoaded && rockSizes[0] && gameState === "playing") {
         initRocks();
     }
 }
 window.addEventListener("resize", resizeCanvas);
-window.addEventListener("orientationchange", resizeCanvas);
+window.addEventListener("orientationchange", () => {
+    setTimeout(resizeCanvas, 100);
+});
 
 // ======= INITIALIZE ROCKS =======
 function initRocks() {
@@ -153,22 +167,25 @@ function initRocks() {
     rockStack = [];
     if (!rockLoaded || !rockSizes[0]) return;
 
-    // --- ONLY ONE BOTTOM ROCK (image 0) ---
     const bottomImgIndex = 0;
     const bottomSize = rockSizes[bottomImgIndex];
-    const bottomY = canvas.height - bottomSize.height;
-    const bottomX = canvas.width / 2 - bottomSize.width / 2;
+    const scaleFactor = isMobile() ? 0.7 : 1;
+    const scaledWidth = bottomSize.width * scaleFactor;
+    const scaledHeight = bottomSize.height * scaleFactor;
+    
+    const bottomY = canvas.height - scaledHeight;
+    const bottomX = canvas.width / 2 - scaledWidth / 2;
 
     rockStack.push({
         imgIndex: bottomImgIndex,
         x: bottomX,
-        y: bottomY
+        y: bottomY,
+        width: scaledWidth,
+        height: scaledHeight
     });
 
-    // Put the cat on top of the TOP rock
     charX = canvas.width / 2;
     resetCharPosition();
-
     gameReady = true;
 }
 
@@ -179,7 +196,9 @@ rockImgs.forEach((img, i) => {
         rockLoadedCount++;
         if (rockLoadedCount === rockImgs.length) {
             rockLoaded = true;
-            initRocks();
+            if (gameState === "playing") {
+                initRocks();
+            }
         }
     };
 });
@@ -190,7 +209,6 @@ function resetCharPosition() {
     if (!topRock) {
         charY = canvas.height - (CAT_HEIGHT - CAT_SIT_OFFSET);
     } else {
-        // sit nicely on the rock
         charY = topRock.y - (CAT_HEIGHT - CAT_SIT_OFFSET);
     }
     charVy = 0;
@@ -201,34 +219,59 @@ function resetCharPosition() {
     facing = 1;
 }
 
-// ======= SIDEWAYS SPAWN HELPERS =======
-// random Y band where objects travel (middle of screen)
 function getPlayableY(objHeight = 0) {
-    const topBand = canvas.height * 0.25;
-    const bandHeight = canvas.height * 0.5 - objHeight;
+    const topBand = canvas.height * 0.1;   // start higher
+    const bandHeight = canvas.height * 0.8 - objHeight; // extend lower
     return topBand + Math.random() * Math.max(bandHeight, 0);
 }
 
-// responsive goody size
 function getGoodySize() {
-    // smaller on mobile
-    return isMobile() ? 60 : 80;
+    return isMobile() ? 50 : 80;
 }
 
-// ======= SLOWER SPEEDS (both mobile & desktop) =======
+function getBlockSpeed() {
+    return isMobile()
+        ? 1.2 + Math.random() * 0.5
+        : 1.5 + Math.random() * 0.8;
+}
+
 function getGoodySpeed() {
     return isMobile()
-        ? 0.4 + Math.random() * 0.5   // 0.4 – 0.9 (much slower)
-        : 0.8 + Math.random() * 0.6;  // 0.8 – 1.4
+        ? 0.8 + Math.random() * 0.5
+        : 1.0 + Math.random() * 0.6;
 }
 
 function getBaddieSpeed() {
     return isMobile()
-        ? 0.5 + Math.random() * 0.6   // 0.5 – 1.1
-        : 1.0 + Math.random() * 0.7;  // 1.0 – 1.7
+        ? 0.7 + Math.random() * 0.6
+        : 1.0 + Math.random() * 0.7;
 }
 
-// goodies come from left or right edges, move horizontally
+function spawnBlock() {
+    if (!rockLoaded || rockStack.length === 0) return;
+    
+    const nextRockIndex = rockStack.length % rockImgs.length;
+    let size = rockSizes[nextRockIndex];
+    if (!size) size = rockSizes[0];
+    if (!size) return;
+
+    const scaleFactor = isMobile() ? 0.7 : 1;
+    const scaledWidth = size.width * scaleFactor;
+    const scaledHeight = size.height * scaleFactor;
+
+    const fromLeft = Math.random() < 0.5;
+    const speed = getBlockSpeed();
+
+    blocks.push({
+        x: fromLeft ? -scaledWidth : canvas.width,
+        y: getPlayableY(scaledHeight),
+        width: scaledWidth,
+        height: scaledHeight,
+        imgIndex: nextRockIndex,
+        vx: fromLeft ? speed : -speed
+    });
+}
+
 function spawnGoody() {
     const size = getGoodySize();
     const fromLeft = Math.random() < 0.5;
@@ -242,7 +285,6 @@ function spawnGoody() {
     });
 }
 
-// baddies come from left or right edges, move horizontally
 function spawnBaddie() {
     const fromLeft = Math.random() < 0.5;
     const speed = getBaddieSpeed();
@@ -256,21 +298,33 @@ function spawnBaddie() {
     });
 }
 
-// ======= MAIN LOOP (ONLY ONCE) =======
+// ======= MAIN LOOP =======
 function loop() {
-    if (!gameReady) {
+    if (!gameReady && gameState !== "menu" && gameState !== "instructions") {
         drawLoading();
         requestAnimationFrame(loop);
         return;
     }
 
-    if (gameOver) {
+    if (gameState === "menu") {
+        drawMenu();
+        requestAnimationFrame(loop);
+        return;
+    }
+
+    if (gameState === "instructions") {
+        drawInstructions();
+        requestAnimationFrame(loop);
+        return;
+    }
+
+    if (gameState === "lost") {
         drawGameOver();
         requestAnimationFrame(loop);
         return;
     }
 
-    if (gameWon) {
+    if (gameState === "won") {
         updateWin();
         drawWin();
         requestAnimationFrame(loop);
@@ -289,34 +343,36 @@ function drawLoading() {
         ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
     }
     ctx.fillStyle = "white";
-    ctx.font = "20px 'Press Start 2P'";
+    const fontSize = isMobile() ? 16 : 20;
+    ctx.font = fontSize + "px 'Press Start 2P'";
     ctx.textAlign = "center";
-    ctx.fillText("Loading...", canvas.width / 2, canvas.height / 2);
+    ctx.fillText("Chargement...", canvas.width / 2, canvas.height / 2);
 }
 
-// ======= UPDATE (NORMAL GAME) =======
+// ======= UPDATE =======
 function update() {
     frameCount++;
 
-    if (frameCount % 80 === 0) spawnGoody();
-    if (frameCount % 140 === 0) spawnBaddie();
+const spawnRate = isMobile() ? 1.3 : 1;
 
-    // Horizontal movement of cat
+// Increase the numbers to reduce spawn frequency
+if (frameCount % Math.floor(240 * spawnRate) === 0) spawnBlock();   // was 120
+if (frameCount % Math.floor(600 * spawnRate) === 0) spawnGoody();   // was 200
+if (frameCount % Math.floor(250 * spawnRate) === 0) spawnBaddie(); // spawn less often
+
+
     charVx = 0;
     if (leftPressed) charVx -= moveSpeed;
     if (rightPressed) charVx += moveSpeed;
     charX += charVx;
 
-    // Stay inside screen
-    const halfCat = 75;
+    const halfCat = isMobile() ? 60 : 75;
     if (charX < halfCat) charX = halfCat;
     if (charX > canvas.width - halfCat) charX = canvas.width - halfCat;
 
-    // Vertical physics
     charVy += gravity;
     charY += charVy;
 
-    // Stay on top of stack / ground
     const topRock = rockStack[rockStack.length - 1];
     const groundLevel = topRock
         ? topRock.y - (CAT_HEIGHT - CAT_SIT_OFFSET)
@@ -328,7 +384,6 @@ function update() {
         isJumping = false;
     }
 
-    // Animation
     if (charAnimating) {
         charTimer++;
         if (charTimer % 10 === 0) {
@@ -344,11 +399,13 @@ function update() {
         charTimer = 0;
     }
 
-    // Move goodies & baddies SIDEWAYS
+    blocks.forEach(b => b.x += b.vx);
     goodies.forEach(g => g.x += g.vx);
     baddies.forEach(b => b.x += b.vx);
 
-    // Remove when off screen horizontally
+    blocks = blocks.filter(
+        b => b.x > -b.width - 100 && b.x < canvas.width + 100
+    );
     goodies = goodies.filter(
         g => g.x > -g.size - 100 && g.x < canvas.width + 100
     );
@@ -359,17 +416,58 @@ function update() {
     checkCollisions();
 }
 
-// ======= COLLISIONS (FIXED HITBOX) =======
+// ======= COLLISIONS =======
 function checkCollisions() {
-    // --- CAT HITBOX (matches how we draw it) ---
-    const catWidth = 150;
+    const catWidth = isMobile() ? 120 : 150;
     const catHalfWidth = catWidth / 2;
     const catLeft = charX - catHalfWidth;
     const catRight = charX + catHalfWidth;
     const catTop = charY;
-    const catBottom = charY + CAT_HEIGHT; // 150
+    const catBottom = charY + CAT_HEIGHT;
 
-    // ===== GOODIES =====
+    for (let i = blocks.length - 1; i >= 0; i--) {
+        const block = blocks[i];
+        
+        const blockLeft = block.x;
+        const blockRight = block.x + block.width;
+        const blockTop = block.y;
+
+        if (charVy > 0 && isJumping) {
+            const willLandOn = 
+                catBottom >= blockTop &&
+                catBottom <= blockTop + 30 &&
+                catRight > blockLeft + 20 &&
+                catLeft < blockRight - 20;
+
+            if (willLandOn) {
+                const prevRock = rockStack[rockStack.length - 1];
+                const newY = prevRock.y - rockVerticalOffset;
+                const newX = canvas.width / 2 - block.width / 2;
+
+                rockStack.push({
+                    imgIndex: block.imgIndex,
+                    x: newX,
+                    y: newY,
+                    width: block.width,
+                    height: block.height
+                });
+
+                charY = newY - (CAT_HEIGHT - CAT_SIT_OFFSET);
+                charVy = 0;
+                isJumping = false;
+
+                score++;
+                blocks.splice(i, 1);
+
+                const topRockNow = rockStack[rockStack.length - 1];
+                if (topRockNow && topRockNow.y <= winRockY) {
+                    startWin();
+                    return;
+                }
+            }
+        }
+    }
+
     for (let i = goodies.length - 1; i >= 0; i--) {
         const g = goodies[i];
 
@@ -380,50 +478,11 @@ function checkCollisions() {
             g.y + g.size > catTop;
 
         if (collides) {
-            if (!rockLoaded || rockStack.length === 0) {
-                score++;
-                goodies.splice(i, 1);
-                continue;
-            }
-
-            const nextRockIndex = rockStack.length % rockImgs.length;
-            let size = rockSizes[nextRockIndex];
-            if (!size) size = rockSizes[0];
-            if (!size) {
-                score++;
-                goodies.splice(i, 1);
-                continue;
-            }
-
-            const prevRock = rockStack[rockStack.length - 1];
-            const newY = prevRock.y - rockVerticalOffset;
-            const newX = canvas.width / 2 - size.width / 2;
-
-            // Add new rock to stack
-            rockStack.push({
-                imgIndex: nextRockIndex,
-                x: newX,
-                y: newY
-            });
-
-            // Cat on the new top rock
-            charY = newY - (CAT_HEIGHT - CAT_SIT_OFFSET);
-            charVy = 0;
-            isJumping = false;
-
-            score++;
+            health = Math.min(health + 1, maxHealth);
             goodies.splice(i, 1);
-
-            // ✅ WIN CONDITION based on top rock height
-            const topRockNow = rockStack[rockStack.length - 1];
-            if (!gameWon && topRockNow && topRockNow.y <= winRockY) {
-                startWin();
-                return;
-            }
         }
     }
 
-    // ===== BADDIES =====
     for (let i = baddies.length - 1; i >= 0; i--) {
         const b = baddies[i];
 
@@ -439,24 +498,27 @@ function checkCollisions() {
             bBottom > catTop;
 
         if (collides) {
-            gameOver = true;
-            gameOverTimer = 0;
+            health--;
+            baddies.splice(i, 1);
 
-            // GAME OVER SOUND
-            if (gameOverSound) {
-                gameOverSound.pause();
-                gameOverSound.currentTime = 0;
-                gameOverSound.play().catch(() => {});
+            if (health <= 0) {
+                gameState = "lost";
+                gameOverTimer = 0;
+
+                if (gameOverSound) {
+                    gameOverSound.pause();
+                    gameOverSound.currentTime = 0;
+                    gameOverSound.play().catch(() => {});
+                }
+                return;
             }
-
-            return;
         }
     }
 }
 
 // ======= WIN LOGIC =======
 function startWin() {
-    gameWon = true;
+    gameState = "won";
     winTimer = 0;
 
     if (winSound) {
@@ -469,61 +531,125 @@ function updateWin() {
     winTimer++;
 }
 
-// === (old neon helpers kept just in case, but unused now) ===
-function drawGlitchText(text, x, y, baseSize, color = "#00ff66") {
+// ======= MENU SCREEN =======
+function drawMenu() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    if (bgLoaded) {
+        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+    } else {
+        ctx.fillStyle = "#050522";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    const centerX = canvas.width / 2;
+    const titleY = isMobile() ? canvas.height * 0.20 : canvas.height * 0.25;
+    const btnY = isMobile() ? canvas.height * 0.50 : canvas.height * 0.55;
+
+    const titleSize = clamp(canvas.height * (isMobile() ? 0.06 : 0.09), 28, 100);
+    ctx.fillStyle = "#E2E4FF";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.font = `${baseSize}px 'Press Start 2P'`;
+    ctx.font = titleSize + "px 'Rosalia', serif";
+    ctx.fillText("Au Cœur des Abysses", centerX, titleY);
 
-    const sliceCount = 12;
-    const glitchStrength = 10;
+    const subtitleSize = clamp(canvas.height * (isMobile() ? 0.025 : 0.03), 12, 26);
+    ctx.fillStyle = "#D2D4F7";
+    ctx.font = subtitleSize + "px 'Poppins', sans-serif";
+    ctx.fillText("Atteindre la surface!", centerX, titleY + titleSize * 0.8);
 
-    for (let i = 0; i < sliceCount; i++) {
-        const sliceHeight = baseSize / sliceCount;
-        const sliceY = y - baseSize / 2 + i * sliceHeight;
+    const btnWidth = canvas.width * (isMobile() ? 0.50 : 0.30);
+    const btnHeight = canvas.height * (isMobile() ? 0.08 : 0.10);
+    const btnX = centerX - btnWidth / 2;
+    const btnCenterY = btnY + btnHeight / 2;
 
-        const offset = (Math.random() - 0.5) * glitchStrength;
+    ctx.fillStyle = "#D5D6FB";
+    drawRoundedRect(btnX, btnY, btnWidth, btnHeight, btnHeight / 2);
+    ctx.fill();
 
-        ctx.save();
-        ctx.beginPath();
-        ctx.rect(0, sliceY, canvas.width, sliceHeight);
-        ctx.clip();
+    const btnFontSize = clamp(canvas.height * (isMobile() ? 0.028 : 0.032), 16, 28);
+    ctx.fillStyle = "#1A1636";
+    ctx.font = btnFontSize + "px 'Playfair Display', serif";
+    ctx.fillText("Jouer", centerX, btnCenterY);
 
-        ctx.fillStyle = color;
-        ctx.shadowColor = color;
-        ctx.shadowBlur = 25;
-        ctx.fillText(text, x + offset, y);
+    const instBtnY = btnY + btnHeight + (isMobile() ? 20 : 30);
+    const instBtnCenterY = instBtnY + btnHeight / 2;
 
-        ctx.shadowBlur = 0;
-        ctx.fillStyle = "#e6ffe6";
-        ctx.fillText(text, x + offset + 1, y);
+    ctx.fillStyle = "rgba(213, 214, 251, 0.6)";
+    drawRoundedRect(btnX, instBtnY, btnWidth, btnHeight, btnHeight / 2);
+    ctx.fill();
 
-        ctx.restore();
-    }
+    ctx.fillStyle = "#1A1636";
+    ctx.fillText("Instructions", centerX, instBtnCenterY);
 
-    for (let i = 0; i < 30; i++) {
-        const px = x + (Math.random() - 0.5) * baseSize * 1.5;
-        const py = y + (Math.random() - 0.5) * baseSize;
-        const s = 2 + Math.random() * 4;
-        ctx.fillStyle = "rgba(0,255,120,0.8)";
-        ctx.fillRect(px, py, s, s);
-    }
+    // ======= DOWNLOAD BUTTON (ADDED) =======
+    const dlBtnY = instBtnY + btnHeight + (isMobile() ? 20 : 30);
+    const dlBtnCenterY = dlBtnY + btnHeight / 2;
+
+    ctx.fillStyle = "rgba(213, 214, 251, 0.85)";
+    drawRoundedRect(btnX, dlBtnY, btnWidth, btnHeight, btnHeight / 2);
+    ctx.fill();
+
+    ctx.fillStyle = "#1A1636";
+    ctx.fillText("Télécharger", centerX, dlBtnCenterY);
 }
 
-// === HELPER: GLOWING NEON RING (unused now) ===
-function drawGlowRing(x, y, radius, thickness, alpha, color = "0,255,140") {
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2);
-    ctx.lineWidth = thickness;
-    ctx.shadowColor = `rgba(${color},1)`;
-    ctx.shadowBlur = 25;
-    ctx.strokeStyle = `rgba(${color},${alpha})`;
-    ctx.stroke();
-    ctx.restore();
+
+
+// ======= INSTRUCTIONS SCREEN =======
+function drawInstructions() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#050522";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const centerX = canvas.width / 2;
+    const startY = canvas.height * (isMobile() ? 0.12 : 0.15);
+    const lineHeight = canvas.height * (isMobile() ? 0.06 : 0.08);
+
+    const titleSize = clamp(canvas.height * (isMobile() ? 0.045 : 0.06), 20, 60);
+    ctx.fillStyle = "#E2E4FF";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = titleSize + "px 'Playfair Display', serif";
+    ctx.fillText("Comment Jouer", centerX, startY);
+
+    const textSize = clamp(canvas.height * (isMobile() ? 0.018 : 0.022), 10, 20);
+    ctx.fillStyle = "#D2D4F7";
+    ctx.font = textSize + "px 'Poppins', sans-serif";
+    
+    const instructions = [
+        "Saute sur les blocs qui arrivent",
+        "des côtés pour construire ta tour",
+        "",
+        "Évite les chauves-souris!",
+        "Elles te font perdre de la santé",
+        "",
+        "Collecte les orbes pour te soigner",
+        "Pour esquiver, vous devez appuyer sur D",
+        isMobile() ? "Touche en haut: sauter" : "Flèche haut: sauter",
+        isMobile() ? "Touche en bas: bouger" : "Flèches gauche/droite: bouger"
+    ];
+
+    instructions.forEach((line, i) => {
+        ctx.fillText(line, centerX, startY + titleSize + (i + 1) * lineHeight * 0.5);
+    });
+
+    const btnY = canvas.height * (isMobile() ? 0.85 : 0.80);
+    const btnWidth = canvas.width * (isMobile() ? 0.50 : 0.30);
+    const btnHeight = canvas.height * (isMobile() ? 0.08 : 0.10);
+    const btnX = centerX - btnWidth / 2;
+    const btnCenterY = btnY + btnHeight / 2;
+
+    ctx.fillStyle = "#D5D6FB";
+    drawRoundedRect(btnX, btnY, btnWidth, btnHeight, btnHeight / 2);
+    ctx.fill();
+
+    const btnFontSize = clamp(canvas.height * (isMobile() ? 0.028 : 0.032), 16, 28);
+    ctx.fillStyle = "#1A1636";
+    ctx.font = btnFontSize + "px 'Playfair Display', serif";
+    ctx.fillText("Retour", centerX, btnCenterY);
 }
 
-// === HELPER: ROUNDED RECTANGLE ===
 function drawRoundedRect(x, y, width, height, radius) {
     const r = Math.min(radius, width / 2, height / 2);
     ctx.beginPath();
@@ -539,28 +665,25 @@ function drawRoundedRect(x, y, width, height, radius) {
     ctx.closePath();
 }
 
-// ======= WIN SCREEN (NEW STYLE, RESPONSIVE) =======
+// ======= WIN SCREEN =======
 function drawWin() {
     const centerX = canvas.width / 2;
-    const titleY = canvas.height * 0.18;
-    const artY = canvas.height * 0.40;
-    const subtitleY = canvas.height * 0.62;
-    const btnY = canvas.height * 0.72;
+    const titleY = canvas.height * (isMobile() ? 0.15 : 0.18);
+    const artY = canvas.height * (isMobile() ? 0.35 : 0.40);
+    const subtitleY = canvas.height * (isMobile() ? 0.58 : 0.62);
+    const btnY = canvas.height * (isMobile() ? 0.68 : 0.72);
 
-    // background
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#050522"; // deep night blue
+    ctx.fillStyle = "#050522";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Title "Gagnant!" (slightly smaller so it never touches edges)
-    const titleSize = clamp(canvas.height * 0.07, 28, 80);
+    const titleSize = clamp(canvas.height * (isMobile() ? 0.055 : 0.07), 24, 80);
     ctx.fillStyle = "#E2E4FF";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.font = `${titleSize}px 'Playfair Display', serif`;
+    ctx.font = titleSize + "px 'Playfair Display', serif";
     ctx.fillText("Gagnant!", centerX, titleY);
 
-    // Cat graphic with gentle bob + rotation
     const bob = Math.sin(winTimer / 25) * 8;
     const rot = Math.sin(winTimer / 60) * 0.06;
 
@@ -569,14 +692,12 @@ function drawWin() {
     ctx.rotate(rot);
 
     if (winCatLoaded) {
-        // wider on mobile so it fills nicely
-        const desiredWidth = canvas.width * (isMobile() ? 0.55 : 0.35);
+        const desiredWidth = canvas.width * (isMobile() ? 0.60 : 0.35);
         const scale = desiredWidth / winCatImage.width;
         const imgW = winCatImage.width * scale;
         const imgH = winCatImage.height * scale;
         ctx.drawImage(winCatImage, -imgW / 2, -imgH / 2, imgW, imgH);
     } else {
-        // simple placeholder circle if image not loaded
         ctx.fillStyle = "#FF6688";
         ctx.beginPath();
         ctx.arc(0, 0, 80, 0, Math.PI * 2);
@@ -584,15 +705,13 @@ function drawWin() {
     }
     ctx.restore();
 
-    // Subtitle "Tu as atteint la surface!" (a bit smaller)
-    const subtitleSize = clamp(canvas.height * 0.027, 12, 22);
+    const subtitleSize = clamp(canvas.height * (isMobile() ? 0.022 : 0.027), 10, 22);
     ctx.fillStyle = "#D2D4F7";
-    ctx.font = `${subtitleSize}px 'Poppins', sans-serif`;
+    ctx.font = subtitleSize + "px 'Poppins', sans-serif";
     ctx.fillText("Tu as atteint la surface!", centerX, subtitleY);
 
-    // Button "Rejouer" (taller + smaller font so text stays inside)
-    const btnWidth = canvas.width * 0.25;
-    const btnHeight = canvas.height * 0.10; // slightly taller
+    const btnWidth = canvas.width * (isMobile() ? 0.45 : 0.25);
+    const btnHeight = canvas.height * (isMobile() ? 0.08 : 0.10);
     const btnX = centerX - btnWidth / 2;
 
     const pulse = 1 + Math.sin(winTimer / 30) * 0.03;
@@ -607,86 +726,9 @@ function drawWin() {
     drawRoundedRect(btnX, btnY, btnWidth, btnHeight, btnHeight / 2);
     ctx.fill();
 
-    const btnFontSize = clamp(canvas.height * 0.028, 14, 24);
+    const btnFontSize = clamp(canvas.height * (isMobile() ? 0.024 : 0.028), 12, 24);
     ctx.fillStyle = "#1A1636";
-    ctx.font = `${btnFontSize}px 'Playfair Display', serif`;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText("Rejouer", centerX, btnCenterY);
-
-    ctx.restore();
-}
-
-// ======= GAME OVER SCREEN (NEW STYLE, RESPONSIVE) =======
-function drawGameOver() {
-    gameOverTimer++;
-
-    const centerX = canvas.width / 2;
-    const titleY = canvas.height * 0.18;
-    const artY = canvas.height * 0.40;
-    const subtitleY = canvas.height * 0.62;
-    const btnY = canvas.height * 0.72;
-
-    // background
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#050522";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Title "Perdant..." (same treatment as win)
-    const titleSize = clamp(canvas.height * 0.07, 28, 80);
-    ctx.fillStyle = "#E2E4FF";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.font = `${titleSize}px 'Playfair Display', serif`;
-    ctx.fillText("Perdant...", centerX, titleY);
-
-    // Rock graphic with small shake (responsive width)
-    const shakeX = Math.sin(gameOverTimer / 12) * 6;
-    const shakeRot = Math.sin(gameOverTimer / 18) * 0.05;
-
-    ctx.save();
-    ctx.translate(centerX + shakeX, artY);
-    ctx.rotate(shakeRot);
-
-    if (loseRockLoaded) {
-        const desiredWidth = canvas.width * (isMobile() ? 0.5 : 0.30);
-        const scale = desiredWidth / loseRockImage.width;
-        const imgW = loseRockImage.width * scale;
-        const imgH = loseRockImage.height * scale;
-        ctx.drawImage(loseRockImage, -imgW / 2, -imgH / 2, imgW, imgH);
-    } else {
-        // placeholder rectangle
-        ctx.fillStyle = "#555A8E";
-        ctx.fillRect(-80, -40, 160, 80);
-    }
-    ctx.restore();
-
-    // Subtitle "La tour s’est effondrée..." (smaller)
-    const subtitleSize = clamp(canvas.height * 0.027, 12, 22);
-    ctx.fillStyle = "#D2D4F7";
-    ctx.font = `${subtitleSize}px 'Poppins', sans-serif`;
-    ctx.fillText("La tour s'est effondrée...", centerX, subtitleY);
-
-    // Button "Rejouer" (same fix as win)
-    const btnWidth = canvas.width * 0.25;
-    const btnHeight = canvas.height * 0.10;
-    const btnX = centerX - btnWidth / 2;
-
-    const pulse = 1 + Math.sin(gameOverTimer / 28) * 0.03;
-    const btnCenterY = btnY + btnHeight / 2;
-
-    ctx.save();
-    ctx.translate(centerX, btnCenterY);
-    ctx.scale(pulse, pulse);
-    ctx.translate(-centerX, -btnCenterY);
-
-    ctx.fillStyle = "#D5D6FB";
-    drawRoundedRect(btnX, btnY, btnWidth, btnHeight, btnHeight / 2);
-    ctx.fill();
-
-    const btnFontSize = clamp(canvas.height * 0.028, 14, 24);
-    ctx.fillStyle = "#1A1636";
-    ctx.font = `${btnFontSize}px 'Playfair Display', serif`;
+    ctx.font = btnFontSize + "px 'Playfair Display', serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText("Rejouer", centerX, btnCenterY);
@@ -696,9 +738,7 @@ function drawGameOver() {
 
 // ======= INPUT =======
 function handleJump() {
-    if (gameOver || gameWon) {
-        return;
-    }
+    if (gameState !== "playing") return;
 
     if (!isJumping) {
         isJumping = true;
@@ -709,21 +749,22 @@ function handleJump() {
     }
 }
 
-// Keyboard controls (desktop)
 window.addEventListener("keydown", e => {
-    if (gameOver || gameWon) {
-        return;
-    }
+    if (gameState !== "playing") return;
 
     if (e.key === "ArrowUp") {
         handleJump();
     } else if (e.key === "ArrowLeft") {
         leftPressed = true;
-        facing = 1;   // face left (normal)
+        facing = 1;
     } else if (e.key === "ArrowRight") {
         rightPressed = true;
-        facing = -1;  // face right (flipped)
+        facing = -1;
     }
+    else if (e.key === "d" || e.key === "D") { // D key for dodge
+    handleDodge();
+}
+
 });
 
 window.addEventListener("keyup", e => {
@@ -734,41 +775,130 @@ window.addEventListener("keyup", e => {
     }
 });
 
-// Mouse click: jump or restart (desktop)
-window.addEventListener("click", () => {
-    if (gameOver || gameWon) {
+window.addEventListener("click", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    if (gameState === "menu") {
+        handleMenuClick(x, y);
+    } else if (gameState === "instructions") {
+        handleInstructionsClick(x, y);
+    } else if (gameState === "lost" || gameState === "won") {
         restart();
-    } else {
+    } else if (gameState === "playing" && !isMobile()) {
         handleJump();
     }
 });
+function handleDodge() {
+    if (gameState !== "playing") return;
+    if (!isJumping) {
+        isJumping = true;
+        charVy = jumpForce * 1.2; // make it slightly higher than normal jump
+        charAnimating = true;
+        charIndex = 0;
+        charTimer = 0;
+    }
+}
 
-// ======= TOUCH CONTROLS (MOBILE) =======
+function handleMenuClick(x, y) {
+    const centerX = canvas.width / 2;
+    const btnY = isMobile() ? canvas.height * 0.50 : canvas.height * 0.55;
+    const btnWidth = canvas.width * (isMobile() ? 0.50 : 0.30);
+    const btnHeight = canvas.height * (isMobile() ? 0.08 : 0.10);
+    const btnX = centerX - btnWidth / 2;
+
+    if (x >= btnX && x <= btnX + btnWidth && y >= btnY && y <= btnY + btnHeight) {
+        gameState = "playing";
+        initRocks();
+    }
+
+    const instBtnY = btnY + btnHeight + (isMobile() ? 20 : 30);
+    if (x >= btnX && x <= btnX + btnWidth && y >= instBtnY && y <= instBtnY + btnHeight) {
+        gameState = "instructions";
+    }
+
+    // ======= DOWNLOAD BUTTON CLICK (ADDED) =======
+    const dlBtnY = instBtnY + btnHeight + (isMobile() ? 20 : 30);
+    if (x >= btnX && x <= btnX + btnWidth && y >= dlBtnY && y <= dlBtnY + btnHeight) {
+        downloadPromoZip();
+    }
+}
+
+function handleInstructionsClick(x, y) {
+    const centerX = canvas.width / 2;
+    const btnY = canvas.height * (isMobile() ? 0.85 : 0.80);
+    const btnWidth = canvas.width * (isMobile() ? 0.50 : 0.30);
+    const btnHeight = canvas.height * (isMobile() ? 0.08 : 0.10);
+    const btnX = centerX - btnWidth / 2;
+
+    if (x >= btnX && x <= btnX + btnWidth && y >= btnY && y <= btnY + btnHeight) {
+        gameState = "menu";
+    }
+}
+
+// ======= TOUCH CONTROLS =======
+let touchStartY = 0;
+
 function handleTouchStart(e) {
     if (e.touches.length === 0) return;
     const touch = e.touches[0];
-    const x = touch.clientX;
-    const y = touch.clientY;
+    const rect = canvas.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
 
-    // prevent scrolling on mobile while playing
     e.preventDefault();
 
-    if (gameOver || gameWon) {
+    touchStartY = y;
+
+    if (gameState === "menu") {
+        handleMenuClick(x, y);
+        return;
+    }
+
+    if (gameState === "instructions") {
+        handleInstructionsClick(x, y);
+        return;
+    }
+
+    if (gameState === "lost" || gameState === "won") {
         restart();
         return;
     }
 
-    const w = canvas.width;
-    const h = canvas.height;
+    if (gameState === "playing") {
+        const w = canvas.width;
+        const h = canvas.height;
 
-    // Top half = jump
-    if (y < h * 0.4) {
-        handleJump();
-        leftPressed = false;
-        rightPressed = false;
-    } else {
-        // bottom half: left / right move
-        if (x < w * 0.5) {
+        if (y < h * 0.5) {
+            handleJump();
+            leftPressed = false;
+            rightPressed = false;
+        } else {
+            if (x < w * 0.5) {
+                leftPressed = true;
+                rightPressed = false;
+                facing = 1;
+            } else {
+                rightPressed = true;
+                leftPressed = false;
+                facing = -1;
+            }
+        }
+    }
+}
+
+function handleTouchMove(e) {
+    if (e.touches.length === 0 || gameState !== "playing") return;
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+
+    e.preventDefault();
+
+    if (y >= canvas.height * 0.5) {
+        if (x < canvas.width * 0.5) {
             leftPressed = true;
             rightPressed = false;
             facing = 1;
@@ -787,10 +917,11 @@ function handleTouchEnd(e) {
 }
 
 canvas.addEventListener("touchstart", handleTouchStart, { passive: false });
+canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
 canvas.addEventListener("touchend", handleTouchEnd, { passive: false });
 canvas.addEventListener("touchcancel", handleTouchEnd, { passive: false });
 
-// ======= DRAW (NORMAL) =======
+// ======= DRAW =======
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (bgLoaded) {
@@ -800,39 +931,57 @@ function draw() {
     if (rockLoaded && rockStack.length) {
         rockStack.forEach(rock => {
             const img = rockImgs[rock.imgIndex];
-            ctx.drawImage(img, rock.x, rock.y);
+            ctx.drawImage(img, rock.x, rock.y, rock.width, rock.height);
+        });
+    }
+
+    if (rockLoaded) {
+        blocks.forEach(block => {
+            const img = rockImgs[block.imgIndex];
+            ctx.drawImage(img, block.x, block.y, block.width, block.height);
         });
     }
 
     goodies.forEach(g => ctx.drawImage(goodyImg, g.x, g.y, g.size, g.size));
 
-    // draw baddies with correct aspect ratio
     baddies.forEach(b =>
         ctx.drawImage(baddieImg, b.x, b.y, b.width, b.height)
     );
 
     if (charLoaded && charImages[charIndex]) {
+        const charDrawWidth = isMobile() ? 120 : 150;
+        const charDrawHeight = isMobile() ? 120 : 150;
         ctx.save();
         ctx.translate(charX, charY);
         ctx.scale(facing, 1);
-        ctx.drawImage(charImages[charIndex], -75, 0, 150, 150);
+        ctx.drawImage(charImages[charIndex], -charDrawWidth/2, 0, charDrawWidth, charDrawHeight);
         ctx.restore();
     }
 
-    // SCORE at bottom-left
+    const fontSize = isMobile() ? 16 : 24;
     ctx.fillStyle = "white";
-    ctx.font = "24px 'Press Start 2P'";
+    ctx.font = fontSize + "px 'Press Start 2P'";
     ctx.textAlign = "left";
-    ctx.fillText("SCORE: " + score, 20, canvas.height - 30);
+    ctx.fillText("SCORE: " + score, isMobile() ? 10 : 20, canvas.height - (isMobile() ? 15 : 30));
+
+    ctx.fillStyle = "white";
+    ctx.font = fontSize + "px 'Press Start 2P'";
+    ctx.textAlign = "left";
+    let healthText = "❤️".repeat(health);
+    if (health < maxHealth) {
+        healthText += "🖤".repeat(maxHealth - health);
+    }
+    ctx.fillText(healthText, isMobile() ? 10 : 20, isMobile() ? 30 : 40);
 }
 
-// ======= RESTART (NO NEW LOOP) =======
+// ======= RESTART =======
 function restart() {
+    blocks = [];
     goodies = [];
     baddies = [];
     score = 0;
-    gameOver = false;
-    gameWon = false;
+    health = maxHealth;
+    gameState = "playing";
     frameCount = 0;
     winTimer = 0;
     gameOverTimer = 0;
@@ -840,7 +989,6 @@ function restart() {
     rightPressed = false;
     facing = 1;
 
-    // stop sounds
     if (winSound) {
         winSound.pause();
         winSound.currentTime = 0;
@@ -853,7 +1001,7 @@ function restart() {
     initRocks();
 }
 
-// ======= LOAD CHARACTER IMAGES =======
+// ======= LOAD CHARACTER =======
 function loadCharacter() {
     let loaded = 0;
     charFrames.forEach((src, i) => {
@@ -868,6 +1016,98 @@ function loadCharacter() {
 }
 loadCharacter();
 
-// ======= KICK THINGS OFF =======
-resizeCanvas(); // set initial size + winRockY
-loop();
+// Prevent double-tap zoom on mobile
+document.addEventListener('touchstart', function(e) {
+    if (e.touches.length > 1) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function(e) {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+    }
+    lastTouchEnd = now;
+}, { passive: false });
+
+// Prevent pinch zoom
+document.addEventListener('gesturestart', function(e) {
+    e.preventDefault();
+});
+
+// Assuming resizeCanvas, gameReady, loop are defined
+resizeCanvas();
+gameReady = true;
+loop(); // removed invalid Text() call
+
+// ======= GAME OVER SCREEN =======
+function drawGameOver() {
+    gameOverTimer++;
+
+    const centerX = canvas.width / 2;
+    const titleY = canvas.height * (isMobile() ? 0.15 : 0.18);
+    const artY = canvas.height * (isMobile() ? 0.35 : 0.40);
+    const subtitleY = canvas.height * (isMobile() ? 0.58 : 0.62);
+    const btnY = canvas.height * (isMobile() ? 0.68 : 0.72);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#050522";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const titleSize = clamp(canvas.height * (isMobile() ? 0.055 : 0.07), 24, 80);
+    ctx.fillStyle = "#E2E4FF";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = titleSize + "px 'Playfair Display', serif";
+    ctx.fillText("Perdant...", centerX, titleY);
+
+    const shakeX = Math.sin(gameOverTimer / 12) * 6;
+    const shakeRot = Math.sin(gameOverTimer / 18) * 0.05;
+
+    ctx.save();
+    ctx.translate(centerX + shakeX, artY);
+    ctx.rotate(shakeRot);
+
+    if (loseRockLoaded) {
+        const desiredWidth = canvas.width * (isMobile() ? 0.55 : 0.30);
+        const scale = desiredWidth / loseRockImage.width;
+        const imgW = loseRockImage.width * scale;
+        const imgH = loseRockImage.height * scale;
+        ctx.drawImage(loseRockImage, -imgW / 2, -imgH / 2, imgW, imgH);
+    } else {
+        ctx.fillStyle = "#555A8E";
+        ctx.fillRect(-80, -40, 160, 80);
+    }
+    ctx.restore();
+
+    const subtitleSize = clamp(canvas.height * (isMobile() ? 0.022 : 0.027), 10, 22);
+    ctx.fillStyle = "#D2D4F7";
+    ctx.font = subtitleSize + "px 'Poppins', sans-serif";
+    ctx.fillText("La tour s'est effondrée...", centerX, subtitleY);
+
+    const btnWidth = canvas.width * (isMobile() ? 0.45 : 0.25);
+    const btnHeight = canvas.height * (isMobile() ? 0.08 : 0.10);
+    const btnX = centerX - btnWidth / 2;
+
+    const pulse = 1 + Math.sin(gameOverTimer / 28) * 0.03;
+    const btnCenterY = btnY + btnHeight / 2;
+
+    ctx.save();
+    ctx.translate(centerX, btnCenterY);
+    ctx.scale(pulse, pulse);
+    ctx.translate(-centerX, -btnCenterY);
+
+    ctx.fillStyle = "#D5D6FB";
+    drawRoundedRect(btnX, btnY, btnWidth, btnHeight, btnHeight / 2);
+    ctx.fill();
+
+    const btnFontSize = clamp(canvas.height * (isMobile() ? 0.024 : 0.028), 12, 24);
+    ctx.fillStyle = "#1A1636";
+    ctx.font = btnFontSize + "px 'Playfair Display', serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("Rejouer", centerX, btnCenterY); // fixed
+    ctx.restore();
+}
