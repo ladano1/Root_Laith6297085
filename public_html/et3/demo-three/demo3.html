@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+  </head>
+  <body>
+<a-scene keyboard-shortcuts="" screenshot="" xr-mode-ui="" device-orientation-permission-ui="">
+<a-entity camera="" look-controls="" wasd-controls="" position="0.42757167063959095 0 1.7848663834603145" rotation="-5.958761069360557 5.844169510334394 0">
+<a-entity cursor="fuse: true; fuseTimeout: 500" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03" material="shader: flat; color: black" raycaster="">
+</a-entity>
+</a-entity>
+    <a-gltf-model id="model" src="Creepy character.glb" position="0 0.32887 -3" scale="0.1 0.11 0.04" gltf-model="Creepy character.glb"></a-gltf-model>
+     <a-plane position="0 0 -5.42139" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" material="color: #37ff00" geometry="height: 4.78; width: 4.21"></a-plane>
+    <img id="sky" src="dark sky.png">
+  
+  <a-sky src="#sky"></a-sky>
+    </a-scene>
+    <script>
+    // Component to change to a sequential color on click.
+AFRAME.registerComponent('cursor-listener', {
+init: function () {
+var lastIndex = -1;
+var COLORS = ['red', 'green', 'blue'];
+this.el.addEventListener('click', function (evt) {
+lastIndex = (lastIndex + 1) % COLORS.length;
+this.setAttribute('material', 'color', COLORS[lastIndex]);
+console.log('I was clicked at: ', evt.detail.intersection.point);
+if(this.getAttribute("id") =="logo")
+alert ("Yay!")
+});
+}
+});
+</script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+Use the library from https://aframe.io to create a stunning & beautiful VR scene.
+The scene can be anything from a room /interior, outdoor/ exterior / landscape or fictional and bizarre world.
+Include at least one custom 3D model that you designed & modelled in Blender / Illustrator.
+
+Use the VR goggles to test it on a mobile phone! (Downgrade aframe to v.1.0.4 for iPhones)
+Utilize A-frame's cursor to trigger an interactive event(s).
+You can add sounds and animate objects.
+
+Deliverables:
+Upload the VR application to your student webspace.
+
+
+
+
+
