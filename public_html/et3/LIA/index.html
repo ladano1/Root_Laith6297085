@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cyber Gaming Portal</title>
+
+<!-- A-FRAME -->
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+<style>
+body {
+margin: 0;
+overflow: hidden;
+background: black;
+font-family: Arial, sans-serif;
+}
+
+.hud {
+position: absolute;
+top: 25px;
+left: 30px;
+z-index: 100;
+color: #00ffff;
+text-shadow:
+0 0 10px #00ffff,
+0 0 25px #00ffff,
+0 0 50px #00ffff;
+}
+
+.hud h1 {
+margin: 0;
+font-size: 2.4rem;
+letter-spacing: 6px;
+}
+
+.hud p {
+margin-top: 8px;
+color: white;
+font-size: 0.9rem;
+letter-spacing: 3px;
+}
+
+.status {
+position: absolute;
+right: 30px;
+bottom: 30px;
+z-index: 100;
+color: #9d4edd;
+text-align: right;
+font-size: 0.9rem;
+letter-spacing: 2px;
+text-shadow: 0 0 15px #9d4edd;
+}
+
+.scanline {
+position: absolute;
+inset: 0;
+pointer-events: none;
+z-index: 999;
+
+background: repeating-linear-gradient(
+to bottom,
+rgba(255,255,255,0.03),
+rgba(255,255,255,0.03) 1px,
+transparent 1px,
+transparent 4px
+);
+}
+
+.vignette {
+position: absolute;
+inset: 0;
+pointer-events: none;
+z-index: 998;
+
+background:
+radial-gradient(
+circle,
+transparent 40%,
+rgba(0,0,0,0.8) 100%
+);
+}
+</style>
+</head>
+
+<body>
+
+<div class="hud">
+<h1>CYBER GAMING PORTAL</h1>
+<p>MULTIVERSE CORE ONLINE</p>
+</div>
+
+<div class="status">
+DIMENSION: OMEGA-X<br>
+PORTAL STATUS: STABLE<br>
+AI GRID: ACTIVE
+</div>
+
+<div class="scanline"></div>
+<div class="vignette"></div>
+
+<a-scene
+id="scene"
+fog="type: exponential; color: #020208; density: 0.03">
+
+<!-- CAMERA -->
+<a-entity id="rig" position="0 1.7 12">
+
+<a-camera wasd-controls look-controls>
+
+<a-cursor
+color="#00ffff">
+</a-cursor>
+
+</a-camera>
+
+</a-entity>
+
+
+
+<!-- SKY -->
+<a-sky color="#020208"></a-sky>
+
+
+
+<!-- LIGHTS -->
+
+<a-light
+type="ambient"
+color="#404060"
+intensity="0.4">
+</a-light>
+
+<a-light
+type="point"
+position="0 8 -15"
+color="#00ffff"
+intensity="4"
+distance="70">
+</a-light>
+
+<a-light
+type="point"
+position="0 8 -40"
+color="#9d4edd"
+intensity="6"
+distance="120">
+</a-light>
+
+<a-light
+type="spot"
+position="0 12 10"
+rotation="-70 0 0"
+color="#ffffff"
+intensity="2"
+angle="35">
+</a-light>
+
+
+
+<!-- MAIN FLOOR -->
+
+<a-plane
+position="0 0 0"
+rotation="-90 0 0"
+width="120"
+height="300"
+color="#111217"
+material="roughness: 0.7; metalness: 0.4">
+</a-plane>
+
+
+
+<!-- MAIN WALKWAY -->
+
+<a-box
+position="0 0.05 -40"
+width="10"
+height="0.1"
+depth="180"
+color="#1b1d25"
+material="roughness: 0.45; metalness: 0.8">
+</a-box>
+
+
+
+<!-- FLOOR LIGHTS -->
+
+<a-box
+position="-5 0.1 -40"
+width="0.08"
+height="0.04"
+depth="180"
+color="#00ffff"
+material="emissive: #00ffff">
+</a-box>
+
+<a-box
+position="5 0.1 -40"
+width="0.08"
+height="0.04"
+depth="180"
+color="#00ffff"
+material="emissive: #00ffff">
+</a-box>
+
+
+
+<!-- MASSIVE PORTAL -->
+
+<a-entity position="0 8 -60">
+
+<a-torus
+radius="9"
+radius-tubular="0.3"
+color="#00ffff"
+material="emissive: #00ffff"
+animation="
+property: rotation;
+to: 0 360 0;
+loop: true;
+dur: 9000">
+</a-torus>
+
+<a-torus
+radius="7"
+radius-tubular="0.18"
+color="#9d4edd"
+material="emissive: #9d4edd"
+animation="
+property: rotation;
+to: 360 0 0;
+loop: true;
+dur: 5000">
+</a-torus>
+
+<a-torus
+radius="5"
+radius-tubular="0.1"
+color="#ffffff"
+material="emissive: #ffffff"
+animation="
+property: rotation;
+to: 0 0 360;
+loop: true;
+dur: 3000">
+</a-torus>
+
+<a-circle
+radius="5"
+color="#1010ff"
+opacity="0.3"
+material="transparent: true; emissive: #1919ff">
+</a-circle>
+
+</a-entity>
+
+
+
+<!-- ENERGY CORE -->
+
+<a-octahedron
+position="0 5 -20"
+radius="2"
+color="#00ffff"
+material="emissive: #00ffff"
+animation__rotate="
+property: rotation;
+to: 360 360 360;
+loop: true;
+dur: 5000"
+animation__float="
+property: position;
+dir: alternate;
+to: 0 7 -20;
+loop: true;
+dur: 1800">
+</a-octahedron>
+
+
+
+<!-- BACK SUN -->
+
+<a-circle
+position="0 20 -120"
+radius="20"
+color="#9d4edd"
+opacity="0.2"
+material="transparent: true; emissive: #9d4edd">
+</a-circle>
+
+
+
+<!-- CYBER TOWERS -->
+
+<a-box
+position="-25 20 -80"
+width="8"
+height="40"
+depth="8"
+color="#151720"
+material="metalness: 0.9">
+</a-box>
+
+<a-box
+position="25 25 -100"
+width="10"
+height="50"
+depth="10"
+color="#151720"
+material="metalness: 0.9">
+</a-box>
+
+<a-box
+position="-40 15 -120"
+width="7"
+height="30"
+depth="7"
+color="#151720"
+material="metalness: 0.9">
+</a-box>
+
+
+
+</a-scene>
+
+
+
+<script>
+
+const scene =
+document.querySelector('#scene')
+
+
+
+// =========================================
+// STARFIELD
+// =========================================
+
+for(let i = 0; i < 1000; i++) {
+
+const star =
+document.createElement('a-sphere')
+
+star.setAttribute(
+'radius',
+Math.random() * 0.08 + 0.01
+)
+
+star.setAttribute(
+'position',
+`
+${(Math.random() - 0.5) * 1000}
+${(Math.random() - 0.5) * 500}
+${-Math.random() * 1000}
+`
+)
+
+star.setAttribute(
+'color',
+Math.random() > 0.5
+? '#00ffff'
+: '#ffffff'
+)
+
+star.setAttribute(
+'material',
+'emissive: #ffffff'
+)
+
+scene.appendChild(star)
+
+}
+
+
+
+// =========================================
+// AI DRONES
+// =========================================
+
+for(let i = 0; i < 25; i++) {
+
+const drone =
+document.createElement('a-sphere')
+
+drone.setAttribute(
+'radius',
+'0.4'
+)
+
+drone.setAttribute(
+'color',
+i % 2 === 0
+? '#00ffff'
+: '#ff0033'
+)
+
+drone.setAttribute(
+'material',
+'emissive: #ffffff'
+)
+
+drone.setAttribute(
+'position',
+`
+${(Math.random() - 0.5) * 100}
+${Math.random() * 40 + 5}
+${-Math.random() * 200}
+`
+)
+
+drone.setAttribute(
+'animation__move',
+`
+property: position;
+dir: alternate;
+loop: true;
+to:
+${(Math.random() - 0.5) * 100}
+${Math.random() * 50 + 10}
+${-Math.random() * 250};
+dur: ${Math.random() * 6000 + 3000};
+`
+)
+
+drone.setAttribute(
+'animation__pulse',
+`
+property: scale;
+dir: alternate;
+loop: true;
+to: 2 2 2;
+dur: 1200;
+`
+)
+
+scene.appendChild(drone)
+
+}
+
+
+
+// =========================================
+// METEOR STORM
+// =========================================
+
+function spawnMeteor() {
+
+const meteor =
+document.createElement('a-dodecahedron')
+
+const startX =
+(Math.random() - 0.5) * 200
+
+meteor.setAttribute(
+'position',
+`${startX} 80 -200`
+)
+
+meteor.setAttribute(
+'radius',
+Math.random() * 1 + 0.3
+)
+
+meteor.setAttribute(
+'color',
+'#333333'
+)
+
+meteor.setAttribute(
+'material',
+'roughness: 1'
+)
+
+meteor.setAttribute(
+'animation',
+`
+property: position;
+to: ${startX + 50} -20 50;
+dur: ${Math.random() * 4000 + 3000};
+easing: linear;
+`
+)
+
+scene.appendChild(meteor)
+
+setTimeout(() => {
+
+meteor.remove()
+
+}, 8000)
+
+}
+
+setInterval(spawnMeteor, 900)
+
+
+
+// =========================================
+// WORMHOLES
+// =========================================
+
+function createWormhole() {
+
+const wormhole =
+document.createElement('a-torus')
+
+wormhole.setAttribute(
+'position',
+`
+${(Math.random() - 0.5) * 200}
+${Math.random() * 50}
+${-Math.random() * 400}
+`
+)
+
+wormhole.setAttribute(
+'radius',
+Math.random() * 6 + 2
+)
+
+wormhole.setAttribute(
+'radius-tubular',
+'0.15'
+)
+
+wormhole.setAttribute(
+'color',
+'#00ffff'
+)
+
+wormhole.setAttribute(
+'material',
+'emissive: #00ffff'
+)
+
+wormhole.setAttribute(
+'animation',
+`
+property: rotation;
+to: 360 360 0;
+loop: true;
+dur: 5000;
+`
+)
+
+scene.appendChild(wormhole)
+
+setTimeout(() => {
+
+wormhole.remove()
+
+}, 15000)
+
+}
+
+setInterval(createWormhole, 6000)
+
+
+
+// =========================================
+// SUPERNOVA
+// =========================================
+
+function createSupernova() {
+
+const nova =
+document.createElement('a-sphere')
+
+nova.setAttribute(
+'position',
+`
+${(Math.random() - 0.5) * 200}
+${Math.random() * 80}
+${-Math.random() * 300}
+`
+)
+
+nova.setAttribute(
+'radius',
+'1'
+)
+
+nova.setAttribute(
+'color',
+'#ffffff'
+)
+
+nova.setAttribute(
+'material',
+'emissive: #ffffff'
+)
+
+nova.setAttribute(
+'animation',
+`
+property: scale;
+to: 60 60 60;
+dur: 2000;
+`
+)
+
+nova.setAttribute(
+'animation__fade',
+`
+property: material.opacity;
+to: 0;
+dur: 2000;
+`
+)
+
+scene.appendChild(nova)
+
+setTimeout(() => {
+
+nova.remove()
+
+}, 3000)
+
+}
+
+setInterval(createSupernova, 15000)
+
+
+
+// =========================================
+// HYPERSPACE LINES
+// =========================================
+
+for(let i = 0; i < 200; i++) {
+
+const line =
+document.createElement('a-cylinder')
+
+line.setAttribute(
+'radius',
+'0.01'
+)
+
+line.setAttribute(
+'height',
+Math.random() * 15 + 5
+)
+
+line.setAttribute(
+'rotation',
+'90 0 0'
+)
+
+line.setAttribute(
+'color',
+'#00ffff'
+)
+
+line.setAttribute(
+'opacity',
+'0.3'
+)
+
+line.setAttribute(
+'position',
+`
+${(Math.random() - 0.5) * 100}
+${(Math.random() - 0.5) * 60}
+${-Math.random() * 300}
+`
+)
+
+line.setAttribute(
+'animation',
+`
+property: position;
+to:
+${(Math.random() - 0.5) * 100}
+${(Math.random() - 0.5) * 60}
+80;
+loop: true;
+dur: ${Math.random() * 3000 + 1000};
+easing: linear;
+`
+)
+
+scene.appendChild(line)
+
+}
+
+
+
+// =========================================
+// COSMIC LIGHTNING
+// =========================================
+
+setInterval(() => {
+
+const flash =
+document.createElement('a-light')
+
+flash.setAttribute(
+'type',
+'point'
+)
+
+flash.setAttribute(
+'color',
+'#ffffff'
+)
+
+flash.setAttribute(
+'intensity',
+'40'
+)
+
+flash.setAttribute(
+'distance',
+'400'
+)
+
+flash.setAttribute(
+'position',
+'0 60 -100'
+)
+
+scene.appendChild(flash)
+
+setTimeout(() => {
+
+flash.remove()
+
+}, 100)
+
+}, 12000)
+
+
+
+// =========================================
+// CAMERA FLOAT
+// =========================================
+
+const rig =
+document.querySelector('#rig')
+
+let angle = 0
+
+setInterval(() => {
+
+angle += 0.003
+
+const x =
+Math.sin(angle) * 0.6
+
+const y =
+1.7 + Math.cos(angle) * 0.1
+
+rig.setAttribute(
+'position',
+`${x} ${y} 12`
+)
+
+}, 20)
+
+
+
+// =========================================
+// REALITY DISTORTION
+// =========================================
+
+setInterval(() => {
+
+document.body.style.filter =
+`
+brightness(1.5)
+contrast(1.8)
+saturate(2)
+hue-rotate(50deg)
+`
+
+setTimeout(() => {
+
+document.body.style.filter =
+'brightness(1) contrast(1) saturate(1)'
+
+}, 300)
+
+}, 18000)
+
+
+
+// =========================================
+// ALERT SYSTEM
+// =========================================
+
+const hudText =
+document.querySelector('.hud p')
+
+const alerts = [
+
+'MULTIVERSE CORE ONLINE',
+'WORMHOLE DETECTED',
+'AI GRID ACTIVE',
+'SUPERNOVA WARNING',
+'QUANTUM ENERGY MAXIMUM',
+'COSMIC STORM DETECTED',
+'REALITY DISTORTION ACTIVE'
+
+]
+
+let index = 0
+
+setInterval(() => {
+
+index++
+
+if(index >= alerts.length) {
+
+index = 0
+
+}
+
+hudText.innerHTML =
+alerts[index]
+
+}, 4000)
+
+
+// =========================================
+// MEGA CYBER CITY
+// =========================================
+
+for(let i = 0; i < 250; i++) {
+
+const tower =
+document.createElement('a-box')
+
+const width =
+Math.random() * 8 + 3
+
+const height =
+Math.random() * 80 + 15
+
+const depth =
+Math.random() * 8 + 3
+
+const x =
+(Math.random() - 0.5) * 500
+
+const z =
+-Math.random() * 600 - 50
+
+tower.setAttribute(
+'position',
+`${x} ${height / 2} ${z}`
+)
+
+tower.setAttribute(
+'width',
+width
+)
+
+tower.setAttribute(
+'height',
+height
+)
+
+tower.setAttribute(
+'depth',
+depth
+)
+
+tower.setAttribute(
+'color',
+'#151720'
+)
+
+tower.setAttribute(
+'material',
+'metalness: 0.9; roughness: 0.45'
+)
+
+scene.appendChild(tower)
+
+
+
+// WINDOWS
+
+for(let y = 2; y < height; y += 3) {
+
+const windowLight =
+document.createElement('a-box')
+
+windowLight.setAttribute(
+'width',
+'0.25'
+)
+
+windowLight.setAttribute(
+'height',
+'0.4'
+)
+
+windowLight.setAttribute(
+'depth',
+'0.05'
+)
+
+windowLight.setAttribute(
+'position',
+`${x} ${y} ${z + depth/2 + 0.03}`
+)
+
+windowLight.setAttribute(
+'color',
+Math.random() > 0.5
+? '#00ffff'
+: '#9d4edd'
+)
+
+windowLight.setAttribute(
+'material',
+'emissive: #ffffff'
+)
+
+scene.appendChild(windowLight)
+
+}
+
+}
+
+
+
+// =========================================
+// HOVER TRAFFIC
+// =========================================
+
+function createHoverCar() {
+
+const car =
+document.createElement('a-box')
+
+const y =
+Math.random() * 20 + 5
+
+const z =
+-Math.random() * 300
+
+car.setAttribute(
+'width',
+'2'
+)
+
+car.setAttribute(
+'height',
+'0.5'
+)
+
+car.setAttribute(
+'depth',
+'1'
+)
+
+car.setAttribute(
+'color',
+Math.random() > 0.5
+? '#00ffff'
+: '#ff0033'
+)
+
+car.setAttribute(
+'material',
+'emissive: #ffffff'
+)
+
+car.setAttribute(
+'position',
+`-250 ${y} ${z}`
+)
+
+car.setAttribute(
+'animation',
+`
+property: position;
+to: 250 ${y} ${z};
+dur: ${Math.random() * 6000 + 4000};
+easing: linear;
+`
+)
+
+scene.appendChild(car)
+
+setTimeout(() => {
+
+car.remove()
+
+}, 12000)
+
+}
+
+setInterval(createHoverCar, 400)
+
+
+
+// =========================================
+// BLACK HOLE
+// =========================================
+
+const blackHole =
+document.createElement('a-sphere')
+
+blackHole.setAttribute(
+'position',
+'0 80 -500'
+)
+
+blackHole.setAttribute(
+'radius',
+'25'
+)
+
+blackHole.setAttribute(
+'color',
+'#000000'
+)
+
+blackHole.setAttribute(
+'material',
+'emissive: #111111'
+)
+
+scene.appendChild(blackHole)
+
+
+
+const accretion =
+document.createElement('a-torus')
+
+accretion.setAttribute(
+'position',
+'0 80 -500'
+)
+
+accretion.setAttribute(
+'rotation',
+'80 0 0'
+)
+
+accretion.setAttribute(
+'radius',
+'40'
+)
+
+accretion.setAttribute(
+'radius-tubular',
+'1'
+)
+
+accretion.setAttribute(
+'color',
+'#ff6600'
+)
+
+accretion.setAttribute(
+'material',
+'emissive: #ff6600'
+)
+
+accretion.setAttribute(
+'animation',
+`
+property: rotation;
+to: 80 360 0;
+loop: true;
+dur: 5000;
+`
+)
+
+scene.appendChild(accretion)
+
+
+
+// =========================================
+// NEBULA CLOUDS
+// =========================================
+
+for(let i = 0; i < 80; i++) {
+
+const cloud =
+document.createElement('a-sphere')
+
+cloud.setAttribute(
+'radius',
+Math.random() * 20 + 8
+)
+
+cloud.setAttribute(
+'opacity',
+'0.05'
+)
+
+cloud.setAttribute(
+'color',
+i % 2 === 0
+? '#9d4edd'
+: '#00ffff'
+)
+
+cloud.setAttribute(
+'material',
+'transparent: true'
+)
+
+cloud.setAttribute(
+'position',
+`
+${(Math.random() - 0.5) * 800}
+${(Math.random() - 0.5) * 200}
+${-Math.random() * 1000}
+`
+)
+
+scene.appendChild(cloud)
+
+}
+
+
+
+// =========================================
+// AI SATELLITES
+// =========================================
+
+for(let i = 0; i < 12; i++) {
+
+const satellite =
+document.createElement('a-box')
+
+satellite.setAttribute(
+'width',
+'2'
+)
+
+satellite.setAttribute(
+'height',
+'0.4'
+)
+
+satellite.setAttribute(
+'depth',
+'2'
+)
+
+satellite.setAttribute(
+'color',
+'#666666'
+)
+
+satellite.setAttribute(
+'position',
+`
+${(Math.random() - 0.5) * 300}
+${Math.random() * 100 + 40}
+${-Math.random() * 600}
+`
+)
+
+satellite.setAttribute(
+'animation',
+`
+property: rotation;
+to: 360 360 360;
+loop: true;
+dur: ${Math.random() * 10000 + 5000};
+`
+)
+
+scene.appendChild(satellite)
+
+}
+
+
+
+// =========================================
+// GIANT HOLOGRAM ADS
+// =========================================
+
+const hologramTexts = [
+
+'NEURAL LINK',
+'CYBER GRID',
+'OMEGA CITY',
+'AI NETWORK',
+'QUANTUM CORE',
+'VOID ENERGY'
+
+]
+
+for(let i = 0; i < 20; i++) {
+
+const holo =
+document.createElement('a-text')
+
+holo.setAttribute(
+'value',
+hologramTexts[
+Math.floor(
+Math.random() * hologramTexts.length
+)
+]
+)
+
+holo.setAttribute(
+'color',
+i % 2 === 0
+? '#00ffff'
+: '#ff00ff'
+)
+
+holo.setAttribute(
+'width',
+'30'
+)
+
+holo.setAttribute(
+'align',
+'center'
+)
+
+holo.setAttribute(
+'opacity',
+'0.7'
+)
+
+holo.setAttribute(
+'position',
+`
+${(Math.random() - 0.5) * 400}
+${Math.random() * 80 + 10}
+${-Math.random() * 500}
+`
+)
+
+holo.setAttribute(
+'animation',
+`
+property: opacity;
+dir: alternate;
+loop: true;
+to: 0.2;
+dur: 1500;
+`
+)
+
+scene.appendChild(holo)
+
+}
+
+
+
+// =========================================
+// PORTAL REACTORS
+// =========================================
+
+for(let i = 0; i < 10; i++) {
+
+const reactor =
+document.createElement('a-cylinder')
+
+reactor.setAttribute(
+'radius',
+'3'
+)
+
+reactor.setAttribute(
+'height',
+'15'
+)
+
+reactor.setAttribute(
+'position',
+`
+${(i - 5) * 25}
+8
+-180
+`
+)
+
+reactor.setAttribute(
+'color',
+'#111111'
+)
+
+reactor.setAttribute(
+'material',
+'metalness: 1'
+)
+
+scene.appendChild(reactor)
+
+
+
+const reactorCore =
+document.createElement('a-cylinder')
+
+reactorCore.setAttribute(
+'radius',
+'1'
+)
+
+reactorCore.setAttribute(
+'height',
+'14'
+)
+
+reactorCore.setAttribute(
+'position',
+`
+${(i - 5) * 25}
+8
+-180
+`
+)
+
+reactorCore.setAttribute(
+'color',
+i % 2 === 0
+? '#00ffff'
+: '#9d4edd'
+)
+
+reactorCore.setAttribute(
+'material',
+'emissive: #ffffff'
+)
+
+reactorCore.setAttribute(
+'animation',
+`
+property: scale;
+dir: alternate;
+loop: true;
+to: 1.5 1 1.5;
+dur: 1000;
+`
+)
+
+scene.appendChild(reactorCore)
+
+}
+
+
+
+// =========================================
+// ENERGY STORM
+// =========================================
+
+function energyStorm() {
+
+const bolt =
+document.createElement('a-cylinder')
+
+bolt.setAttribute(
+'radius',
+'0.05'
+)
+
+bolt.setAttribute(
+'height',
+Math.random() * 20 + 5
+)
+
+bolt.setAttribute(
+'color',
+'#00ffff'
+)
+
+bolt.setAttribute(
+'opacity',
+'0.8'
+)
+
+bolt.setAttribute(
+'position',
+`
+${(Math.random() - 0.5) * 100}
+${Math.random() * 60}
+${-Math.random() * 200}
+`
+)
+
+bolt.setAttribute(
+'rotation',
+`
+${Math.random() * 360}
+${Math.random() * 360}
+${Math.random() * 360}
+`
+)
+
+bolt.setAttribute(
+'material',
+'emissive: #00ffff'
+)
+
+bolt.setAttribute(
+'animation',
+`
+property: opacity;
+dir: alternate;
+loop: 5;
+to: 0;
+dur: 120;
+`
+)
+
+scene.appendChild(bolt)
+
+setTimeout(() => {
+
+bolt.remove()
+
+}, 1000)
+
+}
+
+setInterval(energyStorm, 200)
+
+
+
+// =========================================
+// REALITY GLITCH
+// =========================================
+
+setInterval(() => {
+
+document.body.style.transform =
+`
+scale(${1 + Math.random() * 0.02})
+skew(${Math.random() * 2 - 1}deg)
+`
+
+document.body.style.filter =
+`
+brightness(1.4)
+contrast(2)
+saturate(2)
+hue-rotate(${Math.random() * 90}deg)
+`
+
+setTimeout(() => {
+
+document.body.style.transform =
+'scale(1) skew(0deg)'
+
+document.body.style.filter =
+'brightness(1) contrast(1) saturate(1)'
+
+}, 180)
+
+}, 10000)
+
+
+</script>
+
+</body>
+</html>
