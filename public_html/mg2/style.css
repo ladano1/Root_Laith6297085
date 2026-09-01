@@ -22,10 +22,6 @@ body {
 }
 
 
-/* ================================
-   CRAZY BACKGROUND BASE
-================================ */
-
 body::before {
   content: "";
   position: fixed;
@@ -60,10 +56,6 @@ body::before {
 }
 
 
-/* ================================
-   ANIMATED GRID
-================================ */
-
 body::after {
   content: "";
   position: fixed;
@@ -96,9 +88,6 @@ body::after {
 }
 
 
-/* ================================
-   BACKGROUND WRAPPER
-================================ */
 
 .background {
   position: fixed;
@@ -108,10 +97,6 @@ body::after {
   pointer-events: none;
 }
 
-
-/* ================================
-   LIQUID BLOBS
-================================ */
 
 .shape {
   position: absolute;
@@ -172,9 +157,6 @@ body::after {
 }
 
 
-/* ================================
-   EXTRA ENERGY RINGS
-================================ */
 
 .background::before,
 .background::after {
@@ -214,9 +196,6 @@ body::after {
 }
 
 
-/* ================================
-   HEADER
-================================ */
 
 .site-header {
   width: min(1200px, 92%);
@@ -269,9 +248,6 @@ body::after {
 }
 
 
-/* ================================
-   HERO
-================================ */
 
 .hero {
   width: min(1200px, 92%);
@@ -383,9 +359,6 @@ body::after {
 }
 
 
-/* ================================
-   WORK SECTION
-================================ */
 
 .work-section {
   width: min(1200px, 92%);
@@ -414,9 +387,6 @@ body::after {
 }
 
 
-/* ================================
-   CARD GRID
-================================ */
 
 .card-grid {
   display: grid;
@@ -427,10 +397,6 @@ body::after {
   perspective: 1200px;
 }
 
-
-/* ================================
-   3D GLASS CARDS
-================================ */
 
 .glass-card {
   position: relative;
@@ -481,10 +447,6 @@ body::after {
 }
 
 
-/* ================================
-   GLASS SHINE
-================================ */
-
 .glass-card::before {
   content: "";
 
@@ -522,9 +484,6 @@ body::after {
 }
 
 
-/* ================================
-   CARD GLOW
-================================ */
 
 .glass-card::after {
   content: "";
@@ -551,9 +510,6 @@ body::after {
 }
 
 
-/* ================================
-   CARD HOVER
-================================ */
 
 .glass-card:hover {
   transform:
@@ -576,9 +532,6 @@ body::after {
 }
 
 
-/* ================================
-   CARD NUMBER
-================================ */
 
 .card-number {
   position: relative;
@@ -595,9 +548,6 @@ body::after {
 }
 
 
-/* ================================
-   CARD ICON
-================================ */
 
 .card-icon {
   position: relative;
@@ -629,9 +579,6 @@ body::after {
 }
 
 
-/* ================================
-   CARD CONTENT
-================================ */
 
 .card-content {
   position: relative;
@@ -673,10 +620,6 @@ body::after {
 }
 
 
-/* ================================
-   DIFFERENT CARD GLOWS
-================================ */
-
 .glass-card:nth-child(2)::after {
   background:
     rgba(24, 197, 131, 0.35);
@@ -702,10 +645,6 @@ body::after {
     rgba(146, 154, 52, 0.3);
 }
 
-
-/* ================================
-   ABOUT
-================================ */
 
 .about-section {
   width: min(1200px, 92%);
@@ -746,10 +685,6 @@ body::after {
 }
 
 
-/* ================================
-   FOOTER
-================================ */
-
 .site-footer {
   width: min(1200px, 92%);
   margin: 0 auto;
@@ -785,10 +720,6 @@ body::after {
   color: #00ff54;
 }
 
-
-/* ================================
-   BACKGROUND ANIMATIONS
-================================ */
 
 @keyframes liquidOne {
 
@@ -1011,9 +942,6 @@ body::after {
 }
 
 
-/* ================================
-   TABLET
-================================ */
 
 @media (max-width: 900px) {
 
@@ -1029,9 +957,6 @@ body::after {
 }
 
 
-/* ================================
-   MOBILE
-================================ */
 
 @media (max-width: 600px) {
 
@@ -1090,9 +1015,6 @@ body::after {
 }
 
 
-/* ================================
-   REDUCED MOTION
-================================ */
 
 @media (prefers-reduced-motion: reduce) {
 
