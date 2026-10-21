@@ -1,0 +1,318 @@
+
+/* GLOBAL RESET */
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+:root {
+--background: #06111c;
+--card: #0d2030;
+--blue: #00aaff;
+--green: #00e6a0;
+--white: #f5fffe;
+--muted: #a4bdc8;
+}
+
+html {
+scroll-behavior: smooth;
+}
+
+body {
+min-height: 100vh;
+font-family: Arial, Helvetica, sans-serif;
+color: var(--white);
+
+background:
+radial-gradient(
+circle at 15% 15%,
+rgba(0, 170, 255, 0.14),
+transparent 35%
+),
+radial-gradient(
+circle at 85% 75%,
+rgba(0, 230, 160, 0.12),
+transparent 35%
+),
+var(--background);
+}
+
+/* HEADER */
+
+header {
+padding: 100px 20px 60px;
+text-align: center;
+}
+
+.eyebrow {
+display: inline-block;
+margin-bottom: 22px;
+color: var(--green);
+font-size: 0.75rem;
+font-weight: 700;
+letter-spacing: 3px;
+}
+
+header h1 {
+font-size: clamp(2.3rem, 6vw, 5.5rem);
+line-height: 1.12;
+font-weight: 900;
+letter-spacing: -2px;
+}
+
+header h1 span {
+display: block;
+
+background: linear-gradient(
+90deg,
+var(--blue),
+var(--green)
+);
+
+background-clip: text;
+-webkit-background-clip: text;
+color: transparent;
+}
+
+header p {
+max-width: 650px;
+margin: 25px auto 0;
+color: var(--muted);
+font-size: 1.1rem;
+line-height: 1.7;
+}
+
+/* MAIN */
+
+main {
+width: min(1250px, 92%);
+margin: 0 auto 100px;
+}
+
+/* TWO PROJECT CARDS */
+
+.projects {
+display: grid;
+grid-template-columns: repeat(2, minmax(0, 1fr));
+gap: 30px;
+}
+
+/* CARD DESIGN */
+
+.card {
+min-width: 0;
+overflow: hidden;
+border-radius: 22px;
+background: var(--card);
+border: 1px solid rgba(0, 170, 255, 0.25);
+
+box-shadow:
+0 15px 45px rgba(0, 0, 0, 0.2);
+
+transition:
+transform 0.4s ease,
+box-shadow 0.4s ease,
+border-color 0.4s ease;
+}
+
+.card:hover {
+transform: translateY(-10px);
+border-color: var(--green);
+
+box-shadow:
+0 20px 60px rgba(0, 170, 255, 0.15),
+0 0 35px rgba(0, 230, 160, 0.1);
+}
+
+/* CARD TEXT */
+
+.card h2 {
+padding: 28px 28px 12px;
+font-size: 1.6rem;
+color: var(--green);
+}
+
+.card p {
+min-height: 100px;
+padding: 0 28px 25px;
+color: var(--muted);
+font-size: 0.95rem;
+line-height: 1.7;
+}
+
+/* EMBEDDED FRAMES */
+
+.card iframe {
+display: block;
+width: 100%;
+height: 360px;
+border: none;
+background: #071622;
+}
+
+/* FOOTER */
+
+footer {
+padding: 30px 20px;
+text-align: center;
+color: var(--muted);
+font-size: 0.85rem;
+border-top: 1px solid rgba(0, 170, 255, 0.2);
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+.projects {
+gap: 20px;
+}
+
+.card iframe {
+height: 300px;
+}
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+header {
+padding: 70px 20px 45px;
+}
+
+header h1 {
+letter-spacing: -1px;
+}
+
+.projects {
+grid-template-columns: 1fr;
+}
+
+.card p {
+min-height: auto;
+}
+
+.card iframe {
+height: 320px;
+}
+
+main {
+margin-bottom: 60px;
+}
+}
+
+/* SMALL PHONES */
+
+@media (max-width: 400px) {
+.eyebrow {
+font-size: 0.65rem;
+letter-spacing: 2px;
+}
+
+.card h2 {
+font-size: 1.35rem;
+}
+
+.card iframe {
+height: 250px;
+}
+}
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+html {
+scroll-behavior: auto;
+}
+
+.card {
+transition: none;
+}
+
+.card:hover {
+transform: none;
+}
+}
+
+
+/* RETURN TO MAIN PAGE CARD */
+
+.return-card {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+padding: 35px 20px;
+
+background: linear-gradient(
+135deg,
+#0d2030,
+#073a35
+);
+
+border: 1px solid var(--green);
+}
+
+.return-card h2 {
+padding: 0 0 15px;
+}
+
+.return-card p {
+min-height: auto;
+max-width: 350px;
+padding: 0 0 25px;
+}
+
+/* RETURN BUTTON */
+
+.return-button {
+display: inline-block;
+padding: 15px 28px;
+border-radius: 12px;
+
+background: linear-gradient(
+90deg,
+var(--blue),
+var(--green)
+);
+
+color: #06111c;
+font-weight: bold;
+text-decoration: none;
+
+transition:
+transform 0.3s ease,
+box-shadow 0.3s ease;
+}
+
+.return-button:hover {
+transform: translateY(-4px);
+
+box-shadow:
+0 10px 30px rgba(0, 230, 160, 0.3);
+}
+
+.return-button:focus-visible {
+outline: 3px solid white;
+outline-offset: 4px;
+}
+
+/* CENTER RETURN CARD ON DESKTOP */
+
+@media (min-width: 701px) {
+.return-card {
+grid-column: 1 / -1;
+}
+}
+
+@media (prefers-reduced-motion: reduce) {
+.return-button {
+transition: none;
+}
+
+.return-button:hover {
+transform: none;
+}
+}
